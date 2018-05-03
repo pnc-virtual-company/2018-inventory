@@ -1,6 +1,6 @@
 <?php
 /**
- * This view displays the list of users.
+ * This view displays the list of category.
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton
@@ -9,7 +9,7 @@
 ?>
 
 <div id="container" class="container">
-	<div class="row-fluid">
+  <div class="row-fluid">
     <!-- <div class="col-2"></div> -->
     <div class="col-12">
 
@@ -17,29 +17,19 @@
 
       <?php echo $flashPartialView;?>
 
-      <table id="users" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+      <div class="alert alert-success" style="display: none;">
+
+      </div>
+
+      <table id="category" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
         <thead>
           <tr>
             <th>ID</th>
             <th>Category</th>
-
           </tr>
         </thead>
-        <tbody>
+        <tbody id="displayCat">
 
-          <?php 
-                    // $id = 1;
-          foreach ($users as $user):
-            ?>
-            <tr>
-              <td data-order="<?php echo $user['id']; ?>" data-id="<?php echo $user['id'];?>"  class="text-right">
-                <a href="#" class="confirm-edit" title="edit category"><i class="mdi mdi-pencil"></i></a>
-                <a href="#" class="confirm-delete" title="Delete category"><i class="mdi mdi-delete"></i></a>
-                <?php echo $user['id'] ?>&nbsp;
-              </td>
-              <td><!-- <?php //echo $user['firstname']; ?> -->Garden</td>
-            </tr>
-          <?php endforeach ?>
         </tbody>
       </table>
     </div>
@@ -49,101 +39,244 @@
   <div class="container">
     <div class="row-fluid">
       <div class="col-12">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-primary create-category" id="add_category">
           <i class="mdi mdi-plus-circle"></i>&nbsp;Create category
-        </button>
-        <!-- The Modal -->
-        <div class="modal fade" id="myModal">
-         <div class="modal-dialog modal-dialog-centered">
-           <div class="modal-content">
-             <!-- Modal Header -->
-             <div class="modal-header">
-              <h4 class="modal-title">Create category</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>          
-            <!-- Modal body -->
-            <div class="modal-body ">
-              <div class="form-inline">
-                <label class="control-label" for="firstname">Category</label>&nbsp;
-                <input type="text" class="form-control" name="firstname" id="firstname" required />
-              </div>  
-            </div> 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-             <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-</div>
-<!-- delete  -->
-<div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure that you want to delete this category?</p>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-primary" data-dismiss="modal" >Yes</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </button> 
       </div>
     </div>
   </div>
-</div>
-<!-- edit -->
-<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-inline">
-          <label for="">Category</label> &nbsp;<input type="text" class="form-control">
+  <!-- Modal create -->
+  <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="frm_create">
+          <div class="modal-body">
+            <div class="form-inline">
+              <label for="">Category</label> &nbsp;
+
+              <input type="text" name="createCategory" class="form-control">
+
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" id="btn-create">OK</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary" data-dismiss="modal">OK</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+  </div>
+
+  <!-- delete  -->
+  <div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure that you want to delete this category?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- link bootstrap4 and javaScipt -->
-<link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  <!-- edit -->
+  <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="frm_edit">
 
-<script>
-  $(document).ready(function() {
-        //Transform the HTML table in a fancy datatable
-        $('#users').dataTable({
-          stateSave: true,
+        </form>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" id="update">OK</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- link bootstrap4 and javaScipt -->
+  <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  
+
+  <script type="text/javascript">
+    $(function() {
+
+      // $('[data-toggle="tooltip"]').tooltip();
+      var c = $('#category').DataTable();
+      showAllCat();
+
+      function showAllCat()
+      {
+        $.ajax({
+          type: 'ajax',
+          url: '<?php echo base_url() ?>/category/showAllCategory',
+          async: true,
+
+          dataType: 'json',
+          success: function(data){
+            c.clear().draw();
+            var i;
+            var n = 1;
+            for(i=0; i<data.length; i++){
+              c.row.add ( [
+                '<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil"></i></a>'+
+                '<a href="#" class="item-delete" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete"></i></a>'+n,
+                data[i].category
+                ] ).draw( false );
+              n++;    
+            }
+          },
+          error: function(){
+            alert('Could not get Data from Database');
+          }
         });
-        $("#users tbody").on('click', '.confirm-delete',  function(){
-          var id = $(this).parent().data('id');
-            // var link = "<?php echo base_url();?>users/delete/" + id;
-            // $("#lnkDeleteUser").attr('href', link);
-            $('#frmConfirmDelete').modal('show');
-          });
-        // edit
-        $("#users tbody").on('click', '.confirm-edit',  function(){
-          var id = $(this).parent().data('id');
-          $('#frmConfirmEdit').modal('show');
+      }
+
+        // Create Category
+
+        // create_owner with ajax
+        $("#add_category").click(function(){
+          $('#frmConfirmAdd').modal('show');
         });
 
+
+
+        // save new category button even
+        $("#btn-create").click(function(){
+          // validate form
+          var category = $('input[name=createCategory]');
+          // var address = $('textarea[name=txtAddress]');
+          var result = '';
+          if(category.val()==''){
+            category.parent().parent().addClass('has-error');
+          }else{
+            category.parent().parent().removeClass('has-error');
+            result +='1';
+          }
+          if (result=='1') {
+            $.ajax({
+              url: "<?php echo base_url()?>category/create",
+              type: "POST",
+              data: $('#frm_create').serialize(),
+              dataType: 'json',
+              success: function(data){
+                if(data.status){
+                  $('#frm_create')[0].reset();
+                  $('#frmConfirmAdd').modal('hide');
+                  
+                  $('.alert-success').html('Category add successfully').fadeIn().delay(4000).fadeOut('slow');
+                  showAllCat();
+                }
+              },
+              error: function(){
+                alert("Error ...");
+              }
+            });
+          }
+        });
+
+       // update category modal pop up by ajax
+       $('#displayCat').on('click', '.item-edit', function(){
+         var id = $(this).attr('dataid');
+         $.ajax({
+           type: 'POST',
+           data: {idcategory: id},
+           url: '<?php echo base_url();?>/category/showEditCategory',
+           async: true,
+           dataType: 'json',
+           success: function(data){
+             $('#frm_edit').html(data);
+             $('#frmConfirmEdit').modal('show');
+           },
+           error: function(){
+             alert('Could not get any data from Database');
+           }
+         });
+       });
+
+  // save update button 
+  $("#update").click(function(){
+   var id = $('#frmConfirmEdit').data('id');
+   var categoryName = $('input[name=update_category]');
+   var result = '';
+   if(categoryName.val()==''){
+     categoryName.parent().parent().addClass('has-error');
+   }else{
+     categoryName.parent().parent().removeClass('has-error');
+     result +='1';
+   }
+   if (result=='1') {
+     $.ajax({
+       url: "<?php echo base_url()?>/category/update",
+       type: "POST",
+       data: $('#frm_edit').serialize(),
+       dataType: 'json',
+       success: function(data){
+         if(data.status){
+           $('#frm_edit')[0].reset();
+           $('#frmConfirmEdit').modal('hide');
+           $('.alert-success').html('Category update successfully').fadeIn().delay(4000).fadeOut('slow');
+           showAllCat();
+         }
+       },
+       error: function(){
+         $('#frmConfirmEdit').modal('hide');
+         alert("Error Update! This field has relationship with another field...");
+       }
+     });
+   }
+ });
+
+
+    // delete category by ajax
+    $('#displayCat').on('click', '.item-delete', function(){
+      var id = $(this).attr('dataid');
+      $('#frmConfirmDelete').data('id', id).modal('show');
+    });
+
+
+      // comfirm delete button
+      $("#delete-comfirm").on('click',function(){
+        var id = $('#frmConfirmDelete').data('id');
+        $.ajax({
+          url: "<?php echo base_url() ?>category/deleteCategory",
+          type: "POST",
+          data: {idcategory: id},
+          dataType: "json",
+          success: function(data){
+
+            $('#frmConfirmDelete').modal('hide');
+            $('.alert-success').html('Category delete successfully').fadeIn().delay(4000).fadeOut('slow');
+            showAllCat();
+          },
+          error: function(){
+            $('#frmConfirmDelete').modal('hide');
+            alert("Error delete! this category has relationship with another field...");
+          }
+        });
       });
-    </script>
+
+    });
+  </script>
 
