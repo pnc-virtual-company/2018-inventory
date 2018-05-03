@@ -1,14 +1,14 @@
 <style>
-    body {
-        background: #f8f9fa;
-    }
+body {
+    background: #f8f9fa;
+}
 </style>
 
 <br><br><br>
 <div class="container ">
     <div class="row">
         <div class="col-lg-3 col-md-3"></div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="card text-center"><br>
                 <div class="logo">
                     <img id="pn-logo" src="<?php echo base_url()?>assets/images/logo-img/logo.png" style="width: 250px;" alt="">

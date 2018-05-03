@@ -122,7 +122,7 @@ class Users extends CI_Controller {
     }
 
     /**
-     * Delete a user. Log it as an error.
+     * Delete a user. Log it as an error. 
      * @param int $id User identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
