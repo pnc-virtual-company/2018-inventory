@@ -34,7 +34,7 @@ class locations extends CI_Controller {
          } else {
            redirect('connection/login');
          }
-        $this->load->model('users_model');
+        $this->load->model('location_model');
     }
 
     /**
@@ -42,8 +42,8 @@ class locations extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
-        $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
+        // $this->load->helper('form');
+        $data['locat'] = $this->location_model->getlocatInfo();
         $data['title'] = 'List of locations';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -108,62 +108,7 @@ class locations extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Create a new user';
-        $data['activeLink'] = 'users';
-        $data['roles'] = $this->users_model->getRoles();
-
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|callback_checkLogin|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/create', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $password = $this->users_model->setUsers();
-            //Send an e-mail to the user so as to inform that its account has been created
-            $this->load->library('email');
-            $this->load->library('parser');
-            $data = array(
-                'Title' => 'User account to the Skeleton application',
-                'BaseURL' => base_url(),
-                'Firstname' => $this->input->post('firstname'),
-                'Lastname' => $this->input->post('lastname'),
-                'Login' => $this->input->post('login'),
-                'Password' => $password
-            );
-            $message = $this->parser->parse('emails/new_user', $data, TRUE);
-
-            if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
-                $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
-            } else {
-               $this->email->from('do.not@reply.me', 'Skeleton app');
-            }
-            $this->email->to($this->input->post('email'));
-            if ($this->config->item('subject_prefix') != FALSE) {
-                $subject = $this->config->item('subject_prefix');
-            } else {
-               $subject = '[Skeleton] ';
-            }
-            $this->email->subject($subject . 'Your account is created');
-            $this->email->message($message);
-            log_message('debug', 'Sending the user creation email');
-            if ($this->config->item('log_threshold') > 1) {
-              $this->email->send(FALSE);
-              $debug = $this->email->print_debugger(array('headers'));
-              log_message('debug', 'print_debugger = ' . $debug);
-            } else {
-              $this->email->send();
-            }
-
-            $this->session->set_flashdata('msg', 'The user was successfully created');
-            redirect('users');
-        }
+        $data_in['location_name'] =$tihs->input->post('create_location');
+        echo json_decode($data_in);
     }
 }

@@ -7,80 +7,79 @@
  * @since      1.0.0
  */
 ?>
-
+<!-- this is location layout -->
 <div id="container" class="container">
-  <div class="row-fluid">
-    <div class="col-12">
-     <h2><?php echo $title;?></h2>
+    <div class="row-fluid">
+        <div class="col-12">
 
-     <?php echo $flashPartialView;?>
+      <h2><?php echo $title;?></h2>
 
-     <table id="users" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+      <?php echo $flashPartialView;?>
 
-      <thead>
-        <tr>
-          <th class="text-right">ID</th>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($users as $user):?>
+      <table id="location" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+        <thead>
           <tr>
-            <td data-order="<?php echo $user['id']; ?>" data-id="<?php echo $user['id'];?>"  class="text-right">
-
-              <!-- <a href="<?php echo base_url();?>users/edit/<?php echo $user['id'] ?>" title="Edit user"><i class="mdi mdi-pencil"></i></a> -->
-              <a href="#" class="confirm-edit" title="edit location"><i class="mdi mdi-pencil"></i></a>
-              <a href="#" class="confirm-delete" title="Delete location"><i class="mdi mdi-delete"></i></a>
-
-              <?php echo $user['id'] ?>&nbsp;
-            </td>
-            <td>B32</td>
+            <th class="text-right">ID</th>
+            <th>location</th>
           </tr>
-        <?php endforeach ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+
+          <?php 
+            $id = 1;
+             foreach ($locat as $location):?>
+            <tr>
+              <td data-order="<?php echo $location->idlocation; ?>" data-id="<?php echo $location->idlocation;?>"  class="text-right">
+                <!-- <a href="<?php echo base_url();?>users/edit/<?php echo $user['id'] ?>" title="Edit user"><i class="mdi mdi-pencil"></i></a> -->
+                <a href="#" class="confirm-edit" title="edit owner"><i class="mdi mdi-pencil"></i></a>
+                <a href="#" class="confirm-delete" title="Delete owner"><i class="mdi mdi-delete"></i></a>
+                <?php echo $id++ ?>&nbsp;
+              </td>
+              <td> <?php echo $location->location; ?></td>
+            </tr>
+          <?php endforeach ?>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-<div class="row-fluid"><div class="col-12">&nbsp;</div></div>
-
-<!-- create new department -->
-<div class="container">
-  <div class="row-fluid">
-    <div class="col-12">
-     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-       <i class="mdi mdi-plus-circle"></i>&nbsp;Create new location
-     </button>
-     <!-- The Modal -->
-     <div class="modal fade" id="myModal">
-       <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-           <!-- Modal Header -->
-           <div class="modal-header">
-             <h4 class="modal-title">Create new location</h4>
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-           </div>          
-           <!-- Modal body -->
-           <div class="modal-body ">
-
-            <div class="form-inline">
-              <label class="control-label" for="firstname">Location</label>&nbsp;
-              <input type="text" class="form-control" name="firstname" id="firstname" required />
-            </div>  
-          </div> 
-          <!-- Modal footer -->
-          <div class="modal-footer">
-
-           <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-         </div>
-       </div>
+  <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
+  
+  <!-- create new location -->
+  <div class="container">
+    <div class="row-fluid">
+      <div class="col-12">
+       <button type="button" class="btn btn-primary add-location" >
+         <i class="mdi mdi-plus-circle"></i>&nbsp;Create location
+       </button>
      </div>
    </div>
  </div>
-</div>
-</div>
 
-<!-- delete  -->
+ <!-- create -->
+ <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="frm_create">
+        <div class="modal-body">
+          <div class="form-inline">
+            <label for="">location: </label> &nbsp;<input type="text" class="form-control" name="create_location">
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary create" type="submit">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete -->
 <div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -100,7 +99,6 @@
     </div>
   </div>
 </div>
-
 <!-- edit -->
 <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -117,9 +115,7 @@
         </div>
       </div>
       <div class="modal-footer">
-
         <a href="#" class="btn btn-primary" data-dismiss="modal">OK</a>
-
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -133,21 +129,36 @@
 <script type="text/javascript">
   $(document).ready(function() {
     //Transform the HTML table in a fancy datatable
-    $('#users').dataTable({
+    $('#location').dataTable({
       stateSave: true,
     });
-    $("#users tbody").on('click', '.confirm-delete',  function(){
-      var id = $(this).parent().data('id');
-
-
-      $('#frmConfirmDelete').modal('show');
+    $(".add-location").click(function(){
+      $('#frmConfirmAdd').modal('show');
     });
+    $(".create").click(function(){
+      $.ajax({
+        url: "<?php echo base_url() ?>locations/create",
+        type: "POST",
+        data: $('#frm_create').serialize(),
+        dataType: 'json',
+        success: function(data){
+          alert("working...");
+        },
+        error: function(){
+          alert("Error ...");
+        }
+      });
+    });
+    // $("#location tbody").on('click', '.confirm-delete',  function(){
+    //   var id = $(this).parent().data('id');
+    //             $('#frmConfirmDelete').modal('show');
+    //           });
 // edit
-$("#users tbody").on('click', '.confirm-edit',  function(){
-  var id = $(this).parent().data('id');
-
-  $('#frmConfirmEdit').modal('show');
-});
-
+// $("#location tbody").on('click', '.confirm-edit',  function(){
+//   var id = $(this).parent().data('id');
+//   var link = "<?php echo base_url();?>users/delete/" + id;
+//   $("#lnkDeleteUser").attr('href', link);
+//   $('#frmConfirmEdit').modal('show');
+// });
 });
 </script>

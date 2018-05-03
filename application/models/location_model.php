@@ -13,7 +13,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * This model contains the business logic and manages the persistence of users and roles
  * It is also used by the session controller for the authentication.
  */
-class Users_model extends CI_Model {
+class location_model extends CI_Model {
 
     /**
      * Default constructor
@@ -28,13 +28,13 @@ class Users_model extends CI_Model {
      * @return array record of users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getUsers($id = 0) {
-        $this->db->select('users.*');
+    public function getlocation($id = 0) {
+        $this->db->select('location.*');
         if ($id === 0) {
-            $query = $this->db->get('users');
+            $query = $this->db->get('location');
             return $query->result_array();
         }
-        $query = $this->db->get_where('users', array('users.id' => $id));
+        $query = $this->db->get_where('location', array('location.idlocation' => $id));
         return $query->row_array();
     }
 
@@ -43,23 +43,20 @@ class Users_model extends CI_Model {
      * @return array record of users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getUsersAndRoles() {
-        $this->db->select('users.id, active, firstname, lastname, login, email');
-        $this->db->select("GROUP_CONCAT(" . $this->db->dbprefix('roles') . ".name SEPARATOR ',') as roles_list", FALSE);
-        $this->db->join('roles', 'roles.id = (' . $this->db->dbprefix('users') . '.role & ' . $this->db->dbprefix('roles') . '.id)');
-        $this->db->group_by($this->db->dbprefix('users') . '.id, active, firstname, lastname, login, email');
-        $query = $this->db->get('users');
-        return $query->result_array();
+    public function getlocatInfo() {
+        $this->db->select('location.idlocation, location.location'); 
+        $query = $this->db->get('location');
+        return $query->result();
     }
 
   /**
    * Get the list of roles or one role
    * 00000001 1  Admin
-   * 00000010 2	User
-   * 00000100 8	HR Officier / Local HR Manager
-   * 00001000 16	HR Manager
-   * 00010000 32	General Manager
-   * 00100000 34	Global Manager
+   * 00000010 2 User
+   * 00000100 8 HR Officier / Local HR Manager
+   * 00001000 16    HR Manager
+   * 00010000 32    General Manager
+   * 00100000 34    Global Manager
    * @param int $id optional id of one role
    * @return array record of roles
    * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -106,12 +103,12 @@ class Users_model extends CI_Model {
     }
 
     /**
-     * Delete a user from the database
+     * Delete a location from the database
      * @param int $id identifier of the user
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function deleteUser($id) {
-        $this->db->delete('users', array('id' => $id));
+    public function deletelocat($id) {
+        $this->db->delete('location', array('idlocation' => $id));
     }
 
     /**
