@@ -6,6 +6,7 @@
  * @link       https://github.com/bbalet/skeleton
  * @since      0.1.0
  */
+// this is owners layout
 if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 
 /**
@@ -24,15 +25,15 @@ class Departments extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-         } else {
-           redirect('errors/privileges');
-       }
-   } else {
-     redirect('connection/login');
- }
- $this->load->model('users_model');
+           } else {
+             redirect('errors/privileges');
+         }
+     } else {
+       redirect('connection/login');
+   }
+   $this->load->model('model_department','model_department',TRUE);
 }
 
     /**
@@ -41,8 +42,7 @@ class Departments extends CI_Controller {
      */
     public function index() {
         $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
-        $data['title'] = 'List of departments';
+        $data['title'] = 'List of department';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -50,73 +50,59 @@ class Departments extends CI_Controller {
         $this->load->view('departments/index', $data);
         $this->load->view('templates/footer', $data);
     }
-
-    /**
-     * Set a user as active (TRUE) or inactive (FALSE)
-     * @param int $id User identifier
-     * @param bool $active active (TRUE) or inactive (FALSE)
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function active($id, $active) {
-        $this->users_model->setActive($id, $active);
-        $this->session->set_flashdata('msg', 'The user was successfully modified');
-        redirect('users');
+    
+    public function deleteDepartment(){
+        $iddepartment=  $this->input->post('iddepartment');
+        $remove_department = $this->model_department->deleteDepartment($iddepartment);
+        if ($remove_department) {
+            echo "1";
+        }else{
+            echo "0";
+        }
     }
 
-    /**
-     * Display a for that allows updating a given user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a department';
-        $data['activeLink'] = 'departments';
-
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        // $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        // $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        // $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        // $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        }
-
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('departments/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
+    public function showEditDepartment(){
+        $form = '';
+        $iddepartment=  $this->input->post('iddepartment'); 
+        $result = $this->model_department->showEditDepartment($iddepartment);
+        if ($result>0) {
+            foreach ($result as $department) {
+                $form .='<div class="form-inline">';
+                $form .='<label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="update_department" value="'.$department->department.'"> <input type="hidden" value="'.$department->iddepartment.'" name="id">';
+                $form .='</div>';
             }
         }
+        echo json_encode($form);
     }
 
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    // public function delete($id) {
-        //Test if user exists
-    //     $data['users_item'] = $this->users_model->getUsers($id);
-    //     if (empty($data['users_item'])) {
-    //         redirect('notfound');
-    //     } else {
-    //         $this->users_model->deleteUser($id);
-    //     }
-    //     log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-    //     $this->session->set_flashdata('msg', 'The user was successfully deleted');
-    //     redirect('users');
-    // }
+
+    public function showAllDepartments(){
+        $result = $this->model_department->showAllDepartments();
+        echo json_encode($result);
+    }
+
+    public function create(){
+        // $data_in['owner_id'] ='';
+        $data_in['department'] =$this->input->post('create_department');
+        $department = $this->model_department->create_department($data_in);
+        if ($department)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+
+    }
+
+    public function update(){
+        $iddepartment=  $this->input->post('id');
+        $department = $this->input->post('update_department');
+        $departmentUpdate = $this->model_department->updateDepartment($iddepartment, $department);
+        if ($departmentUpdate)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+
+            // echo json_encode($data_in);
+    }
+
+
 }
