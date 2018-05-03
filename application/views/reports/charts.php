@@ -67,7 +67,7 @@
   new Chart(document.getElementById("pie-chart"), {
     type: 'pie',
     data: {
-      labels: ["New", "Fiar", "Dammaged", "Broken",],
+      labels: ["New", "Fiar", "Damaged", "Broken",],
       datasets: [{
         label: "Population (millions)",
         backgroundColor: ["#00C853", "#0091EA","#FB8C00","#E65100"],
