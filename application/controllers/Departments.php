@@ -104,4 +104,5 @@ class Departments extends CI_Controller {
 
             // echo json_encode($data_in);
     }
-
+}
+?>
