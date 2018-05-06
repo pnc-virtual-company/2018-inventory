@@ -36,14 +36,13 @@ class locations extends CI_Controller {
          }
         $this->load->model('location_model');
     }
-
     /**
      * Display the list of all users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
         // $this->load->helper('form');
-        $data['locat'] = $this->location_model->getlocatInfo();
+        $data['locat'] = $this->location_model->showAlllocat();
         $data['title'] = 'List of locations';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -51,64 +50,59 @@ class locations extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('locations/index', $data);
         $this->load->view('templates/footer', $data);
-    }
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a user';
-        $data['activeLink'] = 'users';
 
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-        
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
+    }
+
+    //show data location
+    public function showAlllocat(){
+        $result = $this->location_model->showAlllocat();
+        echo json_encode($result);
+    }
+
+     //delete location 
+      public function deletelocat(){
+        $idlocation=  $this->input->post('idlocation');
+        $remove_location = $this->location_model->deletelocat($idlocation);
+        if ($remove_location) {
+            echo "1";
+        }else{
+            echo "0";
         }
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
+    }
+
+    // show edit location
+    public function showEditlocat(){
+        $form = '';
+        $idlocation=  $this->input->post('idlocation'); 
+        $result = $this->location_model->showEditlocation($idlocation);
+        if ($result>0) {
+            foreach ($result as $locations) {
+                $form .='<div class="form-inline">';
+                $form .='<label for="">Location: </label> &nbsp;<input type="text" class="form-control" name="update_location" value="'.$locations->location.'"> <input type="hidden" value="'.$locations->idlocation.'" name="id">';
+                $form .='</div>';
             }
         }
+        echo json_encode($form);
     }
 
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function delete($id) {
-        //Test if user exists
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        } else {
-            $this->users_model->deleteUser($id);
-        }
-        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-        $this->session->set_flashdata('msg', 'The user was successfully deleted');
-        redirect('users');
+    // create location
+    public function create(){
+        $data_in['location'] =$this->input->post('create_location');
+        $location = $this->location_model->create_location($data_in);
+        if ($location)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
     }
 
-    /**
-     * Display the form / action Create a new user
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function create() {
-        $data_in['location_name'] =$tihs->input->post('create_location');
-        echo json_decode($data_in);
+    // update location
+    public function update(){
+        $idlocation=  $this->input->post('id');
+        $location = $this->input->post('update_location');
+        $locationUpdate = $this->location_model->update($idlocation, $location);
+        if ($locationUpdate)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
     }
 }

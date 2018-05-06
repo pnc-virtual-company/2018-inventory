@@ -13,7 +13,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * This model contains the business logic and manages the persistence of users and roles
  * It is also used by the session controller for the authentication.
  */
-class location_model extends CI_Model {
+class Owners_model extends CI_Model {
 
     /**
      * Default constructor
@@ -21,8 +21,8 @@ class location_model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-    public function showAlllocat(){
-        $query = $this->db->get('location');
+    public function showAllOwner(){
+        $query = $this->db->get('owner');
         if($query->num_rows() > 0){
             return $query->result();
         }else{
@@ -31,9 +31,9 @@ class location_model extends CI_Model {
     }
 
 
-    public function showEditlocation($id){
-        $this->db->where('idlocation', $id);
-        $query = $this->db->get('location');
+    public function showEditOwner($id){
+        $this->db->where('idowner', $id);
+        $query = $this->db->get('owner');
         if($query->num_rows() > 0){
             return $query->result();
         }else{
@@ -42,26 +42,27 @@ class location_model extends CI_Model {
     }
 
 
-    function deletelocat($id){
-        $this->db->where('idlocation', $id);
-        $this->db->delete('location');
+    function deleteOwner($id){
+        $this->db->where('idowner', $id);
+        $this->db->delete('owner');
     }
 
 
-    public function create_location($data)
+    public function create_owner($data)
     {
-        $this->db->insert('location', $data);
+        $this->db->insert('owner', $data);
         return $insert_id = $this->db->insert_id();
     }
 
-    public function update($idlocation, $location)
+    public function updateOwner($idowner, $owner)
     {
         $data = array(
-            'idlocation' => $idlocation,
-            'location'  => $location
+            'idowner' => $idowner,
+            'owner'  => $owner
         );
-        $this->db->where('idlocation',$idlocation);
-        return $this->db->replace('location', $data);
+        $this->db->where('idowner',$idowner);
+        return $this->db->replace('owner', $data);
         
     }
+    
 }
