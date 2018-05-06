@@ -25,15 +25,15 @@ class Owner extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-         } else {
-           redirect('errors/privileges');
-       }
-   } else {
-     redirect('connection/login');
- }
- $this->load->model('users_model');
+           } else {
+             redirect('errors/privileges');
+         }
+     } else {
+       redirect('connection/login');
+   }
+   $this->load->model('Owners_model','owners_model',TRUE);
 }
 
     /**
@@ -42,7 +42,6 @@ class Owner extends CI_Controller {
      */
     public function index() {
         $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
         $data['title'] = 'List of owners';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -51,73 +50,59 @@ class Owner extends CI_Controller {
         $this->load->view('owners/index', $data);
         $this->load->view('templates/footer', $data);
     }
-
-    /**
-     * Set a user as active (TRUE) or inactive (FALSE)
-     * @param int $id User identifier
-     * @param bool $active active (TRUE) or inactive (FALSE)
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function active($id, $active) {
-        $this->users_model->setActive($id, $active);
-        $this->session->set_flashdata('msg', 'The user was successfully modified');
-        redirect('users');
+    
+    public function deleteOwner(){
+        $idowner=  $this->input->post('idowner');
+        $remove_owner = $this->owners_model->deleteOwner($idowner);
+        if ($remove_owner) {
+            echo "1";
+        }else{
+            echo "0";
+        }
     }
 
-    /**
-     * Display a for that allows updating a given user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a owners';
-        $data['activeLink'] = 'owners';
-
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        // $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        // $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        // $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        // $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        }
-
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('owners/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
+    public function showEditOwner(){
+        $form = '';
+        $idowner=  $this->input->post('idowner'); 
+        $result = $this->owners_model->showEditOwner($idowner);
+        if ($result>0) {
+            foreach ($result as $owner) {
+                $form .='<div class="form-inline">';
+                $form .='<label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="update_owner" value="'.$owner->owner.'"> <input type="hidden" value="'.$owner->idowner.'" name="id">';
+                $form .='</div>';
             }
         }
+        echo json_encode($form);
     }
 
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    // public function delete($id) {
-        //Test if user exists
-    //     $data['users_item'] = $this->users_model->getUsers($id);
-    //     if (empty($data['users_item'])) {
-    //         redirect('notfound');
-    //     } else {
-    //         $this->users_model->deleteUser($id);
-    //     }
-    //     log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-    //     $this->session->set_flashdata('msg', 'The user was successfully deleted');
-    //     redirect('users');
-    // }
+
+    public function showAllOwner(){
+        $result = $this->owners_model->showAllOwner();
+        echo json_encode($result);
+    }
+
+    public function create(){
+        // $data_in['owner_id'] ='';
+        $data_in['owner'] =$this->input->post('create_owner');
+        $owner = $this->owners_model->create_owner($data_in);
+        if ($owner)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+
+    }
+
+    public function update(){
+        $idowner=  $this->input->post('id');
+        $owner = $this->input->post('update_owner');
+        $ownerUpdate = $this->owners_model->updateOwner($idowner, $owner);
+        if ($ownerUpdate)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+
+            // echo json_encode($data_in);
+    }
+
+
 }

@@ -9,19 +9,14 @@
 ?>
 
 <div class="row-fluid">
-    <div class="col-12">
-
-<h2>Edit user #<?php echo $users_item['id']; ?></h2>
-
-<?php echo validation_errors(); ?>
-
-<?php
-$attributes = array('class' => 'form-horizontal');
-echo form_open('users/edit/' . $users_item['id'], $attributes);
-?>
-
+<div class="col-12">
+    <h2>Edit user #<?php echo $users_item['id']; ?></h2>
+    <?php echo validation_errors(); ?>
+    <?php
+    $attributes = array('class' => 'form-horizontal');
+    echo form_open('users/edit/' . $users_item['id'], $attributes);
+    ?>
     <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
-
     <div class="form-group">
       <label class="control-label" for="firstname">Firstname</label>
       <input type="text" class="form-control" name="firstname" value="<?php echo $users_item['firstname']; ?>" required />
@@ -45,19 +40,19 @@ echo form_open('users/edit/' . $users_item['id'], $attributes);
     <div class="control-group">
       <label class="control-label" for="role[]">Role</label>
       <select class="form-control" name="role[]" multiple="multiple" size="3">
-      <?php foreach ($roles as $roles_item): ?>
+        <?php foreach ($roles as $roles_item): ?>
           <option value="<?php echo $roles_item['id'] ?>" <?php if ((((int)$roles_item['id']) & ((int) $users_item['role']))) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
-      <?php endforeach ?>
+        <?php endforeach ?>
       </select>
     </div>
 
-  <div class="row-fluid">
+    <div class="row-fluid">
       <div class="col-12">
-          <button type="submit" class="btn btn-primary"><i class="mdi mdi-pencil"></i>&nbsp;Update</button>
-          &nbsp;
-          <a href="<?php echo base_url();?>users" class="btn btn-danger"><i class="mdi mdi-cancel"></i>&nbsp;Cancel</a>
+        <button type="submit" class="btn btn-primary"><i class="mdi mdi-pencil"></i>&nbsp;Update</button>
+        &nbsp;
+        <a href="<?php echo base_url();?>users" class="btn btn-danger"><i class="mdi mdi-cancel"></i>&nbsp;Cancel</a>
       </div>
-  </div>
-</form>
-  </div>
+    </div>
+  </form>
+</div>
 </div>

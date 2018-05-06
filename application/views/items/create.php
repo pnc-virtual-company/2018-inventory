@@ -87,7 +87,7 @@
             <select class="form-control" id="sel1">
               <option>New</option>
               <option>Fair</option>
-              <option>Dammaged</option>
+              <option>Damaged</option>
               <option>Broken</option>
             </select>
           </div>
