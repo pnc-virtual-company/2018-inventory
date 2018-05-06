@@ -17,7 +17,7 @@ class Departments extends CI_Controller {
 
 
     /**
-     * Default constructor
+     * Default constructor ok     
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function __construct() {
