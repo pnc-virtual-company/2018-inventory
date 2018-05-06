@@ -39,7 +39,7 @@
                                     <a href="<?php echo base_url();?>users/edit/<?php echo $user['id'] ?>" title="Edit user"><i class="mdi mdi-pencil"></i></a>
                                 </td>
                                 <td><?php echo $user['firstname']; ?></td>
-                                <td><!-- <?php echo $user['lastname']; ?> -->Air Condictioner</td>
+                                <td><!-- <?php echo $user['lastname']; ?> -->Air Conditioner</td>
                                 <td><!-- <?php echo $user['login']; ?> -->Iron</td>
                                 <td><!-- <a href="mailto:<?php echo $user['email']; ?>"><?php echo $user['email']; ?> </a> -->Broken</td>
                                 <td><!-- <?php echo $user['roles_list']; ?> -->Admin/ Finance</td>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This view displays the list of users.
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
@@ -8,7 +9,7 @@
  */
 ?>
 
-<!-- this is owner layout -->
+<!-- this is department layout -->
 <div id="container" class="container">
   <div class="row-fluid">
     <div class="col-12">
@@ -81,9 +82,9 @@
       <div class="modal-footer">
         <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+
       </div>
-    </div>
-  </div>
+   </div>
 </div>
 <!-- edit -->
 <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
@@ -101,14 +102,13 @@
       <div class="modal-footer">
         <a href="#" class="btn btn-primary " id="update">OK</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
       </div>
-    </div>
-  </div>
+   </div>
 </div>
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-
 <script type="text/javascript">
   $(document).ready(function(){
     var t = $('#departments').DataTable();

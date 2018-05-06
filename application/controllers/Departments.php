@@ -1,19 +1,20 @@
 <?php
 /**
- * This controller serves the user management pages and tools.
- * @copyright  Copyright (c) 2014-2017 Benjamin BALET
- * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
- * @link       https://github.com/bbalet/skeleton
- * @since      0.1.0
- */
-// this is owners layout
-if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 
+* This controller serves the user management pages and tools.
+* @copyright  Copyright (c) 2014-2017 Benjamin BALET
+* @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
+* @link       https://github.com/bbalet/skeleton
+* @since      0.1.0
+*/
+
+if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 /**
- * This controller serves the user management pages and tools.
- * The difference with HR Controller is that operations are technical (CRUD, etc.).
- */
+* This controller serves the user management pages and tools.
+* The difference with HR Controller is that operations are technical (CRUD, etc.).
+*/
 class Departments extends CI_Controller {
+
 
     /**
      * Default constructor
@@ -104,5 +105,3 @@ class Departments extends CI_Controller {
             // echo json_encode($data_in);
     }
 
-
-}
