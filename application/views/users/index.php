@@ -54,9 +54,7 @@
     </div>
     </div>
 </div>
-
   <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
-
   <div class="row-fluid">
       <div class="col-12">
         <a href="<?php echo base_url();?>users/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
@@ -64,7 +62,6 @@
         <a href="<?php echo base_url();?>users/create" class="btn btn-primary"><i class="mdi mdi-account-plus"></i>&nbsp;Create a new user</a>
       </div>
   </div>
-
 </div>
 
 <div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
