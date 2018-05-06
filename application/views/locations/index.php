@@ -181,8 +181,6 @@ $('#showdata').on('click', '.item-delete', function(){
   $('#deleteModal').data('id', id).modal('show');
 });
 
-
-
 // comfirm delete button
 $("#delete-comfirm").on('click',function(){
   var id = $('#deleteModal').data('id');
@@ -222,6 +220,7 @@ $('#showdata').on('click', '.item-edit', function(){
     }
   });
 });
+
 // save update button 
 $("#update").click(function(){
   var id = $('#frmConfirmEdit').data('id');
@@ -254,7 +253,7 @@ $("#update").click(function(){
       }
     });
   }
-});
+  });    
 
 });
 </script>
