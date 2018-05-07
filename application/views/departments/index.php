@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This view displays the list of users.
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
@@ -9,7 +8,7 @@
  */
 ?>
 
-<!-- this is department layout -->
+<!-- this is owner layout -->
 <div id="container" class="container">
   <div class="row-fluid">
     <div class="col-12">
@@ -17,10 +16,10 @@
       <h2><?php echo $title;?></h2>
       <!-- <?php echo $flashPartialView;?> -->
       <div class="alert alert-success" style="display: none;"></div>
-      <table id="departments" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+      <table id="department" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
         <thead>
           <tr>
-            <th >ID</th>
+            <th class="text-right">ID</th>
             <th>Departments</th>
           </tr>
         </thead>
@@ -77,21 +76,21 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Are you sure that you want to delete this department?</p>
+        <p>Are you sure that you want to delete this material?</p>
       </div>
       <div class="modal-footer">
         <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-
       </div>
-   </div>
+    </div>
+  </div>
 </div>
 <!-- edit -->
 <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit department</h5>
+        <h5 class="modal-title">Edit material</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -102,30 +101,30 @@
       <div class="modal-footer">
         <a href="#" class="btn btn-primary " id="update">OK</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
       </div>
-   </div>
+    </div>
+  </div>
 </div>
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#departments').DataTable();
+    var t = $('#department').DataTable();
     showAllDepartments();
 
-// showAllDepartments function get departments data to table 
+// showAlldepartment function get department data to table 
 function showAllDepartments()
 {
   $.ajax({
     type: 'ajax',
-    url: '<?php echo base_url();?>/departments/showAllDepartments',
+    url: '<?php echo base_url();?>departments/showAllDepartments',
     async: true,
     dataType: 'json',
     success: function(data){
-      // alert('success');
       t.clear().draw();
-      var n = 1;
+      var n =1;
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
@@ -147,14 +146,15 @@ function showAllDepartments()
 $("#add-department").click(function(){
   $('#frmConfirmAdd').modal('show');
 });
+
 // save new department button even
 $("#create").click(function(){
-  var department = $('input[name=create_department]');
+  var departmentName = $('input[name=create_material]');
   var result = '';
-  if(department.val()==''){
-    department.parent().parent().addClass('has-error');
+  if(departmentName.val()==''){
+    departmentName.parent().parent().addClass('has-error');
   }else{
-    department.parent().parent().removeClass('has-error');
+    departmentName.parent().parent().removeClass('has-error');
     result +='1';
   }
   if (result=='1') {
@@ -176,14 +176,13 @@ $("#create").click(function(){
       }
     });
   }
-  
 });
-
-// delete department by ajax
+// delete material by ajax
 $('#showdata').on('click', '.item-delete', function(){
   var id = $(this).attr('dataid');
   $('#deleteModal').data('id', id).modal('show');
 });
+
 // comfirm delete button
 $("#delete-comfirm").on('click',function(){
   var id = $('#deleteModal').data('id');
@@ -198,8 +197,9 @@ $("#delete-comfirm").on('click',function(){
       showAllDepartments();
     },
     error: function(){
-      alert("Error....This field has relationshipe with another field...");
       $('#deleteModal').modal('hide');
+      alert("Error delete! this field is has relationship with another...");
+
     }
   });
 });
@@ -211,7 +211,7 @@ $('#showdata').on('click', '.item-edit', function(){
   $.ajax({
     type: 'POST',
     data: {iddepartment: id},
-    url: '<?php echo base_url();?>/departments/showEditDepartment',
+    url: '<?php echo base_url();?>departments/showEditDepartment',
     async: true,
     dataType: 'json',
     success: function(data){
@@ -223,6 +223,7 @@ $('#showdata').on('click', '.item-edit', function(){
     }
   });
 });
+
 // save update button 
 $("#update").click(function(){
   var id = $('#frmConfirmEdit').data('id');
@@ -249,8 +250,8 @@ $("#update").click(function(){
         }
       },
       error: function(){
-        alert("Error update! this field has relationship with another field...");
         $('#frmConfirmEdit').modal('hide');
+        alert("Error update! This field has relationship with another ...");
       }
     });
   }
@@ -258,3 +259,4 @@ $("#update").click(function(){
 
 });
 </script>
+  
