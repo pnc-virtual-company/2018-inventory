@@ -87,6 +87,7 @@ class Users_model extends CI_Model {
      * @return bool TRUE if available, FALSE otherwise
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
+    
     public function isLoginAvailable($login) {
         $this->db->from('users');
         $this->db->where('login', $login);

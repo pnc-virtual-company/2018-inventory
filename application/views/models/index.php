@@ -39,7 +39,6 @@
         <div class="col-md-4 text-right">
           <button type="button" class="btn btn-danger">
             <a class="text-white" href="<?php echo base_url() ?>brand"><i class="mdi mdi-arrow-left-thick"></i>&nbsp;Back to brands</a>
-
           </button>
         </div>
       </div> 

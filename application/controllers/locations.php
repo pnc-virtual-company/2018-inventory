@@ -34,16 +34,15 @@ class locations extends CI_Controller {
          } else {
            redirect('connection/login');
          }
-        $this->load->model('users_model');
+        $this->load->model('location_model');
     }
-
     /**
      * Display the list of all users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
-        $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
+        // $this->load->helper('form');
+        $data['locat'] = $this->location_model->showAlllocat();
         $data['title'] = 'List of locations';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -51,119 +50,59 @@ class locations extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('locations/index', $data);
         $this->load->view('templates/footer', $data);
-    }
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a user';
-        $data['activeLink'] = 'users';
 
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-        
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        }
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
-            }
+    }
+
+    //show data location
+    public function showAlllocat(){
+        $result = $this->location_model->showAlllocat();
+        echo json_encode($result);
+    }
+
+     //delete location 
+      public function deletelocat(){
+        $idlocation=  $this->input->post('idlocation');
+        $remove_location = $this->location_model->deletelocat($idlocation);
+        if ($remove_location) {
+            echo "1";
+        }else{
+            echo "0";
         }
     }
 
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function delete($id) {
-        //Test if user exists
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        } else {
-            $this->users_model->deleteUser($id);
+    // show edit location
+    public function showEditlocat(){
+        $form = '';
+        $idlocation=  $this->input->post('idlocation'); 
+        $result = $this->location_model->showEditlocation($idlocation);
+        if ($result>0) {
+            foreach ($result as $locations) {
+                $form .='<div class="form-inline">';
+                $form .='<label for="">Location: </label> &nbsp;<input type="text" class="form-control" name="update_location" value="'.$locations->location.'"> <input type="hidden" value="'.$locations->idlocation.'" name="id">';
+                $form .='</div>';
+            }
         }
-        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-        $this->session->set_flashdata('msg', 'The user was successfully deleted');
-        redirect('users');
+        echo json_encode($form);
     }
 
-    /**
-     * Display the form / action Create a new user
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Create a new user';
-        $data['activeLink'] = 'users';
-        $data['roles'] = $this->users_model->getRoles();
+    // create location
+    public function create(){
+        $data_in['location'] =$this->input->post('create_location');
+        $location = $this->location_model->create_location($data_in);
+        if ($location)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+    }
 
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|callback_checkLogin|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/create', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $password = $this->users_model->setUsers();
-            //Send an e-mail to the user so as to inform that its account has been created
-            $this->load->library('email');
-            $this->load->library('parser');
-            $data = array(
-                'Title' => 'User account to the Skeleton application',
-                'BaseURL' => base_url(),
-                'Firstname' => $this->input->post('firstname'),
-                'Lastname' => $this->input->post('lastname'),
-                'Login' => $this->input->post('login'),
-                'Password' => $password
-            );
-            $message = $this->parser->parse('emails/new_user', $data, TRUE);
-
-            if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
-                $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
-            } else {
-               $this->email->from('do.not@reply.me', 'Skeleton app');
-            }
-            $this->email->to($this->input->post('email'));
-            if ($this->config->item('subject_prefix') != FALSE) {
-                $subject = $this->config->item('subject_prefix');
-            } else {
-               $subject = '[Skeleton] ';
-            }
-            $this->email->subject($subject . 'Your account is created');
-            $this->email->message($message);
-            log_message('debug', 'Sending the user creation email');
-            if ($this->config->item('log_threshold') > 1) {
-              $this->email->send(FALSE);
-              $debug = $this->email->print_debugger(array('headers'));
-              log_message('debug', 'print_debugger = ' . $debug);
-            } else {
-              $this->email->send();
-            }
-
-            $this->session->set_flashdata('msg', 'The user was successfully created');
-            redirect('users');
-        }
+    // update location
+    public function update(){
+        $idlocation=  $this->input->post('id');
+        $location = $this->input->post('update_location');
+        $locationUpdate = $this->location_model->update($idlocation, $location);
+        if ($locationUpdate)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
     }
 }
