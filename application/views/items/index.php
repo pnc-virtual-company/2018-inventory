@@ -7,16 +7,13 @@
  * @since      1.0.0
  */
 ?>
-
 <div id="container">
 	<div class="row-fluid">
 		<div class="col-12">
-
             <div class="table-responsive">
                 <h2><?php echo $title;?></h2>
-
-                <?php echo $flashPartialView;?>
-                <table id="users" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+                <div class="alert alert-success" style="display: none;"></div>
+                <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
                     <thead>
                         <tr>
                             <th>Identifier</th>
@@ -30,24 +27,9 @@
                             <th>Owner</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($users as $user):?>
-                            <tr>
-                                <td data-order="<?php echo $user['id']; ?>" data-id="<?php echo $user['id'];?>">
-                                    <?php echo $user['id'] ?>&nbsp;
-                                    <a href="#" class="confirm-delete" title="Delete user"><i class="mdi mdi-delete"></i></a>
-                                    <a href="<?php echo base_url();?>users/edit/<?php echo $user['id'] ?>" title="Edit user"><i class="mdi mdi-pencil"></i></a>
-                                </td>
-                                <td><?php echo $user['firstname']; ?></td>
-                                <td><!-- <?php echo $user['lastname']; ?> -->Air Conditioner</td>
-                                <td><!-- <?php echo $user['login']; ?> -->Iron</td>
-                                <td><!-- <a href="mailto:<?php echo $user['email']; ?>"><?php echo $user['email']; ?> </a> -->Broken</td>
-                                <td><!-- <?php echo $user['roles_list']; ?> -->Admin/ Finance</td>
-                                <td><!-- <?php echo $user['roles_list']; ?> -->B22</td>
-                                <td><?php echo $user['firstname'].' '.$user['lastname']; ?></td>
-                                <td><!-- <?php echo $user['roles_list']; ?> -->PNC</td>
-                            </tr>
-                        <?php endforeach ?>
+                    <tbody id="showdata">
+
+
                     </tbody>
                 </table>
             </div>
@@ -60,6 +42,26 @@
         <a href="<?php echo base_url();?>items/create" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
     </div>
 </div>
+<!-- delete -->
+<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure that you want to delete this item</p>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
+    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+</div>
+</div>
+</div>
+</div>
 
 </div>
 
@@ -68,43 +70,61 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-    //Transform the HTML table in a fancy datatable
-    $('#users').dataTable({
-        stateSave: true,
-    });
-    //$("#frmResetPwd").alert();
-    //$("#frmConfirmDelete").alert();
+    $(document).ready(function(){
+        var t = $('#items').DataTable();
+        showAllitems();
 
-    //On showing the confirmation pop-up, add the user id at the end of the delete url action
-    /*$('#frmConfirmDelete').on('show', function() {
-        var link = "<?php echo base_url();?>users/delete/" + $(this).data('id');
-        $("#lnkDeleteUser").attr('href', link);
-    });*/
+// showAllitems function get items data to table 
+function showAllitems()
+{
+  $.ajax({
+    type: 'ajax',
+    url: '<?php echo base_url();?>items/showAllitems',
+    async: true,
+    dataType: 'json',
+    success: function(data){
+      t.clear().draw();
+      var n = 1;
+      var i;
+      for(i=0; i<data.length; i++){
+        t.row.add( [
+          '<a href="#" class="item-edit" dataid="'+data[i].iditem+'"><i class="mdi mdi-pencil"></i></a>'+
+          '<a href="#" class="item-delete" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a>'+data[i].itemcodeid,
+          data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner
+          ] ).draw( false );
+        n++;
+    }
+},
+error: function(){
+  alert('Could not get Data from Database');
+}
+});
+}
+// delete material by ajax
+$('#showdata').on('click', '.item-delete', function(){
+  var id = $(this).attr('dataid');
+  $('#deleteModal').data('id', id).modal('show');
+});
 
-    //Display a modal pop-up so as to confirm if a user has to be deleted or not
-    //We build a complex selector because datatable does horrible things on DOM...
-    //a simplier selector doesn't work when the delete is on page >1
-    $("#users tbody").on('click', '.confirm-delete',  function(){
-        var id = $(this).parent().data('id');
-        var link = "<?php echo base_url();?>users/delete/" + id;
-        $("#lnkDeleteUser").attr('href', link);
-        $('#frmConfirmDelete').modal('show');
-    });
+// comfirm delete button
+$("#delete-comfirm").on('click',function(){
+  var id = $('#deleteModal').data('id');
+  $.ajax({
+    url: "<?php echo base_url() ?>items/deleteItems",
+    type: "POST",
+    data: {iditem: id},
+    dataType: "json",
+    success: function(data){
+      $('#deleteModal').modal('hide');
+      $('.alert-success').html('Item delete successfully').fadeIn().delay(4000).fadeOut('slow');
+      showAllitems();
+  },
+  error: function(){
+      $('#deleteModal').modal('hide');
+      alert("Error delete! this item is has relationship with another...");
+  }
+});
+});
 
-    $("#users tbody").on('click', '.reset-password',  function(){
-        var id = $(this).parent().data('id');
-        var link = "<?php echo base_url();?>users/reset/" + id;
-        $("#formResetPwd").prop("action", link);
-        $('#frmResetPwd').modal('show');
-    });
-
-    //Prevent to load always the same content (refreshed each time)
-    /*$('#frmConfirmDelete').on('hidden', function() {
-        $(this).removeData('modal');
-    });
-    $('#frmResetPwd').on('hidden', function() {
-        $(this).removeData('modal');
-    });*/
 });
 </script>

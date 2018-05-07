@@ -14,11 +14,6 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * The difference with HR Controller is that operations are technical (CRUD, etc.).
  */
 class items extends CI_Controller {
-
-    /**
-     * Default constructor
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
     public function __construct() {
         parent::__construct();
         log_message('debug', 'URI=' . $this->uri->uri_string());
@@ -33,7 +28,7 @@ class items extends CI_Controller {
    } else {
      redirect('connection/login');
  }
- $this->load->model('users_model');
+ $this->load->model('items_model');
 }
 
     /**
@@ -42,166 +37,26 @@ class items extends CI_Controller {
      */
     public function index() {
         $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
-        $data['title'] = 'List of items';
-        $data['activeLink'] = 'items';
+        $data['title'] = 'List of Items';
+        $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/index', $data);
         $this->load->view('templates/footer', $data);
     }
- 
-    /**
-     * Set a user as active (TRUE) or inactive (FALSE)
-     * @param int $id User identifier
-     * @param bool $active active (TRUE) or inactive (FALSE)
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function active($id, $active) {
-        $this->users_model->setActive($id, $active);
-        $this->session->set_flashdata('msg', 'The user was successfully modified');
-        redirect('users');
+    public function showAllitems(){
+        $result = $this->items_model->showAllItems();
+        echo json_encode($result);
     }
-
-    /**
-     * Enable a user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function enable($id) {
-        $this->active($id, TRUE);
-    }
-
-    /**
-     * Disable a user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function disable($id) {
-        $this->active($id, FALSE);
-    }
-
-    /**
-     * Display a for that allows updating a given user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a user';
-        $data['activeLink'] = 'users';
-
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        }
-
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
-            }
+    public function deleteItems(){
+        $iditem=  $this->input->post('iditem');
+        $remove_item = $this->items_model->deleteItems($iditem);
+        if ($remove_item) {
+            echo "1";
+        }else{
+            echo "0";
         }
     }
-
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function delete($id) {
-        //Test if user exists
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        } else {
-            $this->users_model->deleteUser($id);
-        }
-        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-        $this->session->set_flashdata('msg', 'The user was successfully deleted');
-        redirect('users');
-    }
-
-
-    /**
-     * Display the form / action Create a new user
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Create a new items';
-        $data['activeLink'] = 'items';
-        $data['roles'] = $this->users_model->getRoles();
-
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|callback_checkLogin|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('items/create', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $password = $this->users_model->setUsers();
-            //Send an e-mail to the user so as to inform that its account has been created
-            $this->load->library('email');
-            $this->load->library('parser');
-            $data = array(
-                'Title' => 'User account to the Skeleton application',
-                'BaseURL' => base_url(),
-                'Firstname' => $this->input->post('firstname'),
-                'Lastname' => $this->input->post('lastname'),
-                'Login' => $this->input->post('login'),
-                'Password' => $password
-            );
-            $message = $this->parser->parse('emails/new_user', $data, TRUE);
-
-            if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
-                $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
-            } else {
-             $this->email->from('do.not@reply.me', 'Skeleton app');
-         }
-         $this->email->to($this->input->post('email'));
-         if ($this->config->item('subject_prefix') != FALSE) {
-            $subject = $this->config->item('subject_prefix');
-        } else {
-         $subject = '[Skeleton] ';
-     }
-     $this->email->subject($subject . 'Your account is created');
-     $this->email->message($message);
-     log_message('debug', 'Sending the user creation email');
-     if ($this->config->item('log_threshold') > 1) {
-      $this->email->send(FALSE);
-      $debug = $this->email->print_debugger(array('headers'));
-      log_message('debug', 'print_debugger = ' . $debug);
-  } else {
-      $this->email->send();
-  }
-
-  $this->session->set_flashdata('msg', 'The user was successfully created');
-  redirect('users');
-}
-}
 
 }
