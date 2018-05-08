@@ -13,7 +13,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * This model contains the business logic and manages the persistence of users and roles
  * It is also used by the session controller for the authentication.
  */
-class Owners_model extends CI_Model {
+class model_model extends CI_Model {
 
     /**
      * Default constructor
@@ -21,8 +21,19 @@ class Owners_model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-    public function showAllOwner(){
-        $query = $this->db->get('owner');
+    public function getBrandById($id){
+        $this->db->where('idbrand',$id);
+        $query = $this->db->get('brand');
+        if($query->num_rows() > 0){
+            return $query->result();
+        }else{
+            return false;
+        }
+    }
+
+    public function showAllModelsByBrandId($idbrand){
+        $this->db->where('brandid', $idbrand);
+        $query = $this->db->get('model');
         if($query->num_rows() > 0){
             return $query->result();
         }else{
@@ -31,9 +42,9 @@ class Owners_model extends CI_Model {
     }
 
 
-    public function showEditOwner($id){
-        $this->db->where('idowner', $id);
-        $query = $this->db->get('owner');
+    public function showEditModel($id){
+        $this->db->where('idmodel', $id);
+        $query = $this->db->get('model');
         if($query->num_rows() > 0){
             return $query->result();
         }else{
@@ -42,27 +53,26 @@ class Owners_model extends CI_Model {
     }
 
 
-    function deleteOwner($id){
-        $this->db->where('idowner', $id);
-        $this->db->delete('owner');
+    function deleteModel($id){
+        $this->db->where('idmodel', $id);
+        $this->db->delete('model');
     }
 
 
-    public function create_owner($data)
+    public function create_model($data)
     {
-        $this->db->insert('owner', $data);
+        $this->db->insert('model', $data);
         return $insert_id = $this->db->insert_id();
     }
 
-    public function updateOwner($idowner, $owner)
+    public function updateModel($idmodel, $model,$brandid)
     {
         $data = array(
-            'idowner' => $idowner,
-            'owner'  => $owner
+            'idmodel' => $idmodel,
+            'model'  => $model,
+            'brandid'  => $brandid
         );
-        $this->db->where('idowner',$idowner);
-        return $this->db->replace('owner', $data);
-        
+        $this->db->where('idmodel',$idmodel);
+        return $this->db->replace('model', $data);
     }
-    
 }

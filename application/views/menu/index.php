@@ -1,7 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
-
+<style>
+	.nav-item{
+		cursor: pointer;
+	}
+</style>
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
 
 	<a class="navbar-brand" href="<?php echo base_url();?>"><img id="logo-menu" src="<?php echo base_url() ?>assets/images/logo-img/logo.png" alt=""></a>
@@ -16,14 +20,13 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 		</li>     
 		<div class="nav-link navbar dropdown <?php echo ($activeLink=='others'?'active':'');?> ">
 			<li class="nav-item dropdown-toggle " data-toggle="dropdown">
-				Setting  
+				Settings  
 				<li class="nav-item dropdown-menu">
 					<a class="dropdown-item" href="<?php echo base_url();?>category">Categories</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>materials">Materials</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>departments">Departments</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>brand">Brands</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>models">Models</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>reports">Reports</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>users">Admin</a>

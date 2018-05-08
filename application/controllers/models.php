@@ -26,16 +26,16 @@ class models extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-           } else {
-             redirect('errors/privileges');
-           }
          } else {
-           redirect('connection/login');
-         }
-        $this->load->model('users_model');
-    }
+           redirect('errors/privileges');
+       }
+   } else {
+     redirect('connection/login');
+ }
+ $this->load->model('model_model');
+}
 
     /**
      * Display the list of all users
@@ -43,8 +43,12 @@ class models extends CI_Controller {
      */
     public function index() {
         $this->load->helper('form');
-        $data['users'] = $this->users_model->getUsersAndRoles();
-        $data['title'] = 'List of models (Lenovo)';
+        $id= $this->uri->segment(3);
+        $brandName= $this->model_model->getBrandById($id);
+        foreach ($brandName  as $value) {
+            $data['title'] = $value->brand;
+            $data['idbrand'] = $value->idbrand;
+        }
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -52,118 +56,66 @@ class models extends CI_Controller {
         $this->load->view('models/index', $data);
         $this->load->view('templates/footer', $data);
     }
-    public function edit($id) {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Edit a user';
-        $data['activeLink'] = 'users';
 
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-        
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        }
-        if ($this->form_validation->run() === FALSE) {
-            $data['roles'] = $this->users_model->getRoles();
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/edit', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->users_model->updateUsers();
-            $this->session->set_flashdata('msg', 'The user was successfully modified.');
-            if (isset($_GET['source'])) {
-                redirect($_GET['source']);
-            } else {
-                redirect('users');
-            }
+    public function showAllModelsByBrandId(){
+        $id= $this->uri->segment(3);
+        $result = $this->model_model->showAllModelsByBrandId($id);
+        echo json_encode($result);
+    }
+
+    public function create_model(){
+        // $data_in['owner_id'] ='';
+        $data_in['brandid'] =$this->input->post('brandid');
+        $data_in['model'] =$this->input->post('model');
+        $model = $this->model_model->create_model($data_in);
+        if ($model)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
+
+    }
+
+    // function delete
+    public function deleteModel(){
+        $idmodel=  $this->input->post('idmodel');
+        $remove_model = $this->model_model->deleteModel($idmodel);
+        if ($remove_model) {
+            echo "1";
+        }else{
+            echo "0";
         }
     }
 
-    /**
-     * Delete a user. Log it as an error.
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function delete($id) {
-        //Test if user exists
-        $data['users_item'] = $this->users_model->getUsers($id);
-        if (empty($data['users_item'])) {
-            redirect('notfound');
-        } else {
-            $this->users_model->deleteUser($id);
+        // use for show edit
+    public function showEditModel(){
+        $idbrand = $this->uri->segment(3);
+        $form = '';
+        $idmodel=  $this->input->post('idmodel'); 
+        $result = $this->model_model->showEditModel($idmodel);
+        if ($result>0) {
+            foreach ($result as $model) {
+                $form .='<div class="form-inline">';
+                $form .='<label for="">Model: </label> &nbsp;<input type="text" class="form-control" name="update_model" value="'.$model->model.'"> <input type="hidden" value="'.$model->idmodel.'" name="id">';
+            }
+                $form .='<input type="hidden" value="'.$idbrand.'" name="brandid">';
+                $form .='</div>';
         }
-        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
-        $this->session->set_flashdata('msg', 'The user was successfully deleted');
-        redirect('users');
+        echo json_encode($form);
     }
 
-    /**
-     * Display the form / action Create a new user
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $data['title'] = 'Create a new user';
-        $data['activeLink'] = 'users';
-        $data['roles'] = $this->users_model->getRoles();
+        // use for update
+    public function update(){
+        $idmodel=  $this->input->post('id');
+        $model = $this->input->post('update_model');
+        $brandid = $this->input->post('brandid');
+        $modelUpdate = $this->model_model->updateModel($idmodel, $model,$brandid);
+        if ($modelUpdate)
+            echo json_encode(array('status'=>true));
+        else    
+            echo json_encode(array('status'=>false));        
 
-        $this->form_validation->set_rules('firstname', 'Firstname', 'required|strip_tags');
-        $this->form_validation->set_rules('lastname', 'Lastname', 'required|strip_tags');
-        $this->form_validation->set_rules('login', 'Login', 'required|callback_checkLogin|strip_tags');
-        $this->form_validation->set_rules('email', 'Email', 'required|strip_tags');
-        $this->form_validation->set_rules('role[]', 'Role', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('users/create', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $password = $this->users_model->setUsers();
-            //Send an e-mail to the user so as to inform that its account has been created
-            $this->load->library('email');
-            $this->load->library('parser');
-            $data = array(
-                'Title' => 'User account to the Skeleton application',
-                'BaseURL' => base_url(),
-                'Firstname' => $this->input->post('firstname'),
-                'Lastname' => $this->input->post('lastname'),
-                'Login' => $this->input->post('login'),
-                'Password' => $password
-            );
-            $message = $this->parser->parse('emails/new_user', $data, TRUE);
-
-            if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
-                $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
-            } else {
-               $this->email->from('do.not@reply.me', 'Skeleton app');
-            }
-            $this->email->to($this->input->post('email'));
-            if ($this->config->item('subject_prefix') != FALSE) {
-                $subject = $this->config->item('subject_prefix');
-            } else {
-               $subject = '[Skeleton] ';
-            }
-            $this->email->subject($subject . 'Your account is created');
-            $this->email->message($message);
-            log_message('debug', 'Sending the user creation email');
-            if ($this->config->item('log_threshold') > 1) {
-              $this->email->send(FALSE);
-              $debug = $this->email->print_debugger(array('headers'));
-              log_message('debug', 'print_debugger = ' . $debug);
-            } else {
-              $this->email->send();
-            }
-
-            $this->session->set_flashdata('msg', 'The user was successfully created');
-            redirect('users');
-        }
+                // echo json_encode($data_in);
     }
+
+
 }
