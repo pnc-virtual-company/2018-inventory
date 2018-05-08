@@ -1,26 +1,20 @@
-# Skeleton application
+# Inventory application
 
-The Skeleton application is designed for the WEP Students of Passerelles numériques in Cambodia.
-It contains some useful frontend and backend libraries:
+The Inventory application is designed for the Admin and Finance Team of Passerelles numériques in Cambodia.
+It contains some useful features to make it easy to manage inventories of PNC:
 
- * CodeIgniter 3
- * PHPSpreadsheet (import/export Excel)
- * DOMPDF (create a PDF document)
- * picqer/php-barcode-generator Barcode generator
- * guzzlehttp/guzzle to call 3rd party API from PHP
- * sabre/vobject manipulate iCalendar objects (for an ICS feed)
+ * Show the list of asset and also can create edit and delet any asset from this system
+ * Has advance filter the list of asset 
+ * Has report asset of each department by Bar chart
+ * Has report asset of each condition by Pie chart
+ * Process of select data is very fast by use the ajax, json
+ * Can list, create, edit,and delete data category of items.
+ * Can list, create, edit,and delete data material of items.
+ * Can list, create, edit,and delete data department of items.
+ * Can list, create, edit,and delete data location of items.
 
- A lot of examples are provided for various frontend widgets:
 
- * Datatable
- * Calendar
- * Datepicker
- * Material design icons
- * Rich text editors
- * Treeview
- * etc.
-
-The Skeleton application is a starter kit for any CodeIgniter 3 projects.
+The Inventory application is a starter kit for any CodeIgniter 3 projects.
 It contains a login page, session and user management.
 
 ## PHP requirements
@@ -48,10 +42,4 @@ This behaviour can be changed by editing the databases options along with the na
 
 The default user is *admin* and its password is *password*.
 
-/!\ IMPORTANT: Please change the name of the session cookie by opening `application/config/config.php` and change the value of  `sess_cookie_name` with the name of your application. For example:
-
-    $config['sess_cookie_name'] = 'ci_session';
-
-Would become:
-
-    $config['sess_cookie_name'] = 'my_application_session';
+/!\ IMPORTANT: Please insert the script database in your server that we have in sql directory.
