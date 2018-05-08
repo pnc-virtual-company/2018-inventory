@@ -131,7 +131,7 @@
            t.row.add( [
              '<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil"></i></a>'+
              '<a href="#" class="item-delete" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete"></i></a>'+data[i].idbrand,
-             data[i].brand,'<a href="#" title=""><i class="mdi mdi-format-list-bulleted"></i> </a>'+ data[i].ModelCount+
+             data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted"></i> </a>'+ data[i].ModelCount+
              ' model (s)'
 
              // '<a  title="List models"><i class="mdi mdi-format-list-bulleted"></i>'+ 3 model(s)+'</a>'

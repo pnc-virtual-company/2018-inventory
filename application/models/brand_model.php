@@ -11,10 +11,11 @@
 
 	    // show all data in brand
 	    public function showAllBrand(){
-	    $this->db->select('idbrand, brand, count("skeleton_model.idmodel") AS "ModelCount" ');
+	    $this->db->select('idbrand, brand, count(skeleton_model.idmodel) AS "ModelCount" ');
+	    $this->db->from('brand');
 	    $this->db->join('model','model.brandid = brand.idbrand', 'left');
 	     $this->db->group_by('skeleton_brand.brand');
-	     $query = $this->db->get('brand');
+	     $query = $this->db->get();
 
 	      if($query->num_rows() > 0){
 	       return $query->result();

@@ -1,155 +1,260 @@
-<div class="container">
-  <h2><?php echo $title; ?></h2>
-</div>
-<br>
-<br>
-<div class="container">
-  <div class="row-fluid">
-   <div class="col-md-12 col-sm-4">
-     <table id="location" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+<?php
+   /**
+    * This view displays the list of users.
+    * @copyright  Copyright (c) 2014-2018 Benjamin BALET
+    * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
+    * @link       https://github.com/bbalet/skeleton
+    * @since      1.0.0
+    */
+   ?>
+   <div id="container" class="container">
+    <div class="row-fluid">
+     <!-- <div class="col-2"></div> -->
+     <div class="col-12">
+      <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title;?>)</span> </h2> 
+      <div class="alert alert-success" style="display: none;"> </div>
+      <table id="models" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
        <thead>
-         <tr>
-           <th class="text-right">Model ID</th>
-           <th>Model Name</th>
-         </tr>
-       </thead>
-       <tbody>
-         <?php foreach ($users as $user):?>
-          <tr>
-            <td data-order="<?php echo $user['id']; ?>" data-id="<?php echo $user['id'];?>"  class="text-right">
-              <a href="#" class="Edit-model" data-toggle="modal"
-              data-target="#myModalEdit" title="Edit model"><i class="mdi mdi-pencil"></i></a>
-              <a href="#" class="confirm-delete" data-toggle="modal"
-              data-target="#myModaldelete" title="Delete model"><i class="mdi mdi-delete"></i></a>
-              <?php echo $user['id'] ?>&nbsp;
-            </td>
-            <td>Laptop models 3</td>
-          </tr>
-        <?php endforeach ?>
-      </tbody>
-    </table>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            <i class="mdi mdi-plus-circle"></i>&nbsp;Create model
-          </button>
-        </div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4 text-right">
-          <button type="button" class="btn btn-danger">
-            <a class="text-white" href="<?php echo base_url() ?>brand"><i class="mdi mdi-arrow-left-thick"></i>&nbsp;Back to brands</a>
-          </button>
-        </div>
-      </div> 
-    </div> 
-  </div>
-</div>
-<br>
-</div>
-<!-- Modal Create new model-->
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Create new model</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-md-2">
-              <label class="control-label text-center" for="location">Model</label>
-            </div>
-            <div class="col-md-10 ">
-              <div class="input-group">
-               <input type="text" name="location" id="location" required />
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    </div>
-  </div>
-</div>
-</div>
-<!-- Modal delete model-->
-<div class="modal fade" id="myModaldelete" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
+        <tr>
+         <th>ID</th>
+         <th>Models</th>
+       </tr>
+     </thead>
+     <tbody id="model_row">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Confirm Model</h4>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure that you want to delete this Model?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
+     </tbody>
+   </table>
+ </div>
+</div>
+<div class="row-fluid">
+ <div class="col-12">&nbsp;</div>
+</div>
+<!-- button create new department -->
+<div class="container">
+ <div class="row-fluid">
+  <div class="col-12">
+   <button type="button" class="btn btn-primary" id="create_model">
+     <i class="mdi mdi-plus-circle"></i>&nbsp;Create model
+   </button>
+   <button type="button" class="btn btn-info float-right" id="create_model"   onclick="window.history.back();">
+     <i class="mdi mdi-arrow-left" ></i>&nbsp;Back to brand
+   </button>
+ </div>
+</div>
+</div>
+<!-- create -->
+<div id="frmConfirmCreate" class="modal hide fade" tabindex="-1" role="dialog">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+   <div class="modal-header">
+    <h5 class="modal-title">Create Model</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
+  <div class="modal-body">
+    <form action="" id="frm-create">
+     <div class="form-inline">
+      <label for="">Model: </label> &nbsp;<input type="text" name="model" class="form-control">
+      <input type="hidden" value="<?php  echo $idbrand; ?>" name="brandid">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <a href="#" class="btn btn-primary" id="saveModel">OK</a>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 </div>
 </div>
-
-<!-- Modal Edit model -->
-<div class="modal fade" id="myModalEdit" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Edit Model</h4>
-      </div>
-      <div class="modal-body">
-       <div class="form-group">
-        <div class="row">
-          <div class="col-md-2">
-            <label class="control-label text-center" for="location">model</label>
-          </div>
-          <div class="col-md-10 ">
-            <div class="input-group input-control">
-             <input type="text" name="location" id="location" required />
-           </div>
+</div>
+</div>
+<!-- delete  -->
+<div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
          </div>
-       </div>
-     </div>
+         <div class="modal-body">
+            <p>Are you sure that you want to delete this model?</p>
+         </div>
+         <div class="modal-footer">
+            <a class="btn btn-primary" data-dismiss="modal" id="delete-comfirm" >Yes</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+         </div>
+      </div>
    </div>
-   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-  </div>
-</div>
-</div>
-</div>
-<!-- javaScript -->
-<link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+ </div>
+ <!-- edit -->
+<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Edit model</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+        <form id="frm_edit" >
+          
+           
+          <!-- </div> -->
+        </form>
+         <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" id="update">OK</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+ </div>
+ <!-- link bootstrap4 and javaScipt -->
+ <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+ <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+ <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+ <script>
+   $(document).ready(function() {
+    var t = $('#models').DataTable();
+    showAllModels();
+   // showAllBrand function get brand data to table 
+   function showAllModels()
+   {
+     $.ajax({
+       type: 'ajax',
+       url: '<?php echo base_url();?>models/showAllModelsByBrandId/<?php echo  $idbrand ?>',
+       async: true,
+       dataType: 'json',
+       success: function(data){
+        t.clear().draw();
+        var i;
+        for(i=0; i<data.length; i++){
+         t.row.add( [
+           '<a href="#" class="item-edit" dataid="'+data[i].idmodel+'"><i class="mdi mdi-pencil"></i></a>'+
+           '<a href="#" class="item-delete" dataid="'+data[i].idmodel+'"><i class="mdi mdi-delete"></i></a>'+data[i].idmodel,
+           data[i].model
+           ] ).draw( false );
+       }
+     },
+     error: function(){
+       alert('Could not get Data from Database');
+     }
+   });
+   }
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    //Transform the HTML table in a fancy datatable
-    $('#location').dataTable({
-      stateSave: true,
-    });
-    $("#users tbody").on('click', '.confirm-delete',  function(){
-      var id = $(this).parent().data('id');
-      var link = "<?php echo base_url();?>location/delete/" + id;
-      $("#lnkDeleteUser").attr('href', link);
-      $('#frmConfirmDelete').modal('show');
-    });
+       // create
+       $("#create_model").click( function(){
+         $('#frmConfirmCreate').modal('show');
+       });
+         // create model by using ajax
+         $('#saveModel').on('click', function(){
+          var model = $('input[name=model]');
+          var result = '';
+          if(model.val()==''){
+            model.parent().parent().addClass('has-error');
+          }else{
+            model.parent().parent().removeClass('has-error');
+            result +='1';
+          }
+          if(result=='1'){
+           $.ajax({
+             url: "<?php echo base_url() ?>models/create_model",
+             type: "POST",
+             data: $('#frm-create').serialize(),
+             dataType: 'json',
+             success: function(data){
+               if(data.status){
+                $('#frm-create')[0].reset();
+                $('#frmConfirmCreate').modal('hide');
+                $('.alert-success').html('Model create  successfully').fadeIn().delay(4000).fadeOut('slow');
+                showAllModels();
+              }
+            },
+            error: function(){
+             alert('Error can not create...');
+           }
+         });
+         }
+       });
 
-    $("#users tbody").on('click', '.reset-password',  function(){
-      var id = $(this).parent().data('id');
-      var link = "<?php echo base_url();?>users/reset/" + id;
-      $("#formResetPwd").prop("action", link);
-      $('#frmResetPwd').modal('show');
-    });
-  });
-</script>
+        // delete model by ajax
+         $('#model_row').on('click', '.item-delete', function(){
+           var id = $(this).attr('dataid');
+           $('#frmConfirmDelete').data('id', id).modal('show');
+         });
+         // comfirm delete button
+         $("#delete-comfirm").on('click',function(){
+           var id = $('#frmConfirmDelete').data('id');     
+           $.ajax({
+               url: "<?php echo base_url() ?>models/deleteModel",
+               type: "POST",
+               data: {idmodel: id},
+               dataType: "json",
+               success: function(data){
+                 // alert('Owner deleted successfully....');
+                 $('#frmConfirmDelete').modal('hide');
+                 $('.alert-success').html('Model delete  successfully').fadeIn().delay(4000).fadeOut('slow');
+                 showAllModels();
+             },
+             error: function(){
+               alert("Error delete!! this model have relationship with another field...");
+             }
+           });
+         });
 
+       //   // update model modal pop up by ajax
+         $('#model_row').on('click', '.item-edit', function(){
+           var id = $(this).attr('dataid');
+           $.ajax({
+             type: 'POST',
+             data: {idmodel: id},
+             url: '<?php echo base_url();?>/models/showEditModel/<?php echo $idbrand; ?>',
+             async: true,
+             dataType: 'json',
+             success: function(data){
+               $('#frm_edit').html(data);
+               $('#frmConfirmEdit').modal('show');
+             },
+             error: function(){
+               alert('Could not get any data from Database');
+             }
+           });
+         });
+         // save update button 
+         $("#update").click(function(){
+          var id = $('#frmConfirmEdit').data('id');
+          var model = $('input[name=update_model]');
+
+          var result = '';
+          if(model.val()==''){
+            model.parent().parent().addClass('has-error');
+          }else{
+            model.parent().parent().removeClass('has-error');
+            result +='1';
+          }
+          if(result=='1'){
+            // alert('the bes');
+               $.ajax({
+                 url: "<?php echo base_url();?>models/update",
+                 type: "POST",
+                 data: $('#frm_edit').serialize(),
+                 dataType: 'json',
+                 success: function(data){
+                   if(data.status){
+                     $('#frm_edit')[0].reset();
+                     $('#frmConfirmEdit').modal('hide');
+                     $('.alert-success').html('Model update  successfully').fadeIn().delay(4000).fadeOut('slow');
+                     showAllModels();
+                   }
+                 },
+                 error: function(){
+                   alert("Error edit this model have relationship with another field...");
+                     $('#frmConfirmEdit').modal('hide');
+                 }
+               });
+           }
+         });
+
+     });
+
+   </script>
