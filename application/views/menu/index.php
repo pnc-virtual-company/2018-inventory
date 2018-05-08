@@ -37,8 +37,9 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 		<!-- <div class="navbar-collapse collapse navbar-right"> -->
 			<!--   <ul class="navbar-nav ml-auto"> -->
 				<li class="nav-item">
+					<?php echo $this->session->fullname;?>
 					<a class="nav-link" href="<?php echo base_url();?>connection/logout">
-						<?php echo $this->session->fullname;?> <i class="mdi mdi-power"></i>
+						 <i class="mdi mdi-power"></i>
 					</a>
 				</li>
 			</ul>
