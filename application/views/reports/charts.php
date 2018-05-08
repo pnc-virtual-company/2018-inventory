@@ -153,8 +153,6 @@ function piechart(){
     options: {
       legend: {
        position: 'right'
-           // left: '20px'
-
          },
          title: {
           display: true,
@@ -193,10 +191,10 @@ $.ajax({
                           "#3cba9f",
                           "#3e95cd", 
                           "#e8c3b9",
-                          "#e8c3b9",
+                          "#e8c3a9",
                           "#e8c2b9",
                           "#3caa9f",
-                          "#a8c3b9",
+                          "#a8c3d9",
                           "#00897b",
                           "#43a047",
                         ],

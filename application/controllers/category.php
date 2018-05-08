@@ -6,9 +6,9 @@
  * @link       https://github.com/bbalet/skeleton
  * @since      0.1.0
  */
-
+ 
 if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
-
+ 
 /**
  * This controller serves the user management pages and tools.
  * The difference with HR Controller is that operations are technical (CRUD, etc.).
@@ -33,7 +33,8 @@ class category extends CI_Controller {
      } else {
        redirect('connection/login');
      }
-     $this->load->model('category_model');
+
+     $this->load->model('category_model','category_model',TRUE);
    }
 
     /**
@@ -42,8 +43,6 @@ class category extends CI_Controller {
      */
     public function index() {
       $this->load->helper('form');
-      $data['cate'] = $this->category_model->getCateInfo();
-        // var_dump($data['cate']); die();
       $data['title'] = 'List of categories';
       $data['activeLink'] = 'others';
       $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -54,99 +53,66 @@ class category extends CI_Controller {
     }
 
 
-    /**
-     * Display a for that allows updating a given user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function edit($id) {
-      // $this->load->helper('form');
-      // $this->load->library('form_validation');
-      // $data['title'] = 'Edit a user';
-      // $data['activeLink'] = 'users';
-
-
-
-      $data['users_item'] = $this->users_model->getCate($id);
-      if (empty($data['users_item'])) {
-        redirect('notfound');
+    // SELECT CATEGORY 
+      public function showAllCategory()
+      {       
+           $result = $this->category_model->getAllCate();        
+           echo json_encode($result);    
       }
 
-    }
+      // Create category controller
 
-    /**
-     * Delete a category.
-     * @param int $id category identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function delete($id) {
-        //Test if user exists
-      $data['cate_item'] = $this->category_model->getCate($id);
-      if (empty($data['cate_item'])) {
-        redirect('notfound');
-      } else {
-        $this->category_model->deleteCate($id);
+      public function create(){
+          // $data_in['owner_id'] ='';
+          $data_in['category'] =$this->input->post('createCategory');
+          $category = $this->category_model->create_category($data_in);
+          if ($category)
+              echo json_encode(array('status'=>true));
+          else    
+              echo json_encode(array('status'=>false));        
       }
-      log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('idcategory'));
-      $this->session->set_flashdata('msg', 'The category was successfully deleted');
-      redirect('category');
-    }
 
+      //  show edit update 
+        public function showEditCategory(){
+            $form = '';
+            $idcategory=  $this->input->post('idcategory'); 
+            $result = $this->category_model->showEditCategory($idcategory);
+            if ($result>0) {
+                foreach ($result as $category) {
+                    $form .='<div class="form-inline">';
+                    $form .='<label for="">Category: </label> &nbsp;<input type="text" class="form-control" name="update_category" value="'.$category->category.'"> <input type="hidden" value="'.$category->idcategory.'" name="id">';
+                    $form .='</div>';
+                }
+            }
+            echo json_encode($form);
+        }
 
-    /**
-     * Display the form / action Create a new category
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function create() {
+      // Edit category items 
+      
+      public function update(){
+          $idcategory=  $this->input->post('id');
+          $category = $this->input->post('update_category');
 
-      // $data['title'] = 'Create a category';
-      // $data['activeLink'] = 'others';
-      // $data['roles'] = $this->users_model->getRoles();
-
-      // $insert = $this->category_model->insertCate();
-      // if ($insert) {
-        // $this->load->view('category');
-        // redirect('category');
-      //   // echo "successfully";
-      // }else{
-      //   redirect('category');
-        // echo "not successfully";
-      // }
-
-      $data_in['createCategory'] = $this->input->post('createCategory');
-
-      // $this->load->view('category',$data_in);
-      echo json_encode($data_in);
-
-    }
-
-    /**
-     * Form validation callback : prevent from login duplication
-     * @param string $login Login
-     * @return boolean TRUE if the field is valid, FALSE otherwise
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function checkLogin($login) {
-      if (!$this->users_model->isLoginAvailable($login)) {
-        $this->form_validation->set_message('checkLogin', lang('users_create_checkLogin'));
-        return FALSE;
-      } else {
-        return TRUE;
+            $categoryUpdate = $this->category_model->updateCategory($idcategory, $category);
+            if ($categoryUpdate)
+                echo json_encode(array('status'=>true));
+            else    
+                echo json_encode(array('status'=>false));
+          
+                
       }
-    }
 
-    /**
-     * Ajax endpoint : check login duplication
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function checkLoginByAjax() {
-      $this->output->set_content_type('text/plain');
-      if ($this->users_model->isLoginAvailable($this->input->post('login'))) {
-        $this->output->set_output('true');
-      } else {
-        $this->output->set_output('false');
+// controller Delete category
+
+      public function deleteCategory(){
+          $idcategory=  $this->input->post('idcategory');
+          $remove_category = $this->category_model->deleteCategory($idcategory);
+          if ($remove_category) {
+              echo "1";
+          }else{
+              echo "0";
+          }
       }
-    }
 
     
   }

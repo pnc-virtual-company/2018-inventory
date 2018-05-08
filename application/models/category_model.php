@@ -16,38 +16,23 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 class category_model extends CI_Model {
 
     /**
+
+     *     
      * Default constructor
      */
     public function __construct() {
-
+        parent ::__construct();
     }
-
-    /**
-     * Get the list of users or one user
-     * @param int $id optional id of one user
-     * @return array record of users
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function getCate($id = 0) {
-        $this->db->select('category.*');
-        if ($id === 0) { 
-            $query = $this->db->get('category');
-            return $query->result_array();
-        }
-        $query = $this->db->get_where('category', array('category.idcategory' => $id));
-        return $query->row_array();
-    }
-
-    /**
-     * Get the list of users and their roles
-     * @return array record of users
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function getCateInfo() {
-        $this->db->select('category.idcategory, category.category');
-        
-        $query = $this->db->get('category');
-        return $query->result();
+    // Model select category
+    public function getAllCate()
+    {  
+        $query = $this->db->get('category');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
     }
 
  
@@ -67,41 +52,42 @@ class category_model extends CI_Model {
      * @return string deciphered password (so as to send it by e-mail in clear)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function insertCate() {
-      
-        // $catego.ry = $this->input->post('createCategory');
 
-        $data = array(
-            'category' => $this->input->post('createCategory'),
-        
-        );
-        $category = $this->db->insert('category', $data);
-        if ($this->db->affected_rows()>0) {
-            return true;
-        }else{
-            return false;
-        }
+    public function create_category($data)
+    {
+        $this->db->insert('category', $data);
+        return $insert_id = $this->db->insert_id();
     }
 
-
     /**
-     * Update a given user in the database. Update data are coming from an HTML form
+     * Update a given category in the database. Update data are coming from an HTML form
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function updatecate() {
-            $data = array(
-            'category' => $this->input->post('createCategory'),
-            
-        );
-        $this->db->where('idcategory', $this->input->post('id'));
-        $this->db->update('category', $data);
-        if ($this->db->affected_rows()>0) {
-            return true;
+   public function showEditCategory($id){
+        $this->db->where('idcategory', $id);
+        $query = $this->db->get('category');
+        if($query->num_rows() > 0){
+            return $query->result();
         }else{
             return false;
         }
-    }
+       }
 
+       public function updateCategory($idcategory, $category)
+       {
+        $data = array(
+            'idcategory' => $idcategory,
+            'category'  => $category
+        );
+        $this->db->where('idcategory',$idcategory);
+        return $this->db->replace('category', $data);
+        
+       }
     
+    //delete category 
+    function deleteCategory($id){
+        $this->db->where('idcategory', $id);
+        $this->db->delete('category');
+    } 
 }
