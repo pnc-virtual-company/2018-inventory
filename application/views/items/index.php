@@ -13,14 +13,14 @@
       <div class="table-responsive">
         <h2><?php echo $title;?></h2>
         <div class="alert alert-success" style="display: none;"></div>
-        <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+        <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered display" width="100%">
           <thead>
             <tr>
               <th>Identifier</th>
               <th>Name</th>
               <th>Category</th>
               <th>Material</th>
-              <th>Condiction</th>
+              <th>Condition</th>
               <th>Department</th>
               <th>Location</th>
               <th>User</th>
@@ -67,15 +67,35 @@
 
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.4.1/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
+
+
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/colreorder/1.4.1/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     var t = $('#items').DataTable({
-      colReorder: true
+      colReorder: true,
+      "dom":"Bfrtip",
+      'ajax':{
+        'type': 'GET',
+        'url':'<?php echo base_url();?>items/showAllitems',
+        'dataType':'json'
+      },
+      "buttons":[
+      {
+        extend:'colvis',
+        className: 'buttons-primary'
+      }
+      ]
     });
+    // $('#items').DataTable( {
+    // } );
     showAllitems();
 // showAllitems function get items data to table 
 function showAllitems()
@@ -92,7 +112,7 @@ function showAllitems()
       for(i=0; i<data.length; i++){
         t.row.add( [
           '<a href="#" class="item-edit" dataid="'+data[i].iditem+'"><i class="mdi mdi-pencil"></i></a>'+
-          '<a href="#" class="item-delete" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a>'+data[i].itemcodeid,
+          '<a href="#" class="item-delete" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a>'+data[i].iditem,
           data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner
           ] ).draw( false );
         n++;
