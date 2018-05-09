@@ -35,7 +35,7 @@ class Users extends CI_Controller {
  }
  $this->load->model('users_model');
 }
-
+ 
     /**
      * Display the list of all users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
