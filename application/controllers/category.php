@@ -33,6 +33,7 @@ class category extends CI_Controller {
      } else {
        redirect('connection/login');
      }
+
      $this->load->model('category_model','category_model',TRUE);
    }
 
@@ -42,7 +43,6 @@ class category extends CI_Controller {
      */
     public function index() {
       $this->load->helper('form');
-      
       $data['title'] = 'List of categories';
       $data['activeLink'] = 'others';
       $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
@@ -113,5 +113,6 @@ class category extends CI_Controller {
               echo "0";
           }
       }
+
     
   }

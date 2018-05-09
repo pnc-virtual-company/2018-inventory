@@ -72,17 +72,13 @@ class reports_model extends CI_Model {
 
         }
 
- 
-
     public function getItemByDepartment() {
         $this->db->select('department.department, COUNT(skeleton_item.iditem) AS itemcount');
-        $this->db->join('item', 'department.iddepartment=item.departmentid');
+        $this->db->join('item', 'department.iddepartment=item.departmentid','left');
+
         $this->db->group_by(array("department.iddepartment"));
         // $this->db->where('COUNT(skeleton_item.iditem) >', '0');
         $query = $this->db->get('department');
         return $query->result();
     }
-
-
-    
 }

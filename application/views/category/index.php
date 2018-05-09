@@ -16,11 +16,9 @@
       <h2><?php echo $title;?></h2>
 
       <?php echo $flashPartialView;?>
-
       <div class="alert alert-success" style="display: none;">
 
       </div>
-
       <table id="category" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
         <thead>
           <tr>
@@ -117,15 +115,12 @@
   <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-  
-
   <script type="text/javascript">
     $(function() {
 
       // $('[data-toggle="tooltip"]').tooltip();
       var c = $('#category').DataTable();
       showAllCat();
-
       function showAllCat()
       {
         $.ajax({
@@ -152,16 +147,10 @@
           }
         });
       }
-
-        // Create Category
-
         // create_owner with ajax
         $("#add_category").click(function(){
           $('#frmConfirmAdd').modal('show');
         });
-
-
-
         // save new category button even
         $("#btn-create").click(function(){
           // validate form
@@ -248,14 +237,11 @@
    }
  });
 
-
     // delete category by ajax
     $('#displayCat').on('click', '.item-delete', function(){
       var id = $(this).attr('dataid');
       $('#frmConfirmDelete').data('id', id).modal('show');
     });
-
-
       // comfirm delete button
       $("#delete-comfirm").on('click',function(){
         var id = $('#frmConfirmDelete').data('id');
@@ -265,7 +251,6 @@
           data: {idcategory: id},
           dataType: "json",
           success: function(data){
-
             $('#frmConfirmDelete').modal('hide');
             $('.alert-success').html('Category delete successfully').fadeIn().delay(4000).fadeOut('slow');
             showAllCat();
