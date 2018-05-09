@@ -86,18 +86,6 @@
         'url':'<?php echo base_url();?>items/showAllitems',
         'dataType':'json'
       },
-      'columns':[
-      {"data":"iditem"},
-      {"data":"item"},
-      {"data":"cat"},
-      {"data":"mat"},
-      {"data":"condition"},
-      {"data":"depat"},
-      {"data":"locat"},
-      {"data":"nameuser"},
-      {"data":"owner"},
-
-      ],
       "dom":"Bfrtip",
       "buttons":[
       {
