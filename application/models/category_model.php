@@ -16,6 +16,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 class category_model extends CI_Model {
 
     /**
+
      *     
      * Default constructor
      */
@@ -34,7 +35,6 @@ class category_model extends CI_Model {
         } 
     }
 
-
  
 
     /**
@@ -52,6 +52,7 @@ class category_model extends CI_Model {
      * @return string deciphered password (so as to send it by e-mail in clear)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
+
     public function create_category($data)
     {
         $this->db->insert('category', $data);
