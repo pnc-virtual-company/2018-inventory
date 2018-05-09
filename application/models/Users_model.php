@@ -216,7 +216,7 @@ class Users_model extends CI_Model {
             'id' => $row->id,
             'firstname' => $row->firstname,
             'lastname' => $row->lastname,
-            'fullname' => $row->firstname . ' ' . $row->lastname,
+            'fullname' => $row->firstname,
             'isAdmin' => $isAdmin,
             'isSuperAdmin' => $isSuperAdmin,
             'loggedIn' => TRUE
@@ -284,7 +284,7 @@ class Users_model extends CI_Model {
             return FALSE;
         }
     }
-
+ 
     /**
      * Try to return the user information from the login field
      * @param string $login Login

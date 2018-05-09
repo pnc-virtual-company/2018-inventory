@@ -28,21 +28,33 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 					<a class="dropdown-item" href="<?php echo base_url();?>brand">Brands</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>reports">Reports</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>users">Admin</a>
+					<?php $validateUser = $this->session->fullname;
+						if ($validateUser == 'Admin') {
+					?>
+					
+						<a class="dropdown-item" href="<?php echo base_url();?>reports">Reports</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>users">Admin</a>
+					<?php 
+						}
+					?>
 				</li>
 			</li>
-		</div>
+		</div> 
 		<?php if($this->session->loggedIn === TRUE) { ?>
 		<!-- <div class="navbar-collapse collapse navbar-right"> -->
 			<!--   <ul class="navbar-nav ml-auto"> -->
-				<li class="nav-item">
-					<a class="nav-link" href="<?php echo base_url();?>connection/logout">
-						<?php echo $this->session->fullname;?> <i class="mdi mdi-power"></i>
+				<li class="nav-item">	
+					<a class="nav-link text-success" href="#" style="cursor: context-menu;">
+					<?php echo $this->session->fullname;?>
+					</a>
+				</li>
+				<li class="nav-item">	
+					<a class="nav-link text-success" href="<?php echo base_url();?>connection/logout">
+						<i class="mdi mdi-power"></i>
 					</a>
 				</li>
 			</ul>
 		</div>
-		<?php } ?>
+		<?php } ?> 
 	</nav>
 <br>
