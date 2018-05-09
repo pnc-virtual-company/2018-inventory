@@ -38,7 +38,7 @@ class items extends CI_Controller {
     public function index() {
         $this->load->helper('form');
         $data['title'] = 'List of Items';
-        $data['activeLink'] = 'others';
+        $data['activeLink'] = 'items';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
