@@ -20,7 +20,7 @@
               <th>Name</th>
               <th>Category</th>
               <th>Material</th>
-              <th>Condition</th>
+              <th>Condiction</th>
               <th>Department</th>
               <th>Location</th>
               <th>User</th>
@@ -81,16 +81,28 @@
   $(document).ready(function(){
     var t = $('#items').DataTable({
       colReorder: true,
-      "dom":"Bfrtip",
       'ajax':{
         'type': 'GET',
         'url':'<?php echo base_url();?>items/showAllitems',
         'dataType':'json'
       },
+      'columns':[
+      {"data":"iditem"},
+      {"data":"item"},
+      {"data":"cat"},
+      {"data":"mat"},
+      {"data":"condition"},
+      {"data":"depat"},
+      {"data":"locat"},
+      {"data":"nameuser"},
+      {"data":"owner"},
+
+      ],
+      "dom":"Bfrtip",
       "buttons":[
       {
         extend:'colvis',
-        className: 'buttons-primary'
+        // className: 'buttons-primary'
       }
       ]
     });
