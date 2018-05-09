@@ -21,7 +21,7 @@ class items_model extends CI_Model {
     public function showAllItems(){
         // $query = $this->db->get('material');
 
-        $this->db->select('CONV(skeleton_item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition, material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner"');
+        $this->db->select('CONV(skeleton_item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner"');
         $this->db->join('category', 'category.idcategory = item.categoryid');    
         $this->db->join('material', 'material.idmaterial = item.materialid');    
         $this->db->join('department', 'department.iddepartment = item.departmentid');    
