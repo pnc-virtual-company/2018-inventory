@@ -7,8 +7,8 @@
     <div class="col4 col-sm-12 col-lg-4 col-xs-12">
       <table class="table table-bordered bg-light">
         <tr class="bg-info text-white">
-          <th>Condition</th>
-          <th>Nb of items</th>
+          <th>Conditions</th>
+          <th>Number of items</th>
         </tr>
         <tr>
           <td>New</td>
@@ -71,8 +71,8 @@
       <table class="table table-bordered bg-light">
         <thead>
           <tr class="bg-info text-white">
-            <th>Department</th>
-            <th>Nb of items</th>
+            <th>Departments</th>
+            <th>Number of items</th>
           </tr>
         </thead>
         <tbody id="showdata">
@@ -153,13 +153,13 @@ function piechart(){
     options: {
       legend: {
        position: 'right'
-         },
-         title: {
-          display: true,
-          text: 'Nb of items by condition'
-        }
-      }
-    });
+     },
+     title: {
+      display: true,
+      text: 'Number of items by condition'
+    }
+  }
+});
 }
 // Bar chart
 function barchart(){
@@ -182,22 +182,22 @@ $.ajax({
       data: depCount,
       labels: dep,
       datasets: [{
-        label: "Nb of items by department",
+        label: "Number of items by department",
         backgroundColor: [
-                          "#546e7a",
-                          "#9e9d24",
-                          "#e65100",
-                          "#8e5ea2",
-                          "#3cba9f",
-                          "#3e95cd", 
-                          "#e8c3b9",
-                          "#e8c3a9",
-                          "#e8c2b9",
-                          "#3caa9f",
-                          "#a8c3d9",
-                          "#00897b",
-                          "#43a047",
-                        ],
+        "#546e7a",
+        "#9e9d24",
+        "#e65100",
+        "#8e5ea2",
+        "#3cba9f",
+        "#3e95cd", 
+        "#e8c3b9",
+        "#e8c3a9",
+        "#e8c2b9",
+        "#3caa9f",
+        "#a8c3d9",
+        "#00897b",
+        "#43a047",
+        ],
         data: depCount
       }] 
     };
