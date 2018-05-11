@@ -20,7 +20,7 @@
               <th>Name</th>
               <th>Category</th>
               <th>Material</th>
-              <th>Condiction</th>
+              <th>Condition</th>
               <th>Department</th>
               <th>Location</th>
               <th>User</th>

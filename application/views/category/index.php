@@ -34,6 +34,10 @@
   </div>
   <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
   <!-- create new department -->
+  <!-- Modal create -->
+  <?php $validateUser = $this->session->fullname;
+    if ($validateUser == 'Admin') {
+  ?>
   <div class="container">
     <div class="row-fluid">
       <div class="col-12">
@@ -43,7 +47,10 @@
       </div>
     </div>
   </div>
-  <!-- Modal create -->
+  <?php 
+      }
+   ?>
+  
   <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -111,6 +118,7 @@
       </div>
     </div>
   </div>
+
   <!-- link bootstrap4 and javaScipt -->
   <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
@@ -133,14 +141,22 @@
             c.clear().draw();
             var i;
             var n = 1;
+
             for(i=0; i<data.length; i++){
               c.row.add ( [
+                <?php $validateUser = $this->session->fullname;
+                  if ($validateUser == 'Admin') {
+                ?>
                 '<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil"></i></a>'+
-                '<a href="#" class="item-delete" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete"></i></a>'+n,
+                '<a href="#" class="item-delete" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete"></i></a>'
+                <?php } ?>
+                +n,
+
                 data[i].category
                 ] ).draw( false );
               n++;    
             }
+
           },
           error: function(){
             alert('Could not get Data from Database');
