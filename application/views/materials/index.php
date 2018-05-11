@@ -19,7 +19,7 @@
       <table id="material" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
         <thead>
           <tr>
-            <th class="text-right">ID</th>
+            <th>ID</th>
             <th>Materials</th>
           </tr>
         </thead>
@@ -32,88 +32,91 @@
   </div>
   <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
   <!-- create new material -->
-  <div class="container">
-    <div class="row-fluid">
-      <div class="col-12">
-       <button type="button" class="btn btn-primary add-material" id="add-material">
-         <i class="mdi mdi-plus-circle"></i>&nbsp;Create material
-       </button>
+  <?php $validateUser = $this->session->fullname;
+  if ($validateUser == 'Admin') {
+    ?>
+    <div class="container">
+      <div class="row-fluid">
+        <div class="col-12">
+         <button type="button" class="btn btn-primary add-material" id="add-material">
+           <i class="mdi mdi-plus-circle"></i>&nbsp;Create material
+         </button>
+       </div>
      </div>
    </div>
- </div>
-
- <!-- create -->
- <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Create material</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+   <?php } ?>
+   <!-- create -->
+   <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create material</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="frm_create">
+            <div class="form-inline">
+              <label for="">material: </label> &nbsp;<input type="text" class="form-control" name="create_material">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary create" id="create">OK</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <form id="frm_create">
-          <div class="form-inline">
-            <label for="">material: </label> &nbsp;<input type="text" class="form-control" name="create_material">
-          </div>
+    </div>
+  </div>
+  <!-- delete -->
+  <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure that you want to delete this material?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- edit -->
+  <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit material</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="frm_edit">
+
         </form>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary create" id="create">OK</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- delete -->
-<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure that you want to delete this material?</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary " id="update">OK</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- edit -->
-<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit material</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="frm_edit">
+  <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
-      </form>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary " id="update">OK</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-<link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    var t = $('#material').DataTable();
-    showAllMaterial();
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var t = $('#material').DataTable();
+      showAllMaterial();
 
 // showAllMaterial function get material data to table 
 function showAllMaterial()
@@ -129,10 +132,15 @@ function showAllMaterial()
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
-          '<a href="#" class="item-edit" dataid="'+data[i].idmaterial+'"><i class="mdi mdi-pencil"></i></a>'+
-          '<a href="#" class="item-delete" dataid="'+data[i].idmaterial+'"><i class="mdi mdi-delete"></i></a>'+n,
-          data[i].material
-          ] ).draw( false );
+          <?php $validateUser = $this->session->fullname;
+          if ($validateUser == 'Admin') {
+            ?>
+            '<a href="#" class="item-edit" dataid="'+data[i].idmaterial+'"><i class="mdi mdi-pencil"></i></a>'+
+            '<a href="#" class="item-delete" dataid="'+data[i].idmaterial+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>
+            +n,
+            data[i].material
+            ] ).draw( false );
         n++;
       }
     },
