@@ -7,7 +7,7 @@
     <div class="col4 col-sm-12 col-lg-4 col-xs-12">
       <table class="table table-bordered bg-light">
         <tr class="bg-info text-white">
-          <th>Conditions</th>
+          <th>Condition</th>
           <th>Number of items</th>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
       <table class="table table-bordered bg-light">
         <thead>
           <tr class="bg-info text-white">
-            <th>Departments</th>
+            <th>Department</th>
             <th>Number of items</th>
           </tr>
         </thead>
@@ -136,7 +136,7 @@ function piechart(){
       labels: [ 
       "New", 
       "Fiar", 
-      "Dammaged",
+      "Damaged",
       "Broken",
       ],
       datasets: [{

@@ -2,9 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 <style>
-	.nav-item{
-		cursor: pointer;
-	}
+.nav-item{
+	cursor: pointer;
+}
 </style>
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
 
@@ -15,9 +15,14 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 </button>
 <div class="collapse navbar-collapse menu navbar-right" id="navbarsExampleDefault">
 	<ul class="navbar-nav ml-auto ">
+		<li class="nav-item">	
+					<a class="nav-link text-primary" href="<?php echo base_url();?>items/create">
+						<i class="mdi mdi-plus-circle "></i>
+					</a>
+		</li>   
 		<li class="nav-item <?php echo ($activeLink=='items'?'active':'');?>">
 			<a class="nav-link" href="<?php echo base_url();?>items">Items</a>
-		</li>     
+		</li> 
 		<div class="nav-link navbar dropdown <?php echo ($activeLink=='others'?'active':'');?> ">
 			<li class="nav-item dropdown-toggle " data-toggle="dropdown">
 				Settings  
@@ -29,13 +34,13 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 					<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
 					<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
 					<?php $validateUser = $this->session->fullname;
-						if ($validateUser == 'Admin') {
-					?>
-					
+					if ($validateUser == 'Admin') {
+						?>
+
 						<a class="dropdown-item" href="<?php echo base_url();?>reports">Reports</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>users">Admin</a>
-					<?php 
-						}
+						<?php 
+					}
 					?>
 				</li>
 			</li>
@@ -45,7 +50,7 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 			<!--   <ul class="navbar-nav ml-auto"> -->
 				<li class="nav-item">	
 					<a class="nav-link text-success" href="#" style="cursor: context-menu;">
-					<?php echo $this->session->fullname;?>
+						<?php echo $this->session->fullname;?>
 					</a>
 				</li>
 				<li class="nav-item">	
@@ -57,4 +62,4 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 		</div>
 		<?php } ?> 
 	</nav>
-<br>
+	<br>

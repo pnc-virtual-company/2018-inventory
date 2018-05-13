@@ -1,73 +1,71 @@
-<?php
-   /**
-    * This view displays the list of users.
-    * @copyright  Copyright (c) 2014-2018 Benjamin BALET
-    * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
-    * @link       https://github.com/bbalet/skeleton
-    * @since      1.0.0
-    */
-   ?>
+<br>
    <div id="container" class="container">
     <div class="row-fluid">
-     <!-- <div class="col-2"></div> -->
-     <div class="col-12">
-      <h2><?php echo $title;?></h2>
-      <?php echo $flashPartialView;?>
-      <div class="alert alert-success" style="display: none;">
-
-      </div>
-      <table id="brand" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
-       <thead>
-        <tr>
-         <th>ID</th>
-         <th>Brands</th>
-         <th>Models</th>
-       </tr>
-     </thead>
-     <tbody id="brand_row">
-
-     </tbody>
-   </table>
- </div>
-</div>
-<div class="row-fluid">
- <div class="col-12">&nbsp;</div>
-</div>
-<!-- button create new department -->
-<?php $validateUser = $this->session->fullname;
-if ($validateUser == 'Admin') {
-  ?>
-  <div class="container">
-   <div class="row-fluid">
+      <div class="row">
+        <div class="col-9">
+          <h2><?php echo $title;?></h2>
+        </div>
+        <div class="col-3">
+          <!-- button create new brand -->
+          <?php $validateUser = $this->session->fullname;
+          if ($validateUser == 'Admin') {
+            ?>
+            <div class="container">
+             <div class="row-fluid">
+              <div class="col-12">
+                <button type="button" class="btn btn-primary" id="createBrand">
+                  <i class="mdi mdi-plus-circle"></i>&nbsp;Create new brand
+                </button>
+              </div>
+            </div>
+          </div>
+          <?php } ?>
+        </div>
+      </div><br>
       <div class="col-12">
-        <button type="button" class="btn btn-primary" id="createBrand">
-          <i class="mdi mdi-plus-circle"></i>&nbsp;Create brand
-        </button>
+        <?php echo $flashPartialView;?>
+        <div class="alert alert-success" style="display: none;">
+
+        </div>
+        <table id="brand" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+         <thead>
+          <tr>
+           <th>ID</th>
+           <th>Brands</th>
+           <th>Models</th>
+         </tr>
+       </thead>
+       <tbody id="brand_row">
+
+       </tbody>
+     </table>
+   </div>
+ </div>
+ <div class="row-fluid">
+   <div class="col-12">&nbsp;</div>
+ </div>
+
+ <!-- create -->
+ <div id="frmConfirmCreate" class="modal hide fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h5 class="modal-title">Create Brand</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form action="" id="frm-create">
+       <div class="form-inline">
+        <label for="">Brand</label> &nbsp;<input type="text" name="brand" class="form-control">
       </div>
-    </div>
+    </form>
   </div>
-<?php } ?>
-<!-- create -->
-<div id="frmConfirmCreate" class="modal hide fade" tabindex="-1" role="dialog">
- <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-   <div class="modal-header">
-    <h5 class="modal-title">Create Brand</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" id="saveBrand">OK</a>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
   </div>
-  <div class="modal-body">
-    <form action="" id="frm-create">
-     <div class="form-inline">
-      <label for="">Brand</label> &nbsp;<input type="text" name="brand" class="form-control">
-    </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <a href="#" class="btn btn-primary" id="saveBrand">OK</a>
-  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-</div>
 </div>
 </div>
 </div>
@@ -135,14 +133,14 @@ if ($validateUser == 'Admin') {
         for(i=0; i<data.length; i++){
          t.row.add( [
           <?php $validateUser = $this->session->fullname;
-            if ($validateUser == 'Admin') {
-          ?>
-           '<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil"></i></a>'+
-           '<a href="#" class="item-delete" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete"></i></a>'
-           <?php } ?>
-           +n,
-           data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted"></i> </a>'+ data[i].ModelCount+
-           ' model (s)'
+          if ($validateUser == 'Admin') {
+            ?>
+            '<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil"></i></a>'+
+            '<a href="#" class="item-delete" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>
+            +n,
+            data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted"></i> </a>'+ data[i].ModelCount+
+            ' model (s)'
 
              // '<a  title="List models"><i class="mdi mdi-format-list-bulleted"></i>'+ 3 model(s)+'</a>'
              ] ).draw( false );
