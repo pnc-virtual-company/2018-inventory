@@ -9,113 +9,121 @@
 ?>
 
 <!-- this is owner layout -->
+<br>
 <div id="container" class="container">
 	<div class="row-fluid">
-		<div class="col-12">
-
-      <h2><?php echo $title;?></h2>
-      <!-- <?php echo $flashPartialView;?> -->
-      <div class="alert alert-success" style="display: none;"></div>
-      <table id="owners" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Owners</th>
-          </tr>
-        </thead>
-        <tbody id="showdata">
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
-  <!-- create new owner -->
-  <?php $validateUser = $this->session->fullname;
-  if ($validateUser == 'Admin') {
-    ?>
-    <div class="container">
-      <div class="row-fluid">
-        <div class="col-12">
-         <button type="button" class="btn btn-primary add-owner" id="add-owner">
-           <i class="mdi mdi-plus-circle"></i>&nbsp;Create owner
-         </button>
+    <div class="row">
+      <div class="col-9">
+        <h2><?php echo $title;?></h2>
+      </div>
+      <div class="col-3">
+       <!-- create new owner -->
+       <?php $validateUser = $this->session->fullname;
+       if ($validateUser == 'Admin') {
+        ?>
+        <div class="container">
+          <div class="row-fluid">
+            <div class="col-12">
+             <button type="button" class="btn btn-primary add-owner" id="add-owner">
+               <i class="mdi mdi-plus-circle"></i>&nbsp;Create new owner&nbsp;
+             </button>
+           </div>
+         </div>
        </div>
+       <?php } ?>
      </div>
-   </div>
-   <?php } ?>
-   <!-- create -->
-   <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Create owner</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="frm_create">
-            <div class="form-inline">
-              <label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="create_owner">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-primary create" id="create">OK</a>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- delete -->
-  <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Confirmation</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure that you want to delete this owner?</p>
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- edit -->
-  <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit owner</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form id="frm_edit">
+   </div><br>
+   <div class="col-12">
 
+    <!-- <?php echo $flashPartialView;?> -->
+    <div class="alert alert-success" style="display: none;"></div>
+    <table id="owners" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Owners</th>
+        </tr>
+      </thead>
+      <tbody id="showdata">
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row-fluid"><div class="col-12">&nbsp;</div></div>
+
+<!-- create -->
+<div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create owner</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frm_create">
+          <div class="form-inline">
+            <label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="create_owner">
+          </div>
         </form>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-primary " id="update">OK</a>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary create" id="create">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
-  <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+</div>
+<!-- delete -->
+<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure that you want to delete this owner?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- edit -->
+<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit owner</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="frm_edit">
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      var t = $('#owners').DataTable();
-      showAllOwner();
+      </form>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary " id="update">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var t = $('#owners').DataTable();
+    showAllOwner();
 
 // showAllOwner function get owner data to table 
 function showAllOwner()

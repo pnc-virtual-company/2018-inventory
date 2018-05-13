@@ -7,61 +7,66 @@
  * @since      1.0.0
  */
 ?>
+<br>
 <div id="container">
 	<div class="row-fluid">
 		<div class="col-12">
-      <div class="table-responsive">
-        <h2><?php echo $title;?></h2>
-        <div class="alert alert-success" style="display: none;"></div>
-        <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered display" width="100%">
-          <thead>
-            <tr>
-              <th class="permanent">Identifier</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Material</th>
-              <th>Condition</th>
-              <th>Department</th>
-              <th>Location</th>
-              <th>User</th>
-              <th>Owner</th>
-            </tr>
-          </thead>
-          <tbody id="showdata">
+      <div class="row">
+        <div class="col-10">
+          <h2><?php echo $title;?></h2>
+        </div>
+        <div class="col-2">
+          <a href="<?php echo base_url();?>items/create" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+        </div>
+      </div>
+    </div><br>
+    <div class="alert alert-success" style="display: none;"></div>
+    <div class="table-responsive">
+      <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered display" width="100%">
+        <thead>
+          <tr>
+            <th class="permanent">Identifier</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Material</th>
+            <th>Condition</th>
+            <th>Department</th>
+            <th>Location</th>
+            <th>User</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody id="showdata">
 
 
-          </tbody>
-        </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row-fluid"><div class="col-12">&nbsp;</div></div>
+
+
+<!-- delete -->
+<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure that you want to delete this item</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
   </div>
-  <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
-
-  <div class="row-fluid">
-    <div class="col-12">
-      <a href="<?php echo base_url();?>items/create" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
-    </div>
-  </div>
-  <!-- delete -->
-  <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Confirmation</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure that you want to delete this item</p>
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
 </div>
 
@@ -96,7 +101,7 @@
         fixedColumnsLeft:1,
       },
       "dom":"Bfrtip",
-       stateSave: true,
+      stateSave: true,
       "buttons":[
       {
         extend:'colvis',

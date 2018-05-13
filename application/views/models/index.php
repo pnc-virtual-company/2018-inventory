@@ -1,47 +1,44 @@
-<?php
-   /**
-    * This view displays the list of users.
-    * @copyright  Copyright (c) 2014-2018 Benjamin BALET
-    * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
-    * @link       https://github.com/bbalet/skeleton
-    * @since      1.0.0
-    */
-   ?>
+<br>
    <div id="container" class="container">
     <div class="row-fluid">
-     <!-- <div class="col-2"></div> -->
-     <div class="col-12">
-      <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title;?>)</span> </h2> 
-      <div class="alert alert-success" style="display: none;"> </div>
-      <table id="models" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
-       <thead>
-        <tr>
-         <th>ID</th>
-         <th>Models</th>
-       </tr>
-     </thead>
-     <tbody id="model_row">
+      <div class="row">
+        <div class="col-9">
+          <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title;?>)</span> </h2> 
+        </div>
+        <div class="col-3">
+         <?php $validateUser = $this->session->fullname;
+         if ($validateUser == 'Admin') {
+          ?>
+          <button type="button" class="btn btn-primary" id="create_model">
+            <i class="mdi mdi-plus-circle"></i>&nbsp;Create new model
+          </button>
+          <?php } ?>
+        </div>
+      </div><br>
+      <div class="col-12">
+        <div class="alert alert-success" style="display: none;"> </div>
+        <table id="models" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+         <thead>
+          <tr>
+           <th>ID</th>
+           <th>Models</th>
+         </tr>
+       </thead>
+       <tbody id="model_row">
 
-     </tbody>
-   </table>
+       </tbody>
+     </table>
+   </div>
  </div>
-</div>
-<div class="row-fluid">
- <div class="col-12">&nbsp;</div>
-</div>
-<!-- button create new department -->
+ <div class="row-fluid">
+   <div class="col-12">&nbsp;</div>
+ </div>
+ <!-- button create new department -->
 
-<div class="container">
+ <div class="container">
   <div class="row-fluid">
     <div class="col-12">
-    <?php $validateUser = $this->session->fullname;
-    if ($validateUser == 'Admin') {
-      ?>
-        <button type="button" class="btn btn-primary" id="create_model">
-          <i class="mdi mdi-plus-circle"></i>&nbsp;Create model
-        </button>
-     <?php } ?>
-      <button type="button" class="btn btn-info float-right" onclick="window.history.back();">
+      <button type="button" class="btn btn-info float-left" onclick="window.history.back();">
         <i class="mdi mdi-arrow-left" ></i>&nbsp;Back to brand
       </button>
     </div>
@@ -140,12 +137,12 @@
           <?php $validateUser = $this->session->fullname;
           if ($validateUser == 'Admin') {
             ?>
-           '<a href="#" class="item-edit" dataid="'+data[i].idmodel+'"><i class="mdi mdi-pencil"></i></a>'+
-           '<a href="#" class="item-delete" dataid="'+data[i].idmodel+'"><i class="mdi mdi-delete"></i></a>'
-          <?php } ?>
-           +n,
-           data[i].model
-           ] ).draw( false );
+            '<a href="#" class="item-edit" dataid="'+data[i].idmodel+'"><i class="mdi mdi-pencil"></i></a>'+
+            '<a href="#" class="item-delete" dataid="'+data[i].idmodel+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>
+            +n,
+            data[i].model
+            ] ).draw( false );
          n++;
        }
      },

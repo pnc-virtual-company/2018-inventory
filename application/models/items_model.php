@@ -41,6 +41,155 @@ class items_model extends CI_Model {
         $this->db->delete('item');
     }
 
+    // Model select category
+    public function getAllCate()
+    {  
+        $query = $this->db->get('category');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
 
+    // Model select material
+    public function getAllMat()
+    {  
+        $query = $this->db->get('material');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // Model select department
+    public function getAllDep()
+    {  
+        $query = $this->db->get('department');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // Model select location
+    public function getAllLoc()
+    {  
+        $query = $this->db->get('location');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // Model select user
+    public function getAllUser()
+    {  
+        $query = $this->db->get('users');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // Model select owner
+    public function getAllOwner()
+    {  
+        $query = $this->db->get('owner');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+
+    // Model select brand
+    public function getAllBrand()
+    {  
+        $query = $this->db->get('brand');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+
+    // Model select model
+    public function getAllModel($id)
+    {  
+        $this->db->where('brandid', $id);
+        $query = $this->db->get('model');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // get item maximum id with convert
+
+    public function getmaxiditem(){
+        $this->db->select('CONV(MAX(skeleton_item.iditem),10,36) AS "IdMax"');
+        $query = $this->db->get('item');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+    // get location by id
+
+    public function getLocById($id)
+    {  
+        $this->db->where('idlocation',$id);
+        $query = $this->db->get('location');  
+        if($query->num_rows() > 0)
+        {   
+            return $query->result();  
+        }else{   
+            return false;  
+        } 
+    }
+
+
+    //     // Insert item to database 
+    public function add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code)
+    {
+        
+        $data = array(
+            'item'=> $nameitem,
+            'itemdescription'=> $desitem,
+            'categoryid'=> $catitem,
+            'materialid'=> $matitem,
+            'departmentid'=> $depitem,
+            'locationid'=> $locitem,
+            'modelid'=> $moditem,
+            'userid'=> $useritem,
+            'ownerid'=> $ownitem,
+            'condition'=> $conditionitem,
+            'date'=> $dateitem,
+            'itemcost'=> $costitem,
+            'status'=> '0',
+            'code'=> $code
+        );
+
+        return $query=$this->db->insert('item',$data);
+    }
 
 }

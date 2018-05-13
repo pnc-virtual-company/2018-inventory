@@ -20,15 +20,15 @@ class items extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-         } else {
-           redirect('errors/privileges');
-       }
-   } else {
-     redirect('connection/login');
- }
- $this->load->model('items_model');
+           } else {
+             redirect('errors/privileges');
+         }
+     } else {
+       redirect('connection/login');
+   }
+   $this->load->model('items_model');
 }
 
     /**
@@ -45,10 +45,12 @@ class items extends CI_Controller {
         $this->load->view('items/index', $data);
         $this->load->view('templates/footer', $data);
     }
+// list items
     public function showAllitems(){
         $result = $this->items_model->showAllItems();
         echo json_encode($result);
     }
+// delete item
     public function deleteItems(){
         $iditem=  $this->input->post('iditem');
         $remove_item = $this->items_model->deleteItems($iditem);
@@ -58,5 +60,106 @@ class items extends CI_Controller {
             echo "0";
         }
     }
+// show form create item
+    public function create() { 
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $data['title'] = 'Create a new Item';
+        $data['activeLink'] = 'items';
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('items/create', $data);
+        $this->load->view('templates/footer');
+    }
 
+// add data create item
+    public function itemcreate(){
+        $nameitem = $this->input->post('nameitem');
+        $desitem = $this->input->post('desitem');
+        $catitem = $this->input->post('catitem');
+        $matitem = $this->input->post('matitem');
+        $depitem = $this->input->post('depitem');
+        $locitem = $this->input->post('locitem');
+        $moditem = $this->input->post('moditem');
+        $useritem = $this->input->post('useritem');
+        $ownitem = $this->input->post('ownitem');
+        $conditionitem = $this->input->post('conditionitem');
+        $dateitem = $this->input->post('dateitem');
+        $costitem = $this->input->post('costitem');
+
+        $getIdMax = $this->items_model->getmaxiditem();
+        foreach ($getIdMax as $value) {
+            $idmaximum = $value->IdMax;
+        }
+
+        if ($catitem=='' || $matitem=='' || $depitem=='' || $locitem=='' || $moditem=='' || $useritem==''|| $ownitem=='') {
+            redirect('items/create');
+        }else{
+            $getLoc = $this->items_model->getLocById($locitem);
+            foreach ($getLoc as $value) {
+                $locnamebyid = $value->location;
+            }
+            $code = $locnamebyid.'-'.$idmaximum;
+
+            $item_insert = $this->items_model->add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code);
+            if ($item_insert) {
+                redirect('items');
+            }
+        }
+    }
+
+// cat list
+    public function showAllCategories()
+    {       
+        $result = $this->items_model->getAllCate();   
+        echo json_encode($result);    
+    }
+// mat list
+    public function showAllMaterials()
+    {       
+        $result = $this->items_model->getAllMat();   
+        echo json_encode($result);    
+    }
+// dep list
+    public function showAllDepartments()
+    {       
+        $result = $this->items_model->getAllDep();   
+        echo json_encode($result);    
+    }
+
+// loc list
+    public function showAllLocations()
+    {       
+        $result = $this->items_model->getAllLoc();   
+        echo json_encode($result);    
+    }
+
+// user list
+    public function showAllUsers()
+    {       
+        $result = $this->items_model->getAllUser();   
+        echo json_encode($result);    
+    }
+
+// owner list
+    public function showAllOwners()
+    {       
+        $result = $this->items_model->getAllOwner();   
+        echo json_encode($result);    
+    }
+
+// brand list
+    public function showAllBrands()
+    {       
+        $result = $this->items_model->getAllBrand();   
+        echo json_encode($result);    
+    }
+
+    // brand list
+    public function showAllModelsByBrand()
+    {   
+        $brandid = $this->uri->segment(3);
+        $result = $this->items_model->getAllModel($brandid);   
+        echo json_encode($result);    
+    }
 }
