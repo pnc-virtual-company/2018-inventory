@@ -34,6 +34,7 @@
             <th>Location</th>
             <th>User</th>
             <th>Owner</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody id="showdata">
@@ -121,12 +122,26 @@ function showAllitems()
       t.clear().draw();
       var n = 1;
       var i;
+      var status="";
       for(i=0; i<data.length; i++){
+        if (data[i].status=='0') {
+          status='Available';
+        }else{
+          status='Not available';
+        }
+        <?php $validateUser = $this->session->fullname;?>
+
+
         t.row.add( [
-          '<a href="#" class="item-edit" dataid="'+data[i].iditem+'"><i class="mdi mdi-pencil"></i></a>'+
-          '<a href="#" class="item-delete" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a>'+data[i].itemcodeid,
-          data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner
-          ] ).draw( false );
+          data[i].itemcodeid+
+          '&nbsp;<?php  
+          if ($validateUser == 'Admin') {
+           ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'"><i class="mdi mdi-pencil"></i></a>'+
+           '&nbsp;<a href="#" class="item-delete" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a> <?php } ?>'+
+           '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'"><i class="mdi mdi-eye"></i></a>'
+           ,
+           data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,'<span class="text-info">'+status+' </span>'
+           ] ).draw( false );
         n++;
       }
     },
@@ -151,7 +166,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Item delete successfully').fadeIn().delay(4000).fadeOut('slow');
+      $('.alert-success').html('Item was deleted successfully').fadeIn().delay(4000).fadeOut('slow');
       showAllitems();
     },
     error: function(){

@@ -20,15 +20,15 @@ class items extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-           } else {
-             redirect('errors/privileges');
-         }
-     } else {
-       redirect('connection/login');
-   }
-   $this->load->model('items_model');
+         } else {
+           redirect('errors/privileges');
+       }
+   } else {
+     redirect('connection/login');
+ }
+ $this->load->model('items_model');
 }
 
     /**
@@ -45,6 +45,9 @@ class items extends CI_Controller {
         $this->load->view('items/index', $data);
         $this->load->view('templates/footer', $data);
     }
+
+
+
 // list items
     public function showAllitems(){
         $result = $this->items_model->showAllItems();
@@ -60,6 +63,57 @@ class items extends CI_Controller {
             echo "0";
         }
     }
+    
+    // show form edit item
+    public function edit() { 
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $data['title'] = 'Update item';
+        $data['activeLink'] = 'items';
+        $id = $this->uri->segment(3);
+        $data['itemEdit']=$this->items_model->showEditItems($id);
+        // var_dump($data['itemEdit']);die();
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('items/edit', $data);
+        $this->load->view('templates/footer');
+    }
+    
+// update data item
+    public function itemUpdate(){
+        $id = $this->uri->segment(3);
+        $nameitem = $this->input->post('nameitem');
+        $desitem = $this->input->post('desitem');
+        $catitem = $this->input->post('catitem');
+        $matitem = $this->input->post('matitem');
+        $depitem = $this->input->post('depitem');
+        $locitem = $this->input->post('locitem');
+        $moditem = $this->input->post('moditem');
+        $useritem = $this->input->post('useritem');
+        $ownitem = $this->input->post('ownitem');
+        $conditionitem = $this->input->post('conditionitem');
+        $dateitem = $this->input->post('dateitem');
+        $costitem = $this->input->post('costitem');
+
+        $getIdMax = $this->items_model->getiditem($id);
+        foreach ($getIdMax as $value) {
+            $idmaximum = $value->IdMax;
+        }
+
+        // echo $idmaximum;
+        $getLoc = $this->items_model->getLocById($locitem);
+        foreach ($getLoc as $value) {
+            $locnamebyid = $value->location;
+        }
+        $code = $locnamebyid.'-'.$idmaximum;
+
+        $item_update = $this->items_model->update_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code,$id);
+        if ($item_update) {
+            redirect('items');
+        }
+        
+    }
+
 // show form create item
     public function create() { 
         $this->load->helper('form');
