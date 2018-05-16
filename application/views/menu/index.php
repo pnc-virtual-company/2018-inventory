@@ -16,35 +16,35 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 <div class="collapse navbar-collapse menu navbar-right" id="navbarsExampleDefault">
 	<ul class="navbar-nav ml-auto ">
 		<li class="nav-item">	
-					<a class="nav-link text-primary" href="<?php echo base_url();?>items/create">
-						<i class="mdi mdi-plus-circle "></i>
-					</a>
+			<a class="nav-link text-primary" href="<?php echo base_url();?>items/create">
+				<i class="mdi mdi-plus-circle "></i>
+			</a>
 		</li>   
 		<li class="nav-item <?php echo ($activeLink=='items'?'active':'');?>">
 			<a class="nav-link" href="<?php echo base_url();?>items">Items</a>
 		</li> 
-		<div class="nav-link navbar dropdown <?php echo ($activeLink=='others'?'active':'');?> ">
-			<li class="nav-item dropdown-toggle " data-toggle="dropdown">
-				Settings  
-				<li class="nav-item dropdown-menu">
-					<a class="dropdown-item" href="<?php echo base_url();?>category">Categories</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>materials">Materials</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>departments">Departments</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>brand">Brands</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
-					<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
-					<?php $validateUser = $this->session->fullname;
-					if ($validateUser == 'Admin') {
-						?>
+		<?php $validateUser = $this->session->fullname;
+		if ($validateUser == 'Admin') {
+			?>
+			<div class="nav-link navbar dropdown <?php echo ($activeLink=='others'?'active':'');?> ">
+				<li class="nav-item dropdown-toggle " data-toggle="dropdown">
+					Settings  
+					<li class="nav-item dropdown-menu">
+						<a class="dropdown-item" href="<?php echo base_url();?>category">Categories</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>materials">Materials</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>departments">Departments</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>brand">Brands</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
 
 						<a class="dropdown-item" href="<?php echo base_url();?>reports">Reports</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>users">Admin</a>
-						<?php 
-					}
-					?>
+					</li>
 				</li>
-			</li>
-		</div> 
+			</div> 
+			<?php 
+		}
+		?>
 		<?php if($this->session->loggedIn === TRUE) { ?>
 		<!-- <div class="navbar-collapse collapse navbar-right"> -->
 			<!--   <ul class="navbar-nav ml-auto"> -->
