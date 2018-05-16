@@ -92,16 +92,20 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit material</h5>
+        <h5 class="modal-title">Edit department</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="frm_edit">
-
-      </form>
+      <div class="modal-body">
+        <form id="frm_edit">
+          <div class="form-inline">
+           
+          </div>
+        </form>
+      </div>
       <div class="modal-footer">
-        <a href="#" class="btn btn-primary " id="update">OK</a>
+        <a href="#" class="btn btn-primary create" id="update">OK</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -130,13 +134,13 @@ function showAllDepartments()
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
+          n+
           <?php $validateUser = $this->session->fullname;
           if ($validateUser == 'Admin') {
             ?>
-            '<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil"></i></a>'+
-            '<a href="#" class="item-delete" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete"></i></a>'
-            <?php } ?>
-            +n,
+            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil"></i></a>'+
+            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>,
             data[i].department
             ] ).draw( false );
         n++;
@@ -151,7 +155,9 @@ function showAllDepartments()
 
 // create_department with ajax
 $("#add-department").click(function(){
-  $('#frmConfirmAdd').modal('show');
+  $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
+    $('input[name=create_department]').focus();
+          });
 });
 
 // save new department button even
@@ -174,7 +180,7 @@ $("#create").click(function(){
         if(data.status){
           $('#frm_create')[0].reset();
           $('#frmConfirmAdd').modal('hide');
-          $('.alert-success').html('Department add successfully').fadeIn().delay(4000).fadeOut('slow');
+          $('.alert-success').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },
@@ -200,7 +206,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Department delete successfully').fadeIn().delay(4000).fadeOut('slow');
+      $('.alert-success').html('Department was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
       showAllDepartments();
     },
     error: function(){
@@ -223,7 +229,9 @@ $('#showdata').on('click', '.item-edit', function(){
     dataType: 'json',
     success: function(data){
       $('#frm_edit').html(data);
-      $('#frmConfirmEdit').modal('show');
+      $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+            $('input[name=update_department]').focus();
+          });
     },
     error: function(){
       alert('Could not get any data from Database');
@@ -252,7 +260,7 @@ $("#update").click(function(){
         if(data.status){
           $('#frm_edit')[0].reset();
           $('#frmConfirmEdit').modal('hide');
-          $('.alert-success').html('Department update successfully').fadeIn().delay(4000).fadeOut('slow');
+          $('.alert-success').html('Department was updated successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },

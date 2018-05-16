@@ -91,23 +91,27 @@
 </div>
 <!-- edit -->
 <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
- <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-   <div class="modal-header">
-    <h5 class="modal-title">Edit brand</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit brand</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frm_edit">
+          <div class="form-inline">
+           
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary create" id="update">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
   </div>
-  <form id="frm_edit" >
-
-  </form>
-  <div class="modal-footer">
-    <a href="#" class="btn btn-primary" data-dismiss="modal" id="update">OK</a>
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-  </div>
-</div>
-</div>
 </div>
 <!-- link bootstrap4 and javaScipt -->
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -132,13 +136,13 @@
         var i;
         for(i=0; i<data.length; i++){
          t.row.add( [
+          n+
           <?php $validateUser = $this->session->fullname;
           if ($validateUser == 'Admin') {
             ?>
-            '<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil"></i></a>'+
-            '<a href="#" class="item-delete" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete"></i></a>'
-            <?php } ?>
-            +n,
+            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil"></i></a>'+
+            '<a href="#" class="item-delete text-danger" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>,
             data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted"></i> </a>'+ data[i].ModelCount+
             ' model (s)'
 
@@ -155,7 +159,9 @@
 
        // create
        $("#createBrand").click( function(){
-         $('#frmConfirmCreate').modal('show');
+          $('#frmConfirmCreate').modal('show').on('shown.bs.modal', function(){
+            $('input[name=brand]').focus();
+          });
        });
          // create brand by using ajax
          $('#saveBrand').on('click', function(){
@@ -178,7 +184,7 @@
                if(data.status){
                 $('#frm-create')[0].reset();
                 $('#frmConfirmCreate').modal('hide');
-                $('.alert-success').html('Brand create  successfully').fadeIn().delay(4000).fadeOut('slow');
+                $('.alert-success').html('Brand was created  successfully').fadeIn().delay(6000).fadeOut('slow');
                 showAllBrand();
 
               }
@@ -206,7 +212,7 @@
              success: function(data){
                  // alert('Owner deleted successfully....');
                  $('#frmConfirmDelete').modal('hide');
-                 $('.alert-success').html('Brand delete  successfully').fadeIn().delay(4000).fadeOut('slow');
+                 $('.alert-success').html('Brand was deleted  successfully').fadeIn().delay(6000).fadeOut('slow');
                  showAllBrand();
                },
                error: function(){
@@ -226,7 +232,10 @@
              dataType: 'json',
              success: function(data){
                $('#frm_edit').html(data);
-               $('#frmConfirmEdit').modal('show');
+               // $('#frmConfirmEdit').modal('show');
+                $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+               $('input[name=brand_update]').focus();
+          });
              },
              error: function(){
                alert('Could not get any data from Database');
@@ -255,7 +264,7 @@
                if(data.status){
                  $('#frm_edit')[0].reset();
                  $('#frmConfirmEdit').modal('hide');
-                 $('.alert-success').html('Brand update  successfully').fadeIn().delay(4000).fadeOut('slow');
+                 $('.alert-success').html('Brand was updated  successfully').fadeIn().delay(6000).fadeOut('slow');
                  showAllBrand();
                }
              },

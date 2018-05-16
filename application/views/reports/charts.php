@@ -135,7 +135,7 @@ function piechart(){
     data: {
       labels: [ 
       "New", 
-      "Fiar", 
+      "Fair", 
       "Damaged",
       "Broken",
       ],
