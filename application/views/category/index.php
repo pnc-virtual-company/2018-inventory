@@ -88,27 +88,30 @@
     </div>
   </div>
 </div>
-<!-- edit -->
-<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="frm_edit">
-
-      </form>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary" id="update">OK</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+ <!-- Edite -->
+    <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create Category</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="frm_edit">
+              <div class="form-inline">
+                
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-primary create" id="update">OK</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
 <!-- link bootstrap4 and javaScipt -->
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
@@ -134,13 +137,13 @@
 
             for(i=0; i<data.length; i++){
               c.row.add ( [
+                n+
                 <?php $validateUser = $this->session->fullname;
                 if ($validateUser == 'Admin') {
                   ?>
-                  '<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil"></i></a>'+
-                  '<a href="#" class="item-delete" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete"></i></a>'
-                  <?php } ?>
-                  +n,
+                  '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil"></i></a>'+
+                  '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete"></i></a>'
+                  <?php } ?>,
 
                   data[i].category
                   ] ).draw( false );
@@ -155,7 +158,9 @@
       }
         // create_owner with ajax
         $("#add_category").click(function(){
-          $('#frmConfirmAdd').modal('show');
+          $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
+            $('input[name=createCategory]').focus();
+          });
         });
         // save new category button even
         $("#btn-create").click(function(){
@@ -180,7 +185,7 @@
                   $('#frm_create')[0].reset();
                   $('#frmConfirmAdd').modal('hide');
                   
-                  $('.alert-success').html('Category add successfully').fadeIn().delay(4000).fadeOut('slow');
+                  $('.alert-success').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
                   showAllCat();
                 }
               },
@@ -202,13 +207,16 @@
            dataType: 'json',
            success: function(data){
              $('#frm_edit').html(data);
-             $('#frmConfirmEdit').modal('show');
+             $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+            $('input[name=update_category]').focus();
+          });
            },
            error: function(){
              alert('Could not get any data from Database');
            }
          });
        });
+
 
   // save update button 
   $("#update").click(function(){
@@ -231,7 +239,7 @@
          if(data.status){
            $('#frm_edit')[0].reset();
            $('#frmConfirmEdit').modal('hide');
-           $('.alert-success').html('Category update successfully').fadeIn().delay(4000).fadeOut('slow');
+           $('.alert-success').html('Category was updated successfully').fadeIn().delay(6000).fadeOut('slow');
            showAllCat();
          }
        },
@@ -258,7 +266,7 @@
           dataType: "json",
           success: function(data){
             $('#frmConfirmDelete').modal('hide');
-            $('.alert-success').html('Category delete successfully').fadeIn().delay(4000).fadeOut('slow');
+            $('.alert-success').html('Category was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
             showAllCat();
           },
           error: function(){

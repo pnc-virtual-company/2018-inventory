@@ -12,27 +12,26 @@
 <div id="container" class="container">
   <div class="row-fluid">
     <div class="row">
-      <div class="col-10">
+      <div class="col-9">
         <h2><?php echo $title;?></h2>
       </div>
-      <div class="col-2">
-        <!-- create new location -->
-        <?php $validateUser = $this->session->fullname;
-        if ($validateUser == 'Admin') {
-          ?>
-          <div class="container">
-            <div class="row-fluid">
-              <div class="col-12">
-                <button type="button" class="btn btn-primary add-location" id="add-location">
-                  <i class="mdi mdi-plus-circle"></i>&nbsp;Create Location
-                </button>
-              </div>
-            </div>
-          </div>
-          <?php } ?>
-
-        </div>
-      </div><br>
+      <div class="col-3">
+       <!-- create new location -->
+       <?php $validateUser = $this->session->fullname;
+       if ($validateUser == 'Admin') {
+        ?>
+        <div class="container">
+          <div class="row-fluid">
+            <div class="col-12">
+             <button type="button" class="btn btn-primary add-location float-right" id="add-location">
+               <i class="mdi mdi-plus-circle"></i>&nbsp;Create location
+             </button>
+           </div>
+         </div>
+       </div>
+       <?php } ?>
+     </div>
+   </div><br>
       <div class="col-12">
         <div class="alert alert-success" style="display: none;"></div>
         <table id="location" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
@@ -95,8 +94,7 @@
         </div>
       </div>
     </div>
-
-    <!-- edit -->
+    <!-- Edite -->
     <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -106,16 +104,21 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form id="frm_edit">
-
-          </form>
+          <div class="modal-body">
+            <form id="frm_edit">
+              <!-- <div class="form-inline">
+                
+              </div> -->
+            </form>
+          </div>
           <div class="modal-footer">
-            <a href="#" class="btn btn-primary " id="update">OK</a>
+            <a href="#" class="btn btn-primary create" id="update">OK</a>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
     </div>
+    
     <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
@@ -139,13 +142,13 @@ function showAlllocat()
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
+          n+
           <?php $validateUser = $this->session->fullname;
           if ($validateUser == 'Admin') {
             ?>
-            '<a href="#" class="item-edit" dataid="'+data[i].idlocation+'"><i class="mdi mdi-pencil"></i></a>'+
-            '<a href="#" class="item-delete" dataid="'+data[i].idlocation+'"><i class="mdi mdi-delete"></i></a>'
-            <?php } ?>
-            +n,
+            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idlocation+'"><i class="mdi mdi-pencil"></i></a>'+
+            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idlocation+'"><i class="mdi mdi-delete"></i></a>'
+            <?php } ?>,
             data[i].location
             ] ).draw( false );
         n++;
@@ -159,7 +162,9 @@ function showAlllocat()
 
 // create_location with ajax
 $("#add-location").click(function(){
-  $('#frmConfirmAdd').modal('show');
+  $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
+    $('input[name=create_location]').focus();
+          });
 });
 // save new location button even
 $("#create").click(function(){
@@ -181,7 +186,7 @@ $("#create").click(function(){
         if(data.status){
           $('#frm_create')[0].reset();
           $('#frmConfirmAdd').modal('hide');
-          $('.alert-success').html('Location add successfully').fadeIn().delay(4000).fadeOut('slow');
+          $('.alert-success').html('Location was added successfully').fadeIn().delay(6000).fadeOut('slow');
           showAlllocat();
         }
       },
@@ -208,7 +213,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Location Delete Successfully').fadeIn().delay(4000).fadeOut('slow');
+      $('.alert-success').html('Location was Deleted Successfully').fadeIn().delay(6000).fadeOut('slow');
       showAlllocat();
     },
     error: function(){
@@ -230,13 +235,16 @@ $('#showdata').on('click', '.item-edit', function(){
     dataType: 'json',
     success: function(data){
       $('#frm_edit').html(data);
-      $('#frmConfirmEdit').modal('show');
+       $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+            $('input[name=update_location]').focus();
+          });
     },
     error: function(){
       alert('Could not get any data from Database');
     }
   });
 });
+
 
 // save update button 
 $("#update").click(function(){
@@ -259,7 +267,7 @@ $("#update").click(function(){
         if(data.status){
           $('#frm_edit')[0].reset();
           $('#frmConfirmEdit').modal('hide');
-          $('.alert-success').html('Location Update Successfully').fadeIn().delay(4000).fadeOut('slow');
+          $('.alert-success').html('Location was Updated Successfully').fadeIn().delay(6000).fadeOut('slow');
           showAlllocat();
           // alert('success');
         }
