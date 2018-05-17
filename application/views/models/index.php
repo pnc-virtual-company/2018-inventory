@@ -1,27 +1,24 @@
 <br>
 <div id="container" class="container">
   <div class="row-fluid">
-    <div class="row">
-      <div class="col-9">
-        <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title;?>)</span> </h2> 
+    <div class="col-12">
+      <div class="row">
+        <div class="col-9">
+          <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title;?>)</span> </h2> 
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-primary float-right" id="create_model">
+            <i class="mdi mdi-plus-circle"></i>&nbsp;Create model
+          </button>
+        </div>
       </div>
-      <div class="col-3">
-       <?php $validateUser = $this->session->fullname;
-       if ($validateUser == 'Admin') {
-        ?>
-        <button type="button" class="btn btn-primary" id="create_model">
-          <i class="mdi mdi-plus-circle"></i>&nbsp;Create new model
-        </button>
-      <?php } ?>
-    </div>
-  </div><br>
-  <div class="col-12">
-    <div class="alert alert-success" style="display: none;"> </div>
+    </div><br>
+    <div class="alert alert-info" style="display: none;"> </div>
     <table id="models" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
      <thead>
       <tr>
        <th>ID</th>
-       <th>Models</th>
+       <th>Model</th>
      </tr>
    </thead>
    <tbody id="model_row">
@@ -103,7 +100,7 @@
       <div class="modal-body">
         <form id="frm_edit">
           <div class="form-inline">
-           
+
           </div>
         </form>
       </div>
@@ -125,41 +122,37 @@
    // showAllBrand function get brand data to table 
    function showAllModels()
    {
-     $.ajax({
-       type: 'ajax',
-       url: '<?php echo base_url();?>models/showAllModelsByBrandId/<?php echo  $idbrand ?>',
-       async: true,
-       dataType: 'json',
-       success: function(data){
-        t.clear().draw();
-        var i;
-        var n = 1;
-        for(i=0; i<data.length; i++){
-         t.row.add( [
-          n+
-          <?php $validateUser = $this->session->fullname;
-          if ($validateUser == 'Admin') {
-            ?>
-            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idmodel+'"><i class="mdi mdi-pencil"></i></a>'+
-            '<a href="#" class="item-delete text-danger" dataid="'+data[i].idmodel+'"><i class="mdi mdi-delete"></i></a>'
-          <?php } ?>,
-          data[i].model
-          ] ).draw( false );
-         n++;
-       }
-     },
-     error: function(){
-       alert('Could not get Data from Database');
+    $("#model_row").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
+    $.ajax({
+     type: 'ajax',
+     url: '<?php echo base_url();?>models/showAllModelsByBrandId/<?php echo  $idbrand ?>',
+     async: true,
+     dataType: 'json',
+     success: function(data){
+      t.clear().draw();
+      var i;
+      var n = 1;
+      for(i=0; i<data.length; i++){
+       t.row.add( [
+        n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idmodel+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit model"></i></a>'+
+        '<a href="#" class="item-delete text-danger" dataid="'+data[i].idmodel+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete model"></i></a>',
+        data[i].model
+        ] ).draw( false );
+       n++;
      }
-   });
+   },
+   error: function(){
+     alert('Could not get Data from Database');
    }
+ });
+  }
 
        // create
        $("#create_model").click( function(){
          // $('#frmConfirmCreate').modal('show');
          $('#frmConfirmCreate').modal('show').on('shown.bs.modal', function(){
-            $('input[name=model]').focus();
-          });
+          $('input[name=model]').focus();
+        });
        });
          // create model by using ajax
          $('#saveModel').on('click', function(){
@@ -181,7 +174,7 @@
                if(data.status){
                 $('#frm-create')[0].reset();
                 $('#frmConfirmCreate').modal('hide');
-                $('.alert-success').html('Model was created successfully').fadeIn().delay(6000).fadeOut('slow');
+                $('.alert-info').html('Model was created successfully').fadeIn().delay(6000).fadeOut('slow');
                 showAllModels();
               }
             },
@@ -208,7 +201,7 @@
              success: function(data){
                  // alert('Owner deleted successfully....');
                  $('#frmConfirmDelete').modal('hide');
-                 $('.alert-success').html('Model was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
+                 $('.alert-info').html('Model was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
                  showAllModels();
                },
                error: function(){
@@ -229,9 +222,9 @@
            success: function(data){
              $('#frm_edit').html(data);
              // $('#frmConfirmEdit').modal('show');
-              $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
-            $('input[name=update_model]').focus();
-          });
+             $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+              $('input[name=update_model]').focus();
+            });
 
            },
            error: function(){
@@ -262,7 +255,7 @@
                if(data.status){
                  $('#frm_edit')[0].reset();
                  $('#frmConfirmEdit').modal('hide');
-                 $('.alert-success').html('Model was updated successfully').fadeIn().delay(6000).fadeOut('slow');
+                 $('.alert-info').html('Model was updated successfully').fadeIn().delay(6000).fadeOut('slow');
                  showAllModels();
                }
              },
