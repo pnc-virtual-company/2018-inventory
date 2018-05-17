@@ -20,15 +20,15 @@ class items extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-           } else {
-             redirect('errors/privileges');
-         }
-     } else {
-       redirect('connection/login');
-   }
-   $this->load->model('items_model');
+         } else {
+           redirect('errors/privileges');
+       }
+   } else {
+     redirect('connection/login');
+ }
+ $this->load->model('items_model');
 }
 
     /**
@@ -109,6 +109,7 @@ class items extends CI_Controller {
 
         $item_update = $this->items_model->update_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code,$id);
         if ($item_update) {
+            $this->session->set_flashdata('msg', 'The item was successfully updated');
             redirect('items');
         }
         
@@ -157,6 +158,7 @@ class items extends CI_Controller {
 
             $item_insert = $this->items_model->add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code);
             if ($item_insert) {
+                $this->session->set_flashdata('msg', 'The item was successfully created');
                 redirect('items');
             }
         }
@@ -220,17 +222,17 @@ class items extends CI_Controller {
     // detail item
 
     public function showDetailItem(){
-     $form = '';
-     $iditem=  $this->input->post('iditem'); 
-     $result = $this->items_model->showDetailItem($iditem);
-     $status='';
-     if ($result>0) {
+       $form = '';
+       $iditem=  $this->input->post('iditem'); 
+       $result = $this->items_model->showDetailItem($iditem);
+       $status='';
+       if ($result>0) {
         foreach ($result as $value) {
             if ($value->status==0) {
-               $status='Available';
-            }else{
-                $status='Not available';
-            }
+             $status='Available';
+         }else{
+            $status='Not available';
+        }
         $form .='<tr>';
         $form .='<td>Name </td>';
         $form .='<td>: '.$value->item.'</td>';
