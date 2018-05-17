@@ -109,6 +109,7 @@ class items extends CI_Controller {
 
         $item_update = $this->items_model->update_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code,$id);
         if ($item_update) {
+            $this->session->set_flashdata('msg', 'The item was successfully updated');
             redirect('items');
         }
         
@@ -120,6 +121,7 @@ class items extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = 'Create a new Item';
         $data['activeLink'] = 'items';
+        $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/create', $data);
@@ -147,6 +149,7 @@ class items extends CI_Controller {
         }
 
         if ($catitem=='' || $matitem=='' || $depitem=='' || $locitem=='' || $moditem=='' || $useritem==''|| $ownitem=='') {
+            $this->session->set_flashdata('msg', 'Cannot create! all field should be seleted...');
             redirect('items/create');
         }else{
             $getLoc = $this->items_model->getLocById($locitem);
@@ -157,6 +160,7 @@ class items extends CI_Controller {
 
             $item_insert = $this->items_model->add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code);
             if ($item_insert) {
+                $this->session->set_flashdata('msg', 'The item was successfully created');
                 redirect('items');
             }
         }
@@ -228,9 +232,9 @@ class items extends CI_Controller {
         foreach ($result as $value) {
             if ($value->status==0) {
                $status='Available';
-            }else{
-                $status='Not available';
-            }
+           }else{
+            $status='Not available';
+        }
         $form .='<tr>';
         $form .='<td>Name </td>';
         $form .='<td>: '.$value->item.'</td>';

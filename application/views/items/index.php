@@ -12,8 +12,6 @@
   border-radius: 2px;
 }
 .dt-button-collection .dt-button{
-  /*background: #0094e1 !important;*/
-  /*color: #fff !important;*/
   border: 1px solid #6660  !important;
   border-radius: 3px !important;
 }
@@ -32,13 +30,16 @@
           <h2><?php echo $title;?></h2>
         </div>
         <div class="col-2">
-          <a href="<?php echo base_url();?>items/create" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+          <?php  $role =$this->session->Role; if( $role==1 || $role==8){?>
+          <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+          <?php } ?>
         </div>
       </div>
     </div><br>
-    <div class="alert alert-success" style="display: none;"></div>
+    <div class="container-fluid"><?php echo $flashPartialView;?></div>
+    <div class="alert alert-info" style="display: none;"></div>
     <div class="table-responsive">
-      <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered display" width="100%">
+      <table id="items" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-hover display" width="100%">
        <colgroup>
         <col span="1" style="background-color:#eff3f7;">
       </colgroup>
@@ -100,7 +101,7 @@
         </button>
       </div>
       <div class="modal-body bg-light">
-        <table width="100%" class="table">
+        <table width="100%" class="table table-hover table-sm">
           <colgroup>
             <col span="1" style="background-color:#eff3f7;">
           </colgroup>
@@ -160,6 +161,7 @@
 // showAllitems function get items data to table 
 function showAllitems()
 {
+  $("#showdata").html('<tr> <td class="text-center text-info"colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i> Loading...</td></tr>');
   $.ajax({
     type: 'ajax',
     url: '<?php echo base_url();?>items/showAllitems',
@@ -176,16 +178,16 @@ function showAllitems()
         }else{
           status='Not available';
         }
-        <?php $validateUser = $this->session->fullname;?>
+        <?php $role =$this->session->Role; ?>
 
 
         t.row.add( [
           data[i].itemcodeid+
           '&nbsp;<?php  
-          if ($validateUser == 'Admin') {
-           ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'"><i class="mdi mdi-pencil"></i></a>'+
-           '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete"></i></a> <?php } ?>'+
-           '<a href="#" class="item-view" dataid="'+data[i].iditem+'"><i class="mdi mdi-eye text-primary"></i></a>'
+          if( $role==1 || $role==8){
+           ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
+           '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
+           '<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'
            ,
            data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,'<span class="text-primary">'+status+' </span>'
            ] ).draw( false );
