@@ -30,7 +30,7 @@
           <h2><?php echo $title;?></h2>
         </div>
         <div class="col-2">
-          <?php if( $this->session->fullname=='Admin'){?>
+          <?php  $role =$this->session->Role; if( $role==1 || $role==8){?>
           <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
           <?php } ?>
         </div>
@@ -178,13 +178,13 @@ function showAllitems()
         }else{
           status='Not available';
         }
-        <?php $validateUser = $this->session->fullname;?>
+        <?php $role =$this->session->Role; ?>
 
 
         t.row.add( [
           data[i].itemcodeid+
           '&nbsp;<?php  
-          if ($validateUser == 'Admin') {
+          if( $role==1 || $role==8){
            ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
            '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
            '<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'
