@@ -15,18 +15,17 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 </button>
 <div class="collapse navbar-collapse menu navbar-right" id="navbarsExampleDefault">
 	<ul class="navbar-nav ml-auto ">
-		<?php if( $this->session->fullname=='Admin'){?>
+		<?php $role =$this->session->Role; if( $role==1 || $role==8){?>
 		<li class="nav-item">	
 			<a class="nav-link text-primary" href="<?php echo base_url();?>items/create" data-toggle="tooltip" title="Create new item">
 				<i class="mdi mdi-plus-circle "></i>
 			</a>
-		</li>   
+		</li>  
 		<?php } ?>
 		<li class="nav-item <?php echo ($activeLink=='items'?'active':'');?>">
 			<a class="nav-link" href="<?php echo base_url();?>items">Items</a>
 		</li> 
-		<?php $validateUser = $this->session->fullname;
-		if ($validateUser == 'Admin') {
+		<?php $role =$this->session->Role; if( $role==1 || $role==8){
 			?>
 			<div class="nav-link navbar dropdown <?php echo ($activeLink=='others'?'active':'');?> ">
 				<li class="nav-item dropdown-toggle " data-toggle="dropdown">

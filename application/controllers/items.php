@@ -20,15 +20,15 @@ class items extends CI_Controller {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         if($this->session->loggedIn === TRUE) {
            // Allowed methods
-         if ($this->session->isAdmin || $this->session->isSuperAdmin) {
+           if ($this->session->isAdmin || $this->session->isSuperAdmin) {
              //User management is reserved to admins and super admins
-         } else {
-           redirect('errors/privileges');
-       }
-   } else {
-     redirect('connection/login');
- }
- $this->load->model('items_model');
+           } else {
+             redirect('errors/privileges');
+         }
+     } else {
+       redirect('connection/login');
+   }
+   $this->load->model('items_model');
 }
 
     /**
@@ -121,6 +121,7 @@ class items extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = 'Create a new Item';
         $data['activeLink'] = 'items';
+        $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/create', $data);
@@ -148,6 +149,7 @@ class items extends CI_Controller {
         }
 
         if ($catitem=='' || $matitem=='' || $depitem=='' || $locitem=='' || $moditem=='' || $useritem==''|| $ownitem=='') {
+            $this->session->set_flashdata('msg', 'Cannot create! all field should be seleted...');
             redirect('items/create');
         }else{
             $getLoc = $this->items_model->getLocById($locitem);
@@ -222,15 +224,15 @@ class items extends CI_Controller {
     // detail item
 
     public function showDetailItem(){
-       $form = '';
-       $iditem=  $this->input->post('iditem'); 
-       $result = $this->items_model->showDetailItem($iditem);
-       $status='';
-       if ($result>0) {
+     $form = '';
+     $iditem=  $this->input->post('iditem'); 
+     $result = $this->items_model->showDetailItem($iditem);
+     $status='';
+     if ($result>0) {
         foreach ($result as $value) {
             if ($value->status==0) {
-             $status='Available';
-         }else{
+               $status='Available';
+           }else{
             $status='Not available';
         }
         $form .='<tr>';

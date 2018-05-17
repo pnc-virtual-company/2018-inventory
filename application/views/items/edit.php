@@ -138,7 +138,7 @@ tr:hover{cursor: pointer;}
                   <option value="Broken">Broken</option>
                 </select>
               </div>
-            <?php  $condition= $value->date; ?>
+              <?php  $condition= $value->date; ?>
               <!-- item date -->
               <div class="form-group">
                 <label for="inputdate">Date:</label>

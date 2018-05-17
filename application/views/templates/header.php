@@ -27,18 +27,20 @@ $langCode= (isset($langCode)) ? $langCode :  "en";
   }
   body {
     padding-top: 60px;
+    min-height: 0rem;
   }
+
   #logo-menu {
     max-width: 130px;
   }
   /*.menu {
     position: relative;
     left: 50%;
-  }*/
-  .form {
-    position: relative;
-    left: 53px;
-  }
+    }*/
+    .form {
+      position: relative;
+      left: 53px;
+    }
   /*.body-login {
     background-image: url('<?php echo base_url()?>assets/images/logo-img/bg-in.jpg');
     background-size: cover;

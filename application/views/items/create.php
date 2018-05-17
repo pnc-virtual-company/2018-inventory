@@ -21,6 +21,7 @@ tr:hover{ cursor: pointer;}
     <form id="frm_create" action="<?php echo base_url();?>items/itemcreate" method="POST">
       <div class="col-12">
         <h2>Create a new item</h2>
+        <div><?php echo $flashPartialView;?></div>
         <div class="form-group">
           <label class="control-label" for="itemname">Name</label>
           <input type="text" class="form-control" name="nameitem" id="itemname" placeholder="Enter Item name" required autofocus />
