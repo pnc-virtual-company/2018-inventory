@@ -8,18 +8,20 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 </style>
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
 
-	<a class="navbar-brand" href="<?php echo base_url();?>"><img id="logo-menu" src="<?php echo base_url() ?>assets/images/logo-img/logo.png" alt=""></a>
+	<a class="navbar-brand" href="<?php echo base_url();?>items"><img id="logo-menu" src="<?php echo base_url() ?>assets/images/logo-img/logo.png" alt=""></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
 	aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 	<span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse menu navbar-right" id="navbarsExampleDefault">
 	<ul class="navbar-nav ml-auto ">
+		<?php if( $this->session->fullname=='Admin'){?>
 		<li class="nav-item">	
-			<a class="nav-link text-primary" href="<?php echo base_url();?>items/create">
+			<a class="nav-link text-primary" href="<?php echo base_url();?>items/create" data-toggle="tooltip" title="Create new item">
 				<i class="mdi mdi-plus-circle "></i>
 			</a>
 		</li>   
+		<?php } ?>
 		<li class="nav-item <?php echo ($activeLink=='items'?'active':'');?>">
 			<a class="nav-link" href="<?php echo base_url();?>items">Items</a>
 		</li> 
@@ -54,8 +56,8 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 					</a>
 				</li>
 				<li class="nav-item">	
-					<a class="nav-link text-success" href="<?php echo base_url();?>connection/logout">
-						<i class="mdi mdi-power"></i>
+					<a class="nav-link text-success" href="<?php echo base_url();?>connection/logout" data-toggle="tooltip" title="Logout">
+						<i class="mdi mdi-logout"></i>
 					</a>
 				</li>
 			</ul>

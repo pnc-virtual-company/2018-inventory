@@ -8,24 +8,22 @@
  */
 ?>
 <style>
-.highlight { background-color: #007bff; color:#fff; font-weight: bold;}
+.highlight { background-color: #007bff; color:#fff;}
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
 }
+tr:hover{ cursor: pointer;}
 </style>
 <div class="container bg-light">
   <div class="row-fluid">
     <form id="frm_create" action="<?php echo base_url();?>items/itemcreate" method="POST">
       <div class="col-12">
-
         <h2>Create a new item</h2>
-
-
         <div class="form-group">
           <label class="control-label" for="itemname">Name</label>
-          <input type="text" class="form-control" name="nameitem" id="itemname" placeholder="Enter Item name" required />
+          <input type="text" class="form-control" name="nameitem" id="itemname" placeholder="Enter Item name" required autofocus />
         </div>
         <!-- description input -->
         <div class="form-group">

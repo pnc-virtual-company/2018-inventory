@@ -1,11 +1,12 @@
 
 <style>
-.highlight { background-color: #007bff; color:#fff; font-weight: bold;}
+.highlight { background-color: #007bff; color:#fff;}
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
 }
+tr:hover{cursor: pointer;}
 </style>
 <div class="container bg-light">
   <div class="row-fluid">
@@ -17,7 +18,7 @@ input[type=number]::-webkit-outer-spin-button {
           <h2><?php echo $title.' ( '.$value->item.' )'; ?></h2>
           <div class="form-group">
             <label class="control-label" for="itemname">Name</label>
-            <input type="text" class="form-control" name="nameitem" id="itemname" value="<?php echo $value->item ?>" required />
+            <input type="text" class="form-control" name="nameitem" id="itemname" value="<?php echo $value->item ?>" required autofocus/>
           </div>
           <!-- description input -->
           <div class="form-group">
@@ -125,43 +126,43 @@ input[type=number]::-webkit-outer-spin-button {
                 </div>
               </div>
 
-              <?php 
-            }
-            ?>
-          </div>
-          <div class="col-4">
-            <!-- item condition -->
-            <div class="form-group">
-              <label for="sel1">Condition:</label>
-              <select class="form-control" id="sel1" name="conditionitem">
-                <option value="New">New</option>
-                <option value="Fair">Fair</option>
-                <option value="Damaged">Damaged</option>
-                <option value="Broken">Broken</option>
-              </select>
             </div>
+            <div class="col-4">
+              <!-- item condition -->
+              <div class="form-group">
+                <label for="sel1">Condition:</label>
+                <select class="form-control" id="sel1" name="conditionitem">
+                  <option value="New">New</option>
+                  <option value="Fair">Fair</option>
+                  <option value="Damaged" selected>Damaged</option>
+                  <option value="Broken">Broken</option>
+                </select>
+              </div>
+            <?php  $condition= $value->date; ?>
+              <!-- item date -->
+              <div class="form-group">
+                <label for="inputdate">Date:</label>
+                <input type="date" class="form-control" aria-label="date" aria-describedby="basic-addon2" id="inputdate" name="dateitem" value="<?php echo $value->date; ?>">
+              </div>
 
-            <!-- item date -->
-            <div class="form-group">
-              <label for="inputdate">Date:</label>
-              <input type="date" class="form-control" aria-label="date" aria-describedby="basic-addon2" id="inputdate" name="dateitem" value="<?php echo $value->date; ?>">
-            </div>
-
-            <!-- item cost -->
-            <div class="form-group">
-              <label for="inputcost">Cost:</label>
-              <div class="input-group mb-3">
-                <div class="input-group-append">
-                  <button disabled class="btn btn-outline-info text-dark" type="button" >$</button>
+              <!-- item cost -->
+              <div class="form-group">
+                <label for="inputcost">Cost:</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-append">
+                    <button disabled class="btn btn-outline-info text-dark" type="button" >$</button>
+                  </div>
+                  <input type="number" class="form-control" aria-label="cost" aria-describedby="basic-addon2" id="inputcost" name="costitem" value="<?php echo $value->cost; ?>">
                 </div>
-                <input type="number" class="form-control" aria-label="cost" aria-describedby="basic-addon2" id="inputcost" name="costitem" value="<?php echo $value->cost; ?>">
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
+      <?php 
+    }
+    ?>
     <div class="row-fluid">
       <div class="col-12">
         <button id="send" class="btn btn-primary" type="submit">
