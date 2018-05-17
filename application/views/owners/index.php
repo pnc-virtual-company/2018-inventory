@@ -12,43 +12,33 @@
 <br>
 <div id="container" class="container">
 	<div class="row-fluid">
-    <div class="row">
-      <div class="col-9">
-        <h2><?php echo $title;?></h2>
-      </div>
-      <div class="col-3">
-       <!-- create new department -->
-       <?php $validateUser = $this->session->fullname;
-       if ($validateUser == 'Admin') {
-        ?>
-        <div class="container">
-          <div class="row-fluid">
-            <div class="col-12">
-             <button type="button" class="btn btn-primary add-owner float-right" id="add-owner">
-               <i class="mdi mdi-plus-circle"></i>&nbsp;Create owner
-             </button>
-           </div>
-         </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-9">
+          <h2><?php echo $title;?></h2>
+        </div>
+        <div class="col-3">
+         <!-- create new department -->
+         <button type="button" class="btn btn-primary add-owner float-right" id="add-owner">
+           <i class="mdi mdi-plus-circle"></i>&nbsp;Create owner
+         </button>
        </div>
-       <?php } ?>
      </div>
    </div><br>
-   <div class="col-12">
+   <!-- <?php echo $flashPartialView;?> -->
+   <div class="alert alert-info" style="display: none;"></div>
+   <table id="owners" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody id="showdata">
 
-    <!-- <?php echo $flashPartialView;?> -->
-    <div class="alert alert-success" style="display: none;"></div>
-    <table id="owners" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Owners</th>
-        </tr>
-      </thead>
-      <tbody id="showdata">
-
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
+</div>
 </div>
 <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
 
@@ -96,30 +86,30 @@
     </div>
   </div>
 </div>
- <!-- Edite -->
-    <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Owner</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+<!-- Edite -->
+<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Owner</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frm_edit">
+          <div class="form-inline">
+
           </div>
-          <div class="modal-body">
-            <form id="frm_edit">
-              <div class="form-inline">
-                
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <a href="#" class="btn btn-primary create" id="update">OK</a>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          </div>
-        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary create" id="update">OK</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
+  </div>
+</div>
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
@@ -132,6 +122,7 @@
 // showAllOwner function get owner data to table 
 function showAllOwner()
 {
+  $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
   $.ajax({
     type: 'ajax',
     url: '<?php echo base_url();?>/owner/showAllOwner',
@@ -143,15 +134,10 @@ function showAllOwner()
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
-          n+
-          <?php $validateUser = $this->session->fullname;
-          if ($validateUser == 'Admin') {
-            ?>
-            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idowner+'"><i class="mdi mdi-pencil"></i></a>'+
-            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idowner+'"><i class="mdi mdi-delete"></i></a>'
-            <?php } ?>,
-            data[i].owner
-            ] ).draw( false );
+          n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idowner+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit owner"></i></a>'+
+          '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idowner+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete owner"></i></a>',
+          data[i].owner
+          ] ).draw( false );
         n++;
       }
     },
@@ -165,8 +151,8 @@ function showAllOwner()
 // create_owner with ajax
 $("#add-owner").click(function(){
   $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
-            $('input[name=create_owner]').focus();
-          });
+    $('input[name=create_owner]').focus();
+  });
 });
 // save new owner button even
 $("#create").click(function(){
@@ -188,7 +174,7 @@ $("#create").click(function(){
         if(data.status){
           $('#frm_create')[0].reset();
           $('#frmConfirmAdd').modal('hide');
-          $('.alert-success').html('Owner was added successfully').fadeIn().delay(6000).fadeOut('slow');
+          $('.alert-info').html('Owner was added successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllOwner();
         }
       },
@@ -215,7 +201,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Owner was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
+      $('.alert-info').html('Owner was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
       showAllOwner();
     },
     error: function(){
@@ -237,9 +223,9 @@ $('#showdata').on('click', '.item-edit', function(){
     dataType: 'json',
     success: function(data){
       $('#frm_edit').html(data);
-     $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
-            $('input[name=update_owner]').focus();
-          });
+      $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+        $('input[name=update_owner]').focus();
+      });
     },
     error: function(){
       alert('Could not get any data from Database');
@@ -267,7 +253,7 @@ $("#update").click(function(){
         if(data.status){
           $('#frm_edit')[0].reset();
           $('#frmConfirmEdit').modal('hide');
-          $('.alert-success').html('Owner was updated successfully').fadeIn().delay(6000).fadeOut('slow');
+          $('.alert-info').html('Owner was updated successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllOwner();
         }
       },

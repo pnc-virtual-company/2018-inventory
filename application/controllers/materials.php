@@ -76,7 +76,7 @@ class materials extends CI_Controller {
         if ($result>0) {
             foreach ($result as $material) {
                 $form .='<div class="form-inline">';
-                $form .='<label for="">material: </label> &nbsp;<input type="text" class="form-control" name="update_material" value="'.$material->material.'"> <input type="hidden" value="'.$material->idmaterial.'" name="id">';
+                $form .='<label for="">Material: </label> &nbsp;<input type="text" class="form-control" name="update_material" value="'.$material->material.'"> <input type="hidden" value="'.$material->idmaterial.'" name="id">';
                 $form .='</div>';
             }
         }

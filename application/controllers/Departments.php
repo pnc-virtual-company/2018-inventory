@@ -69,7 +69,7 @@ class Departments extends CI_Controller {
         if ($result>0) {
             foreach ($result as $department) {
                 $form .='<div class="form-inline">';
-                $form .='<label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="update_department" value="'.$department->department.'"> <input type="hidden" value="'.$department->iddepartment.'" name="id">';
+                $form .='<label for="">Department: </label> &nbsp;<input type="text" class="form-control" name="update_department" value="'.$department->department.'"> <input type="hidden" value="'.$department->iddepartment.'" name="id">';
                 $form .='</div>';
             }
         }

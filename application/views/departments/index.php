@@ -3,43 +3,33 @@
 <br>
 <div id="container" class="container">
   <div class="row-fluid">
-    <div class="row">
-      <div class="col-9">
-        <h2><?php echo $title;?></h2>
-      </div>
-      <div class="col-3">
-       <!-- create new department -->
-       <?php $validateUser = $this->session->fullname;
-       if ($validateUser == 'Admin') {
-        ?>
-        <div class="container">
-          <div class="row-fluid">
-            <div class="col-12">
-             <button type="button" class="btn btn-primary add-department" id="add-department">
-               <i class="mdi mdi-plus-circle"></i>&nbsp;Create department
-             </button>
-           </div>
-         </div>
+   <div class="col-12">   
+     <div class="row">
+       <div class="col-9">
+         <h2><?php echo $title;?></h2>
        </div>
-       <?php } ?>
-     </div>
-   </div><br>
-   <div class="col-12">
-
-    <!-- <?php echo $flashPartialView;?> -->
-    <div class="alert alert-success" style="display: none;"></div>
-    <table id="department" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Departments</th>
-        </tr>
-      </thead>
-      <tbody id="showdata">
-
-      </tbody>
-    </table>
+       <div class="col-3">
+        <!-- create new department -->
+         <button type="button" class="btn btn-primary add-department float-right" id="add-department">
+          <i class="mdi mdi-plus-circle"></i>&nbsp;Create department
+        </button>
+    </div>
   </div>
+  </div><br>
+  <!-- <?php echo $flashPartialView;?> -->
+  <div class="alert alert-info" style="display: none;"></div>
+  <table id="department" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody id="showdata">
+
+    </tbody>
+  </table>
+</div>
 </div>
 <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
 
@@ -100,7 +90,7 @@
       <div class="modal-body">
         <form id="frm_edit">
           <div class="form-inline">
-           
+
           </div>
         </form>
       </div>
@@ -123,6 +113,7 @@
 // showAlldepartment function get department data to table 
 function showAllDepartments()
 {
+  $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
   $.ajax({
     type: 'ajax',
     url: '<?php echo base_url();?>departments/showAllDepartments',
@@ -134,13 +125,8 @@ function showAllDepartments()
       var i;
       for(i=0; i<data.length; i++){
         t.row.add( [
-          n+
-          <?php $validateUser = $this->session->fullname;
-          if ($validateUser == 'Admin') {
-            ?>
-            '&nbsp;<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil"></i></a>'+
-            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete"></i></a>'
-            <?php } ?>,
+          n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit department"></i></a>'+
+            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete department"></i></a>',
             data[i].department
             ] ).draw( false );
         n++;
@@ -157,7 +143,7 @@ function showAllDepartments()
 $("#add-department").click(function(){
   $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
     $('input[name=create_department]').focus();
-          });
+  });
 });
 
 // save new department button even
@@ -180,7 +166,7 @@ $("#create").click(function(){
         if(data.status){
           $('#frm_create')[0].reset();
           $('#frmConfirmAdd').modal('hide');
-          $('.alert-success').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
+          $('.alert-info').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },
@@ -206,7 +192,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Department was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
+      $('.alert-info').html('Department was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
       showAllDepartments();
     },
     error: function(){
@@ -230,8 +216,8 @@ $('#showdata').on('click', '.item-edit', function(){
     success: function(data){
       $('#frm_edit').html(data);
       $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
-            $('input[name=update_department]').focus();
-          });
+        $('input[name=update_department]').focus();
+      });
     },
     error: function(){
       alert('Could not get any data from Database');
@@ -260,7 +246,7 @@ $("#update").click(function(){
         if(data.status){
           $('#frm_edit')[0].reset();
           $('#frmConfirmEdit').modal('hide');
-          $('.alert-success').html('Department was updated successfully').fadeIn().delay(6000).fadeOut('slow');
+          $('.alert-info').html('Department was updated successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },
