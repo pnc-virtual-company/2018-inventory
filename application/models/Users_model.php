@@ -217,10 +217,7 @@ class Users_model extends CI_Model {
             'firstname' => $row->firstname,
             'lastname' => $row->lastname,
             'fullname' => $row->firstname,
-
-            'fullname' => $row->firstname,
-
-
+            'Role' => $row->role,
             'isAdmin' => $isAdmin,
             'isSuperAdmin' => $isSuperAdmin,
             'loggedIn' => TRUE
