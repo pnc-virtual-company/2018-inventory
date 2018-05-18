@@ -38,7 +38,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create category</h5>
+        <h5 class="modal-title">Create new category</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -86,7 +86,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create Category</h5>
+        <h5 class="modal-title">Create category</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -113,8 +113,9 @@
   $(function() {
 
       // $('[data-toggle="tooltip"]').tooltip();
-      var c = $('#category').DataTable();
+      var c = $('#category').DataTable({order:[]});
       showAllCat();
+
       function showAllCat()
       {
         $("#displayCat").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
@@ -127,17 +128,15 @@
             c.clear().draw();
             var i;
             var n = 1;
-
             for(i=0; i<data.length; i++){
               c.row.add ( [
                 n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit category" ></i></a>'+
                 '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="delete category"></i></a>',
-
                 data[i].category
                 ] ).draw( false );
               n++;    
             }
-
+            // alert('successfully');
           },
           error: function(){
             alert('Could not get Data from Database');

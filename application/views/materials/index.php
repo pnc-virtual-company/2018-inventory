@@ -40,7 +40,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create material</h5>
+        <h5 class="modal-title">Create new material</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -84,7 +84,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit Material</h5>
+        <h5 class="modal-title">Edit material</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -109,7 +109,8 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#material').DataTable();
+    // var t = $('#material').DataTable();
+    var t = $('#material').DataTable({order:[]});
     showAllMaterial();
 
 // showAllMaterial function get material data to table 

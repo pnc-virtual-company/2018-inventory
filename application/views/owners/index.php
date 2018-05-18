@@ -47,7 +47,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create owner</h5>
+        <h5 class="modal-title">Create new owner</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -91,7 +91,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit Owner</h5>
+        <h5 class="modal-title">Edit owner</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -116,7 +116,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#owners').DataTable();
+    var t = $('#owners').DataTable({order:[]});
     showAllOwner();
 
 // showAllOwner function get owner data to table 
