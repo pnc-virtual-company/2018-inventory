@@ -38,7 +38,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create department</h5>
+        <h5 class="modal-title">Create new department</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -107,7 +107,8 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#department').DataTable();
+    // var t = $('#department').DataTable();
+    var t = $('#department').DataTable({order:[]});
     showAllDepartments();
 
 // showAlldepartment function get department data to table 

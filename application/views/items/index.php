@@ -109,7 +109,7 @@
             <col span="1" style="background-color:#eff3f7;">
           </colgroup>
           <tbody id="frm_view">
-
+            
           </tbody>
         </table>
       </div> 
@@ -141,25 +141,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#items').DataTable({
-      colReorder: true,
-      responsive: true,
-      'ajax':{
-        'type': 'GET',
-        'url':'<?php echo base_url();?>items/showAllitems',
-        'dataType':'json'
-      },
-      "colReorder": {
-        fixedColumnsLeft:1,
-      },
-      "dom":"Bfrtip",
-      stateSave: true,
-      "buttons":[
-      {
-        extend:'colvis',
-        columns:':not(.permanent)'
-      }]
-    });
+    var t = $('#items').DataTable({order:[]});
     showAllitems();
 // showAllitems function get items data to table 
 function showAllitems()
@@ -182,8 +164,6 @@ function showAllitems()
           status='<span class="badge badge-warning">Borrowed</span>';
         }
         <?php $role =$this->session->Role; ?>
-
-
         t.row.add( [
           data[i].itemcodeid+
           '&nbsp;<?php  

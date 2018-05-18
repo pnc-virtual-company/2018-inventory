@@ -47,7 +47,7 @@
  <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
    <div class="modal-header">
-    <h5 class="modal-title">Create Model</h5>
+    <h5 class="modal-title">Create new model</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -117,7 +117,8 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script>
  $(document).ready(function() {
-  var t = $('#models').DataTable();
+  // var t = $('#models').DataTable();
+  var t = $('#models').DataTable({order:[]});
   showAllModels();
    // showAllBrand function get brand data to table 
    function showAllModels()

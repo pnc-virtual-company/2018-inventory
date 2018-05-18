@@ -45,7 +45,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create Location</h5>
+        <h5 class="modal-title">Create new location</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -53,7 +53,7 @@
       <div class="modal-body">
         <form id="frm_create">
           <div class="form-inline">
-            <label for="">location: </label> &nbsp;<input type="text" class="form-control" name="create_location">
+            <label for="">Location: </label> &nbsp;<input type="text" class="form-control" name="create_location">
           </div>
         </form>
       </div>
@@ -90,7 +90,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit Location</h5>
+        <h5 class="modal-title">Edit location</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -116,7 +116,8 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        var t = $('#location').DataTable();
+        // var t = $('#location').DataTable();
+        var t = $('#location').DataTable({order:[]});
         showAlllocat();
 
 // showAll location function get owner data to table 

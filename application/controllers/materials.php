@@ -37,7 +37,7 @@ class materials extends CI_Controller {
      */
     public function index() {
         $this->load->helper('form');
-        $data['title'] = 'List of Materials';
+        $data['title'] = 'List of materials';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
