@@ -20,6 +20,9 @@
   color: #fff !important;
   border-radius: 2px !important;
 }
+.badge{
+  padding: 5px;
+}
 </style>
 <br>
 <div id="container">
@@ -174,9 +177,9 @@ function showAllitems()
       var status="";
       for(i=0; i<data.length; i++){
         if (data[i].status=='0') {
-          status='Available';
+          status='<span class="badge badge-success">Available</span>';
         }else{
-          status='Not available';
+          status='<span class="badge badge-warning">Borrowed</span>';
         }
         <?php $role =$this->session->Role; ?>
 
@@ -189,7 +192,7 @@ function showAllitems()
            '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
            '<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'
            ,
-           data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,'<span class="text-primary">'+status+' </span>'
+           data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
            ] ).draw( false );
         n++;
       }
@@ -199,6 +202,16 @@ function showAllitems()
     }
   });
 }
+
+  //  Combine btn onclick OK with key Enter when delete  
+
+  $('#deleteModal').keypress(function(e){
+       if(e.which === 13){//Enter key pressed
+        e.preventDefault();
+          $('#delete-comfirm').click();//Trigger search button click event
+        }
+      });
+
 // delete item by ajax
 $('#showdata').on('click', '.item-delete', function(){
   var id = $(this).attr('dataid');

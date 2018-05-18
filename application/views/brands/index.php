@@ -115,33 +115,58 @@
    // showAllBrand function get brand data to table 
    function showAllBrand()
    {
-    $("#brand_row").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
-    $.ajax({
-     type: 'ajax',
-     url: '<?php echo base_url();?>/brand/showAllBrand',
-     async: true,
-     dataType: 'json',
-     success: function(data){
-      t.clear().draw();
-      var n =1;
-      var i;
-      for(i=0; i<data.length; i++){
-       t.row.add( [
-        n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit brand"></i></a>'+
-        '<a href="#" class="item-delete text-danger" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete brand"></i></a>',
-        data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted" data-toggle="tooltip" title="View all models"></i></a> '+ data[i].ModelCount+
-        ' model (s)'
-
-             // '<a  title="List models"><i class="mdi mdi-format-list-bulleted"></i>'+ 3 model(s)+'</a>'
-             ] ).draw( false );
-       n++;
+      $("#brand_row").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
+      $.ajax({
+       type: 'ajax',
+       url: '<?php echo base_url();?>/brand/showAllBrand',
+       async: true,
+       dataType: 'json',
+       success: function(data){
+        t.clear().draw();
+        var n =1;
+        var i;
+        for(i=0; i<data.length; i++){
+         t.row.add( [
+          n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idbrand+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit brand"></i></a>'+
+          '<a href="#" class="item-delete text-danger" dataid="'+data[i].idbrand+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete brand"></i></a>',
+          data[i].brand,'<a href="<?php echo base_url(); ?>models/index/'+data[i].idbrand+'" title=""><i class="mdi mdi-format-list-bulleted" data-toggle="tooltip" title="View all models"></i></a> '+ data[i].ModelCount+
+          ' model (s)'
+               ] ).draw( false );
+         n++;
+       }
+    },
+     error: function(){
+       alert('Could not get Data from Database');
      }
-   },
-   error: function(){
-     alert('Could not get Data from Database');
-   }
- });
+    });
   }
+
+      //  Combine btn onclick OK with key Enter when create
+
+      $('#frmConfirmCreate').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+              e.preventDefault();
+                $('#saveBrand').click();//Trigger search button click event
+              }
+            });
+
+        //  Combine btn onclick OK with key Enter when delete  
+
+        $('#frmConfirmDelete').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+              e.preventDefault();
+                $('#delete-comfirm').click();//Trigger search button click event
+              }
+            });
+
+         //  Combine btn onclick OK with key Enter when update  
+
+         $('#frmConfirmEdit').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+              e.preventDefault();
+                $('#update').click();//Trigger search button click event
+              }
+            });
 
        // create
        $("#createBrand").click( function(){

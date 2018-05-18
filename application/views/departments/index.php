@@ -10,11 +10,11 @@
        </div>
        <div class="col-3">
         <!-- create new department -->
-         <button type="button" class="btn btn-primary add-department float-right" id="add-department">
+        <button type="button" class="btn btn-primary add-department float-right" id="add-department">
           <i class="mdi mdi-plus-circle"></i>&nbsp;Create department
         </button>
+      </div>
     </div>
-  </div>
   </div><br>
   <!-- <?php echo $flashPartialView;?> -->
   <div class="alert alert-info" style="display: none;"></div>
@@ -126,9 +126,9 @@ function showAllDepartments()
       for(i=0; i<data.length; i++){
         t.row.add( [
           n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit department"></i></a>'+
-            '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete department"></i></a>',
-            data[i].department
-            ] ).draw( false );
+          '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete department"></i></a>',
+          data[i].department
+          ] ).draw( false );
         n++;
       }
     },
@@ -138,6 +138,34 @@ function showAllDepartments()
   });
 
 }
+
+  //  Combine btn onclick OK with key Enter when create
+
+  $('#frmConfirmAdd').keypress(function(e){
+         if(e.which === 13){//Enter key pressed
+          e.preventDefault();
+            $('#create').click();//Trigger search button click event
+          }
+        });
+
+    //  Combine btn onclick OK with key Enter when delete  
+
+    $('#deleteModal').keypress(function(e){
+         if(e.which === 13){//Enter key pressed
+          e.preventDefault();
+            $('#delete-comfirm').click();//Trigger search button click event
+          }
+        });
+
+     //  Combine btn onclick OK with key Enter when update  
+
+     $('#frmConfirmEdit').keypress(function(e){
+         if(e.which === 13){//Enter key pressed
+          e.preventDefault();
+            $('#update').click();//Trigger search button click event
+          }
+        });
+
 
 // create_department with ajax
 $("#add-department").click(function(){
