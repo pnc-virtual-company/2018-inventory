@@ -106,7 +106,7 @@
             <col span="1" style="background-color:#eff3f7;">
           </colgroup>
           <tbody id="frm_view">
-
+            
           </tbody>
         </table>
       </div> 
