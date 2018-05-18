@@ -208,7 +208,7 @@ $("#delete-comfirm").on('click',function(){
     dataType: "json",
     success: function(data){
       $('#deleteModal').modal('hide');
-      $('.alert-success').html('Item was deleted successfully').fadeIn().delay(4000).fadeOut('slow');
+      $('.alert-info').html('Item was deleted successfully').fadeIn().delay(4000).fadeOut('slow');
       showAllitems();
     },
     error: function(){

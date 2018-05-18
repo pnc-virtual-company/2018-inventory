@@ -99,7 +99,7 @@ class items extends CI_Controller {
 
         $item_update = $this->items_model->update_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code,$id);
         if ($item_update) {
-            $this->session->set_flashdata('msg', 'The item was successfully updated');
+            $this->session->set_flashdata('msg', 'The item was updated successfully.');
             redirect('items');
         }
         
@@ -150,7 +150,7 @@ class items extends CI_Controller {
 
             $item_insert = $this->items_model->add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code);
             if ($item_insert) {
-                $this->session->set_flashdata('msg', 'The item was successfully created');
+                $this->session->set_flashdata('msg', 'The item was created successfully.');
                 redirect('items');
             }
         }
