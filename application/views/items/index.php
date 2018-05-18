@@ -109,7 +109,7 @@
             <col span="1" style="background-color:#eff3f7;">
           </colgroup>
           <tbody id="frm_view">
-            
+
           </tbody>
         </table>
       </div> 
@@ -141,7 +141,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var t = $('#items').DataTable({order:[]});
+    var t = $('#items').DataTable({
+      order:[],
+      colReorder: true,
+      responsive: true,
+      'ajax':{
+        'type': 'GET',
+        'url':'<?php echo base_url();?>items/showAllitems',
+        'dataType':'json'
+      },
+      "colReorder": {
+        fixedColumnsLeft:1,
+      },
+      "dom":"Bfrtip",
+      stateSave: true,
+      "buttons":[
+      {
+        extend:'colvis',
+        columns:':not(.permanent)'
+      }]
+    });
     showAllitems();
 // showAllitems function get items data to table 
 function showAllitems()
