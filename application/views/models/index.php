@@ -148,6 +148,33 @@
  });
   }
 
+    //  Combine btn onclick OK with key Enter when create
+
+    $('#frmConfirmCreate').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#saveModel').click();//Trigger search button click event
+            }
+          });
+
+      //  Combine btn onclick OK with key Enter when delete  
+
+      $('#frmConfirmDelete').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#delete-comfirm').click();//Trigger search button click event
+            }
+          });
+
+       //  Combine btn onclick OK with key Enter when update  
+
+       $('#frmConfirmEdit').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#update').click();//Trigger search button click event
+            }
+          });
+
        // create
        $("#create_model").click( function(){
          // $('#frmConfirmCreate').modal('show');

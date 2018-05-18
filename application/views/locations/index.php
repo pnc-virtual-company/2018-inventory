@@ -148,6 +148,34 @@ function showAlllocat()
   });
 }
 
+    //  Combine btn onclick OK with key Enter when create
+
+    $('#frmConfirmAdd').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#create').click();//Trigger search button click event
+            }
+          });
+
+      //  Combine btn onclick OK with key Enter when delete  
+
+      $('#deleteModal').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#delete-comfirm').click();//Trigger search button click event
+            }
+          });
+
+       //  Combine btn onclick OK with key Enter when update  
+
+       $('#frmConfirmEdit').keypress(function(e){
+           if(e.which === 13){//Enter key pressed
+            e.preventDefault();
+              $('#update').click();//Trigger search button click event
+            }
+          });
+
+
 // create_location with ajax
 $("#add-location").click(function(){
   $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){

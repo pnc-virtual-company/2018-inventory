@@ -61,7 +61,7 @@
   </div>
 </div>
 
-<!-- delete  -->
+<!-- Modal delete  -->
 <div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -110,6 +110,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
+
   $(function() {
 
       // $('[data-toggle="tooltip"]').tooltip();
@@ -143,11 +144,40 @@
           }
         });
       }
+
+      //  Combine btn onclick OK with key Enter when create
+
+        $('#frmConfirmAdd').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+                e.preventDefault();
+                $('#btn-create').click();//Trigger search button click event
+             }
+         });
+
+        //  Combine btn onclick OK with key Enter when delete  
+
+         $('#frmConfirmDelete').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+                e.preventDefault();
+                $('#delete-comfirm').click();//Trigger search button click event
+             }
+         });
+
+         //  Combine btn onclick OK with key Enter when update  
+
+         $('#frmConfirmEdit').keypress(function(e){
+             if(e.which === 13){//Enter key pressed
+                e.preventDefault();
+                $('#update').click();//Trigger search button click event
+             }
+         });
+
         // create_owner with ajax
         $("#add_category").click(function(){
           $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
             $('input[name=createCategory]').focus();
           });
+          
         });
         // save new category button even
         $("#btn-create").click(function(){
@@ -171,7 +201,6 @@
                 if(data.status){
                   $('#frm_create')[0].reset();
                   $('#frmConfirmAdd').modal('hide');
-                  
                   $('.alert-info').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
                   showAllCat();
                 }
@@ -197,11 +226,12 @@
              $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
               $('input[name=update_category]').focus();
             });
+            
            },
-           error: function(){
-             alert('Could not get any data from Database');
-           }
-         });
+         error: function(){
+           alert('Could not get any data from Database');
+         }
+       });
        });
 
 
@@ -264,5 +294,8 @@
       });
 
     });
-  </script>
+
+
+  
+</script>
 
