@@ -286,4 +286,8 @@ class items extends CI_Controller {
 }
 echo json_encode($form);
 }
+
+ public function export() {
+        $this->load->view('items/export');
+    }
 }

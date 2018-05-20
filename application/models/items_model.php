@@ -1,5 +1,3 @@
-
-
 <?php
 /**
  * This model contains the business logic and manages the persistence of users and roles
@@ -12,7 +10,32 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  */
 class items_model extends CI_Model {
 
-   
+    /**
+     * Get the list of users or one user
+     * @param int $id optional id of one user
+     * @return array record of users
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function getitems($id = 0) {
+        $this->db->select('item.iditem,item.code, item.item, item.itemdescription AS "description",condition as "condition",  item.itemcost AS "cost", item.date AS "date", category.category AS ,"cat",location.location as "locat", users.firstname AS "nameuser",department.department as "depart",material.material as "mat",model.model as "model", owner.owner as "owner"
+            ');
+        $this->db->join('category', 'category.idcategory = item.categoryid','left');    
+        $this->db->join('material', 'material.idmaterial = item.materialid','left');    
+        $this->db->join('department', 'department.iddepartment = item.departmentid','left');    
+        $this->db->join('location', 'location.idlocation = item.locationid','left');    
+        $this->db->join('users', 'users.id = item.userid','left');    
+        $this->db->join('owner', 'owner.idowner = item.ownerid','left'); 
+        $this->db->join('model', 'model.idmodel = item.modelid','left'); 
+        $this->db->join('brand', 'model.brandid = brand.idbrand','left'); 
+        
+        if ($id === 0) {
+            $query = $this->db->get('item');
+            return $query->result_array();
+        }
+        $query = $this->db->get_where('item', array('item.iditem' => $id));
+        return $query->row_array();
+    }
+    
     public function showEditItems($id){
         $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", users.firstname AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date"');
         $this->db->join('category', 'category.idcategory = item.categoryid','left');    
@@ -89,7 +112,6 @@ class items_model extends CI_Model {
             return false;  
         } 
     }
-
     // Model select material
     public function getAllMat()
     {  

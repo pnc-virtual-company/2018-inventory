@@ -34,7 +34,7 @@
         </div>
         <div class="col-2">
           <?php  $role =$this->session->Role; if( $role==1 || $role==8){?>
-          <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+            <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
           <?php } ?>
         </div>
       </div>
@@ -68,8 +68,14 @@
   </div>
 </div>
 </div>
-<div class="row-fluid"><div class="col-12">&nbsp;</div></div>
+ <!-- <div class="row-fluid"><div class="col-12">&nbsp;</div></div> -->
 
+<div class="row-fluid">
+  <div class="col-12">
+    <a href="<?php echo base_url();?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
+    &nbsp;
+  </div>
+</div>
 
 <!-- delete -->
 <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -142,7 +148,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var t = $('#items').DataTable({
-      order:[],
+      order:[] ,
       colReorder: true,
       responsive: true,
       'ajax':{
