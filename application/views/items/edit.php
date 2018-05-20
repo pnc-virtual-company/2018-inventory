@@ -23,7 +23,7 @@ tr:hover{cursor: pointer;}
           <!-- description input -->
           <div class="form-group">
             <label class="control-label" for="itemdes">Item description</label>
-            <textarea type="text" class="form-control" name="desitem" id="itemdes"  required style="resize: none; "/><?php echo $value->description ?></textarea>
+            <textarea type="text" class="form-control" name="desitem" id="itemdes" style="resize: none; "/><?php echo $value->description ?></textarea>
           </div>
 
           <div class="row">

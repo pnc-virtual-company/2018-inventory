@@ -29,7 +29,7 @@ tr:hover{ cursor: pointer;}
         <!-- description input -->
         <div class="form-group">
           <label class="control-label" for="itemdes">Item description</label>
-          <textarea type="text" class="form-control" name="desitem" id="itemdes" placeholder="Enter Item description" required style="resize: none; "/></textarea>
+          <textarea type="text" class="form-control" name="desitem" id="itemdes" placeholder="Enter Item description" style="resize: none; "/></textarea>
         </div>
         <div class="row">
           <div class="col-8">
