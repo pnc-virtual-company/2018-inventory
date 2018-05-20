@@ -13,7 +13,6 @@
         <tr>
           <td>New</td>
           <td>
-
             <?php 
             foreach ($reportNew as $key ) {
 
@@ -78,7 +77,6 @@
         <tbody id="showdata">
 
         </tbody>
-
       </table>
     </div>
     <div class="col-1"></div>
@@ -89,14 +87,12 @@
       </canvas>
     </div>
   </div>
-</div>
-
+</div><br><br>
 <script>
-
   $(function(){
     showDepartment();
     var bar ='';
-
+    // function count item and add to table
     function showDepartment(){
      $.ajax({
        type: 'ajax',
@@ -127,9 +123,8 @@
 
   piechart();
   barchart();
-// condition report pie chart
+// fucntion count item by condition report pie chart
 function piechart(){
-
   new Chart(document.getElementById("pie-chart"), {
     type: 'pie',
     data: {
@@ -156,64 +151,98 @@ function piechart(){
      },
      title: {
       display: true,
-      text: 'Number of items by condition'
+      text: 'Number of items by condition:'
     }
   }
 });
 }
-// Bar chart
+
+// funciton count item and set in bar chart
 function barchart(){
-// try new one : 
-
-$.ajax({
-  url: '<?php echo base_url();?>/reports/showDepCount',
-  type: 'POST',
-  dataType: 'json',
-  success: function(data){
-    var depCount = [];
-    var dep = [];
-    var i;                              
-    for(i=0; i<data.length; i++){
-      dep.push(data[i].department);
-      depCount.push(data[i].itemcount);
-    }
-
-    var chartdata = {
-      data: depCount,
-      labels: dep,
-      datasets: [{
-        label: "Number of items by department",
-        backgroundColor: [
-        "#546e7a",
-        "#9e9d24",
-        "#e65100",
-        "#8e5ea2",
-        "#3cba9f",
-        "#3e95cd", 
-        "#e8c3b9",
-        "#e8c3a9",
-        "#e8c2b9",
-        "#3caa9f",
-        "#a8c3d9",
-        "#00897b",
-        "#43a047",
-        ],
-        data: depCount
-      }] 
-    };
-
+  $.ajax({
+    url: '<?php echo base_url();?>/reports/showDepCount',
+    type: 'POST',
+    dataType: 'json',
+    success: function(data){
+      var depCount = [];
+      var dep = [];
+      var i;                              
+      for(i=0; i<data.length; i++){
+        dep.push(data[i].department);
+        depCount.push(data[i].itemcount);
+      }
+      var chartdata = {
+        data: depCount,
+        labels: dep,
+        datasets: [{
+          label: "Number of items by department",
+          backgroundColor: [
+          "#546e7a",
+          "#9e9d24",
+          "#e65100",
+          "#8e5ea2",
+          "#3cba9f",
+          "#3e95cd", 
+          "#e8c3b9",
+          "#e8c3a9",
+          "#e8c2b9",
+          "#3caa9f",
+          "#a8c3d9",
+          "#00897b",
+          "#43a047",
+          ],
+          data: depCount
+        }] 
+      };
           // Draw bar chart
           var ctx = $("#bar-chart");
+          // create object bar chart
           var barChart = new Chart(ctx, {
             type: 'bar',
-            data: chartdata
+            data: chartdata,
+            options: {
+              title: {
+                display: true,
+                text: 'Number of items by department:'
+              },
+              legend: {
+                display: false,
+              },
+              scales: {
+                yAxes: [{
+                  id: 'y-axis-0',
+                  gridLines: {
+                    display: true,
+                    lineWidth: 0.5,
+                    color: "rgba(0,0,0,0.30)"
+                  },
+                  ticks: {
+                    beginAtZero:true,
+                    mirror:false,
+                    suggestedMin: 0,
+                    // suggestedMax: 500,
+                  },
+                  afterBuildTicks: function(chart) {
+
+                  }
+                }],
+                xAxes: [{
+                  id: 'x-axis-0',
+                  gridLines: {
+                    display: false
+                  },
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
+              }
+
+            }
           });
         },
         error: function(){
           alert('your coding is wrong,please check it again and look one by one(focus)....');
         }
       });
-
 }
-
 </script>
