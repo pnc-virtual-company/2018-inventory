@@ -63,7 +63,7 @@ foreach(range('A', 'N') as $colD) {
     $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
 }
 
-$filename = 'Item.' . 'xlsx';
+$filename = 'Item list export.' . 'xlsx';
 header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="' . $filename . '"');
 header('Cache-Control: max-age=0');

@@ -120,6 +120,7 @@ class items extends CI_Controller {
 
 // add data create item
     public function itemcreate(){
+        $code ='';
         $nameitem = $this->input->post('nameitem');
         $desitem = $this->input->post('desitem');
         $catitem = $this->input->post('catitem');
@@ -138,22 +139,21 @@ class items extends CI_Controller {
             $idmaximum = $value->IdMax;
         }
 
-        if ($catitem=='' || $matitem=='' || $depitem=='' || $locitem=='' || $moditem=='' || $useritem==''|| $ownitem=='') {
-            $this->session->set_flashdata('msg', 'Cannot create! all field should be seleted...');
-            redirect('items/create');
-        }else{
+        if ( $locitem!='') {
+           
             $getLoc = $this->items_model->getLocById($locitem);
             foreach ($getLoc as $value) {
                 $locnamebyid = $value->location;
             }
             $code = $locnamebyid.'-'.$idmaximum;
+        }
+
 
             $item_insert = $this->items_model->add_item($nameitem,$desitem,$catitem,$matitem,$depitem,$locitem,$moditem,$useritem,$ownitem,$conditionitem,$dateitem,$costitem,$code);
             if ($item_insert) {
                 $this->session->set_flashdata('msg', 'The item was created successfully.');
                 redirect('items');
             }
-        }
     }
 
 // cat list
