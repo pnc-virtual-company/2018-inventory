@@ -35,7 +35,7 @@ class reports extends CI_Controller
         $data['reportBroken'] = $this->reports_model->getCountBroken();
         // $data['itemByDep'] = $this->reports_model->getItemByDepartment();
         // var_dump($data['reportNew']); die();
-        $data['title'] = 'Reports chart';
+        $data['title'] = 'Items Report:';
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
