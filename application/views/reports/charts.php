@@ -2,9 +2,12 @@
 <script src="<?php echo base_url();?>assets/js/Chart-2.7.1.min.js"></script>
 <br>
 <div class="container " id="container">
+  <u><h2 class="text-center"><?php echo $title; ?></h2></u>
   <div class="row">
     <div class="col-1"></div>
     <div class="col4 col-sm-12 col-lg-4 col-xs-12">
+      <br>
+      <br>
       <table class="table table-bordered bg-light">
         <tr class="bg-info text-white">
           <th>Condition</th>
@@ -15,7 +18,6 @@
           <td>
             <?php 
             foreach ($reportNew as $key ) {
-
               $new= $key->countNew;
               echo $new;
             }
@@ -59,7 +61,7 @@
     <div class="col-2"></div>
     <div class="col-4 col-sm-12 col-lg-4 col-xs-12 text-center">
       <!-- <h3>Nb of items by condition Pie chart</h3> -->
-      <canvas id="pie-chart" width="667" height="450" class="chartjs-render-monitor">
+      <canvas id="pie-chart" width="667" height="500" class="chartjs-render-monitor">
       </canvas>
     </div>
   </div>
@@ -67,6 +69,8 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-4 col-sm-12 col-lg-4 col-xs-12">
+      <br>
+      <br>
       <table class="table table-bordered bg-light">
         <thead>
           <tr class="bg-info text-white">
@@ -82,13 +86,14 @@
     <div class="col-1"></div>
     <div class="col-6 col-sm-12 col-lg-6 col-xs-12 text-center">
       <!-- <h3>Nb of items by department Bar chart</h3> -->
-      <canvas id="bar-chart" width="1000" height="450">
+      <canvas id="bar-chart" width="1000" height="650">
 
       </canvas>
     </div>
   </div>
 </div><br><br>
 <script>
+
   $(function(){
     showDepartment();
     var bar ='';
@@ -150,6 +155,8 @@ function piechart(){
        position: 'right'
      },
      title: {
+      padding: 40,
+      fontSize: 15,
       display: true,
       text: 'Number of items by condition:'
     }
@@ -157,14 +164,16 @@ function piechart(){
 });
 }
 
+
+// variable store plugin show value on chart (use in bar chart)
 var plugin={
-        afterDatasetsDraw: function(chart, easing) {
+  afterDatasetsDraw: function(chart, easing) {
             // To only draw at the end of animation, check for easing === 1
             var ctx = chart.ctx;
             chart.data.datasets.forEach(function (dataset, i) {
-                var meta = chart.getDatasetMeta(i);
-                if (!meta.hidden) {
-                    meta.data.forEach(function(element, index) {
+              var meta = chart.getDatasetMeta(i);
+              if (!meta.hidden) {
+                meta.data.forEach(function(element, index) {
                         // Draw the text in black, with the specified font
                         ctx.fillStyle = 'rgb(0, 0, 0)';
 
@@ -183,11 +192,11 @@ var plugin={
                         var padding = 5;
                         var position = element.tooltipPosition();
                         ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-                    });
-                }
+                      });
+              }
             });
-        }
-    };
+          }
+        };
 
 // funciton count item and set in bar chart
 function barchart(){
@@ -235,6 +244,8 @@ function barchart(){
             data: chartdata,
             options: {
               title: {
+                padding: 40,
+                fontSize: 15,
                 display: true,
                 text: 'Number of items by department:'
               },
