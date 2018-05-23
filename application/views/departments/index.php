@@ -68,7 +68,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Are you sure that you want to delete this material?</p>
+        <p>Are you sure that you want to delete this department?</p>
       </div>
       <div class="modal-footer">
         <a href="#" class="btn btn-primary" id="delete-comfirm">Yes</a>
