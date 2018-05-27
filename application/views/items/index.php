@@ -193,7 +193,7 @@ function showAllitems()
              ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
              '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
              '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
-             '&nbsp;<a href="<?php echo base_url();?>items/borrower/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-library-books" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>',
+             '&nbsp;<a href="<?php echo base_url();?>items/borrower/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-basket-fill" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>',
              
              data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
              ] ).draw( false );
@@ -218,6 +218,7 @@ function showAllitems()
              ] ).draw( false );
           n++;
         }else {
+          
             status='<span class="badge badge-danger">Late</span>';
 
             <?php $role =$this->session->Role; ?>
