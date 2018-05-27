@@ -19,6 +19,7 @@ class items extends CI_Controller {
         log_message('debug', 'URI=' . $this->uri->uri_string());
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->model('items_model');
+        // $this->returnLate();
 }
 
     /**
@@ -26,6 +27,7 @@ class items extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
+        $this->returnLate();        
         $this->load->helper('form');
         $data['title'] = 'List of Items';
         $data['activeLink'] = 'items';
@@ -290,4 +292,100 @@ echo json_encode($form);
  public function export() {
         $this->load->view('items/export');
     }
+
+    // use to get value of user for borrow item by id
+       public function borrowerName()
+       {
+        $borrower = $this->items_model->showUser();
+        echo json_encode($borrower );
+    }
+
+    // use to get list of borrower by id
+    public function borrower() { 
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $data['activeLink'] = 'items';
+        $data['title'] = 'Borrow an item';
+        $id = $this->uri->segment(3);
+        $data['borrow']=$this->items_model->showListBorrower($id);
+        // var_dump($data['borrow']);die();
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('items/borrow', $data);
+        $this->load->view('templates/footer');
+    }
+
+    // use for insert data into borrower table
+    public function insertBorrower(){
+        // $id = $this->uri->segment(3);
+        $borrower = $this->input->post('nameBorrower');
+        $item = $this->input->post('itemName');
+        $startDate = $this->input->post('startDate');
+        $returnDate = $this->input->post('returnDate');
+
+        $insertBorrowItem = $this->items_model->insertBorrow($borrower, $item, $startDate, $returnDate);
+        // var_dump($insertBorrowItem);die();
+        if ($insertBorrowItem) {
+           redirect('items');
+        }else {
+            echo "error";
+        }
+
+    }
+
+    // use to get list of returnItem by id
+    public function returnItem() { 
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $data['activeLink'] = 'items';
+        $data['title'] = 'Return an item';
+        $id = $this->uri->segment(3);
+        $data['borrow']=$this->items_model->showListBorrower($id);
+        $data['r_item']=$this->items_model->returnitem($id);
+        // var_dump($data['r_item']);die();
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('items/returnItem', $data);
+        $this->load->view('templates/footer');
+    }
+
+    // function use to return an item to update status 
+    public function returnAnItem()
+    {
+        // $id = $this->uri->segment(3);
+        $data['startDate'] = $this->input->post('startDate');
+        $data['actualDate'] = $this->input->post('actualDate');
+        // $data['returnDate'] = $this->input->post('returnDate');
+
+        $data['itemId'] = $this->input->post('itemId');
+        $maxIdBorrow = $this->items_model->getMaxIdBorrow($this->input->post('itemId'));
+        $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
+        //var_dump($data);die();
+        $status_update = $this->items_model->r_u_status($data);
+        // var_dump($status_update);die();
+        if ($status_update)
+        {
+            redirect('items');
+            // echo "updated status...";
+        }else {
+            echo "Error...";
+        }
+    }
+
+    // condition to make late status if the borrower return later than the  day they exprcted to return materail that borrowed
+    // public function returnLate()
+    // {
+      public function returnLate()
+        {
+        //     // $id = $this->uri->segment(3);
+            // $todayDate = $this->input->post('actualDate');
+          $lateIds=  $this->items_model->returnLate();
+          //print_r($lateIds);
+          foreach($lateIds as $value){                
+                $this->items_model->updateStatus($value->itemBorrow);
+          }
+     
+
+    }
+
 }

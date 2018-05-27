@@ -296,4 +296,134 @@ class items_model extends CI_Model {
         return $result;
     }
 
+        public function showBorrower(){
+          $this->db->select('users.firstname');
+          $this->db->from('users');
+          $query = $this->db->get();
+
+          if($query->num_rows() > 0){
+             return $query->result();
+         }else{
+             return false;
+         }
+     }
+
+    // use to get value of user for borrow item by id
+     public function showUser()
+     {
+        $this->db->select('id, CONCAT(skeleton_users.firstname," ",skeleton_users.lastname) AS "borrower"');
+        $sql = $this->db->get('users');
+        if($sql->num_rows() > 0){
+          return $sql->result();
+      }else{
+          return false;
+      }
+    }
+
+    // use to get list of borrower by id
+    public function showListBorrower($id){
+      $this->db->select('item.iditem, item.item');    
+      $this->db->where('iditem', $id);
+      $query = $this->db->get('item');
+      if($query->num_rows() > 0){
+          return $query->result();
+      }else{
+          return false;
+      }
+    }
+
+    //  This function use for insert data into borrower table in database 
+
+    public function insertBorrow($borrower, $item, $startDate, $returnDate)
+    {
+        $data = array(
+            'borrower'=> $borrower,
+            'itemBorrow' => $item,
+            'startDate' => $startDate,
+            'returnDate' => $returnDate
+        );
+        $query=$this->db->insert('borrow',$data);
+       
+           $this->db->set('status', '1');
+           $this->db->where('item.iditem',$item);
+           $this->db->update('item');
+        // $this->db->where('item.iditem',$item);
+        // return  $this->db->update('item', $update);
+           return $query;
+    }
+
+    // use to get list of return item by id
+    public function returnitem($id){
+        $queryStatement = "select * from skeleton_borrow WHERE skeleton_borrow.idBorrow in (select MAX(skeleton_borrow.idBorrow) from skeleton_borrow where skeleton_borrow.itemBorrow =".$id.')';
+        $query= $this->db->query($queryStatement); 
+        //return $query->result(); 
+      // $this->db->select('borrower,MAX(skeleton_borrow.idBorrow) as "maxId",skeleton_borrow.startDate AS "startDate", borrow.returnDate' );    
+      // $this->db->where in('idBorrow', $this->getm);
+      // $this->db->where('itemBorrow', $id);
+      // $query = $this->db->get('borrow');
+      if($query->num_rows() > 0){
+          return $query->result();
+      }else{
+          return false;
+      }
+    }
+
+    public function getMaxIdBorrow($id){
+        $this->db->select('MAX(skeleton_borrow.idBorrow) as "maxIdBorrow"');
+        $this->db->where('itemBorrow',$id);
+        $query = $this->db->get('borrow');
+        return $query->result();
+    }
+
+// use to return and update status 
+
+    public function r_u_status($data)
+    {   
+
+        $this->db->set('status', '0');
+        $this->db->where('item.iditem',$data['itemId']);
+        $s_update = $this->db->update('item');
+
+        $this->db->set('actualDate',$data['actualDate']);
+        $this->db->where('itemBorrow',$data['itemId']);
+        $this->db->where('startDate',$data['startDate']);
+        $this->db->where('idBorrow',$data['maxIdBorrow']);
+        $this->db->update('borrow');
+
+        return $s_update;
+    }
+
+// function to select expected return date to make condition in late status to show in the item list 
+    // public function selectExDate()
+    // {
+    //     $this->db->select('returnDate' );
+    //    // $this->db->where('itemBorrow', $id);
+    //    $query = $this->db->get('borrow');
+    //    if($query->num_rows() > 0){
+
+    //        return $query->result();
+    //    }else{
+    //        return false;
+    //    }
+    // }
+
+    public function returnLate()
+    {
+       // $query= $this->db->query('select max(skeleton_borrow.returnDate) AS reDate, iditem from skeleton_borrow inner join skeleton_item where skeleton_item.iditem = skeleton_borrow.itemBorrow and skeleton_item.`status`=1'); 
+       // return $query->result();  
+        $this->db->select('itemBorrow');
+        $this->db->from('borrow');
+        $this->db->where('actualDate',null);
+        $this->db->where('returnDate <',date('Y/m/d'));
+        $query = $this->db->get();
+        return $query->result();
+        // if($query->num_rows() > 0){
+        //      return $query->result();
+        //  }else{
+        //      return false;
+        // }
+   }
+   public function updateStatus($id){
+        $this->db->query("update skeleton_item set skeleton_item.status = '2' where skeleton_item.iditem = '".$id."'");
+   }
 }
