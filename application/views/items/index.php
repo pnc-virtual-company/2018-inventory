@@ -34,7 +34,7 @@
         </div>
         <div class="col-2">
           <?php  $role =$this->session->Role; if( $role==1 || $role==8){?>
-            <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+          <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
           <?php } ?>
         </div>
       </div>
@@ -68,11 +68,16 @@
   </div>
 </div>
 </div>
- <!-- <div class="row-fluid"><div class="col-12">&nbsp;</div></div> -->
+<!-- <div class="row-fluid"><div class="col-12">&nbsp;</div></div> -->
 
 <div class="row-fluid">
   <div class="col-12">
+    <?php 
+    $role =$this->session->Role;
+    if( $role==1 || $role==8){?>
     <a href="<?php echo base_url();?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
+    <?php }
+    ?>
     &nbsp;
   </div>
 </div>
@@ -211,39 +216,42 @@ function showAllitems()
              '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
              '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
              '&nbsp; <?php  
-            if( $role==1 || $role==8){
-             ?> <a href="<?php echo base_url();?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php } ?>',
-             
-             data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
-             ] ).draw( false );
-          n++;
-        }else {
-          
-            status='<span class="badge badge-danger">Late</span>';
-
-            <?php $role =$this->session->Role; ?>
-            t.row.add( [
-              data[i].itemcodeid+
-              '&nbsp;<?php  
-              if( $role==1 || $role==8){
-               ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
-               '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
-               '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
-               '&nbsp; <?php  
-              if( $role==1 || $role==8){
+             if( $role==1 || $role==8){
                ?> <a href="<?php echo base_url();?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php } ?>',
-               
+
                data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
                ] ).draw( false );
-            n++;
+          n++;
+        }else {
+
+          <?php $role =$this->session->Role; if( $role==1 || $role==8){?>
+            status='<span class="badge badge-danger">Late</span>';
+            <?php }else{ ?>
+              status='<span class="badge badge-warning">Borrowed</span>';
+              <?php } ?>
+
+              t.row.add( [
+                data[i].itemcodeid+
+                '&nbsp;<?php  
+                if( $role==1 || $role==8){
+                 ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
+                 '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
+                 '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
+                 '&nbsp; <?php  
+                 if( $role==1 || $role==8){
+                   ?> <a href="<?php echo base_url();?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php } ?>',
+
+                   data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
+                   ] ).draw( false );
+              n++;
+            }
+
+          }
+        },
+        error: function(){
+          alert('Could not get Data from Database');
         }
-       
-      }
-    },
-    error: function(){
-      alert('Could not get Data from Database');
-    }
-  });
+      });
 }
 
   //  Combine btn onclick OK with key Enter when delete  

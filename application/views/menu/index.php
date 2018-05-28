@@ -34,6 +34,7 @@ $activeLink = (isset($activeLink)) ? $activeLink :  "";?>
 						<a class="dropdown-item" href="<?php echo base_url();?>category">Categories</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>materials">Materials</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>departments">Departments</a>
+						<a class="dropdown-item" href="<?php echo base_url();?>Borrow">Borrow</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>brand">Brands</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>locations">Locations</a>
 						<a class="dropdown-item" href="<?php echo base_url();?>owner">Owners</a>
