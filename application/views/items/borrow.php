@@ -9,9 +9,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 <div class="container bg-light">
   <div class="row-fluid">
+    <!-- echo access to controller to make a validate of borrwer insert -->
     <form action="<?php echo base_url();?>items/insertBorrower" method="POST"  id="frm_borrow">
       <div class="col-12">
-
         <div class="row">
           <div class="col-2"></div>
           <div class="col-8">
@@ -21,7 +21,8 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="form-group">
               <label class="control-label" for="borrower">Borrower</label>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" aria-label="borrower" aria-describedby="basic-addon2" id="borrowName" name="nameBorrower" value="<?php echo $this->session->firstname.' '.$this->session->lastname; ?>">
+                <!-- value get session from user that login into system -->
+                <input type="text" class="form-control" aria-label="borrower" aria-describedby="basic-addon2" id="borrowName" name="nameBorrower" value="<?php echo $this->session->firstname.' '.$this->session->lastname; ?>"> 
                 <div class="input-group-append">
                   <button id="select_borrower" class="btn btn-outline-primary" type="button" >Select</button>
                 </div>
@@ -31,8 +32,8 @@ input[type=number]::-webkit-outer-spin-button {
             <!-- item input -->
             <div class="form-group" id="borrower">
               <label class="control-label" for="items">Item</label>
-
               <div class="input-group mb-3">
+                <!-- foreach to get value form database to store in input tag and disable it -->
                 <?php 
                 foreach ($borrow as $value) {
                   ?>
@@ -43,14 +44,14 @@ input[type=number]::-webkit-outer-spin-button {
                 ?>
               </div>
             </div>
-            
+            <!-- input date of borrow date -->
             <div class="form-group">
               <label class="control-label" for="startDate">Borrow Date</label>
               <div class="input-group mb-3">
                 <input type="date" class="form-control"  id="datePicker" name="startDate">
               </div>
             </div>
-
+            <!-- input type date of return date back to system -->
             <div class="form-group">
               <label class="control-label" for="returnDate">Return Date</label>
               <div class="input-group mb-3">
@@ -58,8 +59,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
             </div>
             
-            <div class="footer"><!-- 
-              <a href="#" class="btn btn-primary" id="saveBorrow">OK</a> -->
+            <div class="footer">
               <button class="btn btn-primary" type="submit">Borrow</button>
               <button type="button" class="btn btn-default" ><a href="<?php echo base_url(); ?>items" style="text-decoration: none; color: #000;"> Cancel</a></button>
             </div>
@@ -71,7 +71,7 @@ input[type=number]::-webkit-outer-spin-button {
 </div>
 
 
-<!-- select the owner modal -->
+<!-- select borrower that get from user list in modal -->
 <div class="modal  fade hide" id="selectBorrower">
  <div class="modal-dialog modal-lg modal-dialog-centered">
    <div class="modal-content">
@@ -86,12 +86,11 @@ input[type=number]::-webkit-outer-spin-button {
         <table id="borrow" cellpadding="0" cellspacing="0" class="table table-bordered" width="100%">
           <thead>
             <tr>
-              <!-- <th>ID</th> -->
               <th>User</th>
             </tr>
           </thead>
           <tbody id="displayBorrower">
-
+            <!-- show by controller -->
           </tbody>
         </table>
       </div>  
@@ -110,7 +109,7 @@ input[type=number]::-webkit-outer-spin-button {
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script>
-  // use for get current date
+  // use for get current date of borrow date: 
   $(document).ready(function() {
     var date = new Date();
 
@@ -124,56 +123,56 @@ input[type=number]::-webkit-outer-spin-button {
     var today = year + "-" + month + "-" + day;       
     $("#datePicker").attr("value", today);
 
-$("#EndDate").change(function () {
-    var startDate = document.getElementById("datePicker").value;
-    var endDate = document.getElementById("EndDate").value;
+    $("#EndDate").change(function () {
+      var startDate = document.getElementById("datePicker").value;
+      var endDate = document.getElementById("EndDate").value;
 
-    if ((Date.parse(startDate) >= Date.parse(endDate))) {
+      if ((Date.parse(startDate) >= Date.parse(endDate))) {
         $('.alert-info').html("Return date should be greater than Borrow date.").fadeIn().delay(6000).fadeOut();
         document.getElementById("EndDate").value = "";
-    }
-});
-
-+
-      // Select borrower 
-      $("#select_borrower").click(function(){
-        $.ajax({
-          type: 'POST',
-          url: '<?php echo base_url();?>/items/borrowerName',
-          async: true,
-          dataType: 'json',
-          success: function(data){
-            $('#selectBorrower').modal('show');
-            var c = $('#borrow').DataTable();
-            c.clear().draw();
-            var i;
-            var n = 1;
-            for(i=0; i<data.length; i++){
-              c.row.add ( [
-                // data[i].id,
-                data[i].borrower
-                ] ).draw( false );
-              n++;    
-            }
-          },
-          error: function(){
-            alert('Could not get Data from Database');
-          }
-      });
-        });
-      var borrow ='';
-      $(document).on("click", "#borrow tbody tr", function() {
-        $('#borrow tbody tr').removeClass("highlight");
-        $(this).addClass("highlight");
-      var borrow =$(this).find("td:eq(0)").html();
-        $("#borrowerset").click(function(){
-          $('#borrowName').val('');
-          $('#borrowName').val(borrow);
-          $("#selectBorrower").modal("hide");
-        });
-      });
-
+      }
     });
+
+    // Select borrower 
+    $("#select_borrower").click(function(){
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url();?>/items/borrowerName', //access to controller to get data and show into tbody  
+        async: true,
+        dataType: 'json',
+        success: function(data){
+          $('#selectBorrower').modal('show');
+          var c = $('#borrow').DataTable();
+          c.clear().draw();
+          var i;
+          var n = 1;
+          for(i=0; i<data.length; i++){
+            c.row.add ( [
+              data[i].borrower
+            ] ).draw( false );
+            n++;    
+          }
+        },
+        error: function(){
+          alert('Could not get Data from Database');
+        }
+      });
+    });
+
+    // click on borrower modal of each row has to get the name 
+    var borrow ='';
+    $(document).on("click", "#borrow tbody tr", function() {
+      $('#borrow tbody tr').removeClass("highlight");
+      $(this).addClass("highlight");
+      var borrow =$(this).find("td:eq(0)").html();
+      $("#borrowerset").click(function(){
+        $('#borrowName').val('');
+        $('#borrowName').val(borrow);
+        $("#selectBorrower").modal("hide");
+      });
+    });
+
+  });
   </script>
 
 

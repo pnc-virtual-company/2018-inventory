@@ -19,7 +19,7 @@ class reports extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->model('reports_model');
+        $this->load->model('reports_model'); //load report model 
     }
 
     /**
@@ -29,21 +29,21 @@ class reports extends CI_Controller
     public function index() 
     {
         // $this->load->helper('form');
-       $data['reportNew'] = $this->reports_model->getCountNew();
-        $data['reportFair'] = $this->reports_model->getCountFair();
-        $data['reportDamaged'] = $this->reports_model->getCountDamaged();
-        $data['reportBroken'] = $this->reports_model->getCountBroken();
-        // $data['itemByDep'] = $this->reports_model->getItemByDepartment();
+       $data['reportNew'] = $this->reports_model->getCountNew(); //call function getCountNew from mode to use in view
+        $data['reportFair'] = $this->reports_model->getCountFair();//call function from mode to use in view
+        $data['reportDamaged'] = $this->reports_model->getCountDamaged();//call function from mode to use in view
+        $data['reportBroken'] = $this->reports_model->getCountBroken();//call function from mode to use in view
         // var_dump($data['reportNew']); die();
-        $data['title'] = 'Items Report:';
+        $data['title'] = 'Items Report:';  
         $data['activeLink'] = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
-        $this->load->view('reports/charts', $data);
+        $this->load->view('reports/charts', $data); //to load view chart 
         $this->load->view('templates/footer', $data);
     }
 
+    // function is use for show all count the department that have relationship with item list  
     public function showDepCount()
     {
         $resultDep = $this->reports_model->getItemByDepartment();
