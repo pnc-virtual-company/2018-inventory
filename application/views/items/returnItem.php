@@ -11,7 +11,6 @@ input[type=number]::-webkit-outer-spin-button {
   <div class="row-fluid">
     <form action="<?php echo base_url();?>items/returnAnItem" method="POST"  id="frm_borrow">
       <div class="col-12">
-
         <div class="row">
           <div class="col-2"></div>
           <div class="col-8">
@@ -20,6 +19,7 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="form-group">
               <label class="control-label" for="borrower">Borrower</label>
               <div class="input-group mb-3">
+                <!-- foreach to get the name of borrower to display into form input borrowe and disable it -->
                 <?php 
                 foreach ($r_item as $borrower) {
                   ?>
@@ -29,9 +29,7 @@ input[type=number]::-webkit-outer-spin-button {
                 ?>
               </div>
             </div>
-
-
-            <!-- item input -->
+            <!-- item input by foreach to get data from database to display in input tag and disable -->
             <div class="form-group" id="borrower">
               <label class="control-label" for="items">Item</label>
 
@@ -47,6 +45,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
             </div>
 
+            <!-- get value of start date from database that store at the day when borrowed from system -->
             <div class="form-group">
               <label class="control-label" for="startDate">Start Date</label>
               <div class="input-group mb-3">
@@ -61,7 +60,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
             </div>
 
-
+            <!-- get value of start date from database that store at the day that expected to return back  -->
             <div class="form-group">
               <label class="control-label" for="returnDate">Return Date</label>
               <div class="input-group mb-3">
@@ -75,6 +74,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
             </div>
 
+            <!-- actual return date that get the current day to make a calculate between expected return date to make late status in table item -->
             <div class="form-group">
               <label class="control-label" for="startDate">Actual Date</label>
               <div class="input-group mb-3">
@@ -82,8 +82,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
             </div>
             
-            <div class="footer"><!-- 
-              <a href="#" class="btn btn-primary" id="saveBorrow">OK</a> -->
+            <div class="footer">
               <button class="btn btn-primary" type="submit" id="returnbtn">Return</button>
               <button type="button" class="btn btn-default" id="cancelbtn"><a href="<?php echo base_url(); ?>items" style="text-decoration: none; color: #000;"> Cancel</a></button>
             </div>
@@ -94,9 +93,6 @@ input[type=number]::-webkit-outer-spin-button {
   </div>
 </div>
 
-
-
-
 <!-- link bootstrap4 and javaScipt -->
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
@@ -105,7 +101,6 @@ input[type=number]::-webkit-outer-spin-button {
   // use for actual date to get current date
   $(document).ready(function() {
     var date = new Date();
-
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -115,7 +110,6 @@ input[type=number]::-webkit-outer-spin-button {
 
     var today = year + "-" + month + "-" + day;       
     $("#datePickerActual").attr("value", today);
-    // $("#datePickerActual").attr("valuse", today);
   });
   </script>
 
