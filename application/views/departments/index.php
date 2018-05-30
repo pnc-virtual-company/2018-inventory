@@ -1,6 +1,5 @@
+<!-- Edit by @author Dalin LOEM <dalin.loem@student.passerellesnumeriques.org>  -->
 
-<!-- this is owner layout -->
-<br>
 <div id="container" class="container">
   <div class="row-fluid">
    <div class="col-12">   
@@ -8,16 +7,17 @@
        <div class="col-9">
          <h2><?php echo $title;?></h2>
        </div>
+       <!-- create new department -->
        <div class="col-3">
-        <!-- create new department -->
         <button type="button" class="btn btn-primary add-department float-right" id="add-department">
           <i class="mdi mdi-plus-circle"></i>&nbsp;Create department
         </button>
       </div>
     </div>
   </div><br>
-  <!-- <?php echo $flashPartialView;?> -->
-  <div class="alert alert-info" style="display: none;"></div>
+  <div class="alert alert-info" style="display: none;"> <!--Pop up message create-->
+    
+  </div>
   <table id="department" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
     <thead>
       <tr>
@@ -25,7 +25,7 @@
         <th>Department</th>
       </tr>
     </thead>
-    <tbody id="showdata">
+    <tbody id="showdata"> <!--Display department data-->
 
     </tbody>
   </table>
@@ -33,7 +33,7 @@
 </div>
 <div class="row-fluid"><div class="col-12">&nbsp;</div></div>
 
-<!-- create -->
+<!-- Pop up model create new department -->
 <div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -57,7 +57,8 @@
     </div>
   </div>
 </div>
-<!-- delete -->
+
+<!-- Pop up modal delete department -->
 <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -77,7 +78,8 @@
     </div>
   </div>
 </div>
-<!-- edit -->
+
+<!-- Pop up modal edit department -->
 <div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -89,7 +91,7 @@
       </div>
       <div class="modal-body">
         <form id="frm_edit">
-          <div class="form-inline">
+          <div class="form-inline"> <!--Show data exist--> 
 
           </div>
         </form>
@@ -101,30 +103,32 @@
     </div>
   </div>
 </div>
+
 <link href="<?php echo base_url();?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
-    // var t = $('#department').DataTable();
     var t = $('#department').DataTable({order:[]});
     showAllDepartments();
 
-// showAlldepartment function get department data to table 
+// Show all department by ajax 
 function showAllDepartments()
 {
   $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
   $.ajax({
     type: 'ajax',
-    url: '<?php echo base_url();?>departments/showAllDepartments',
+    url: '<?php echo base_url();?>departments/showAllDepartments', // url access to show all departments in controller
     async: true,
     dataType: 'json',
-    success: function(data){
+    success: function(data)
+    {
       t.clear().draw();
       var n =1;
       var i;
-      for(i=0; i<data.length; i++){
+      for(i=0; i<data.length; i++)
+      {
         t.row.add( [
           n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit department"></i></a>'+
           '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].iddepartment+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete department"></i></a>',
@@ -133,159 +137,180 @@ function showAllDepartments()
         n++;
       }
     },
-    error: function(){
+    error: function()
+    {
       alert('Could not get Data from Database');
     }
   });
-
 }
 
   //  Combine btn onclick OK with key Enter when create
-
-  $('#frmConfirmAdd').keypress(function(e){
-         if(e.which === 13){//Enter key pressed
+  $('#frmConfirmAdd').keypress(function(e)
+  {
+         if(e.which === 13) //Enter key pressed
+         {
           e.preventDefault();
             $('#create').click();//Trigger search button click event
           }
         });
 
     //  Combine btn onclick OK with key Enter when delete  
-
-    $('#deleteModal').keypress(function(e){
-         if(e.which === 13){//Enter key pressed
+    $('#deleteModal').keypress(function(e)
+    {
+         if(e.which === 13) //Enter key pressed
+         {
           e.preventDefault();
-            $('#delete-comfirm').click();//Trigger search button click event
+            $('#delete-comfirm').click(); //Trigger search button click event
           }
         });
 
      //  Combine btn onclick OK with key Enter when update  
-
-     $('#frmConfirmEdit').keypress(function(e){
-         if(e.which === 13){//Enter key pressed
+     $('#frmConfirmEdit').keypress(function(e)
+     {
+         if(e.which === 13) //Enter key pressed
+         {
           e.preventDefault();
             $('#update').click();//Trigger search button click event
           }
         });
 
-
-// create_department with ajax
-$("#add-department").click(function(){
-  $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
+// Create department with ajax
+$("#add-department").click(function()
+{
+  $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function()
+  {
     $('input[name=create_department]').focus();
   });
 });
 
-// save new department button even
-$("#create").click(function(){
+// Save new department button even
+$("#create").click(function()
+{
   var departmentName = $('input[name=create_material]');
   var result = '';
-  if(departmentName.val()==''){
+  if(departmentName.val()=='')
+  {
     departmentName.parent().parent().addClass('has-error');
   }else{
     departmentName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') {
+  if (result=='1') 
+  {
     $.ajax({
       url: "<?php echo base_url()?>departments/create",
       type: "POST",
       data: $('#frm_create').serialize(),
       dataType: 'json',
-      success: function(data){
-        if(data.status){
+      success: function(data)
+      {
+        if(data.status)
+        {
           $('#frm_create')[0].reset();
           $('#frmConfirmAdd').modal('hide');
           $('.alert-info').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },
-      error: function(){
+      error: function()
+      {
         alert("Error ...");
       }
     });
   }
 });
-// delete material by ajax
-$('#showdata').on('click', '.item-delete', function(){
+
+// Delete department by ajax
+$('#showdata').on('click', '.item-delete', function()
+{
   var id = $(this).attr('dataid');
   $('#deleteModal').data('id', id).modal('show');
 });
 
-// comfirm delete button
-$("#delete-comfirm").on('click',function(){
+// Comfirm delete department by button delete
+$("#delete-comfirm").on('click',function()
+{
   var id = $('#deleteModal').data('id');
   $.ajax({
-    url: "<?php echo base_url() ?>departments/deleteDepartment",
+    url: "<?php echo base_url() ?>departments/deleteDepartment", // url access to delete department in controller
     type: "POST",
     data: {iddepartment: id},
     dataType: "json",
-    success: function(data){
+    success: function(data)
+    {
       $('#deleteModal').modal('hide');
       $('.alert-info').html('Department was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
       showAllDepartments();
     },
-    error: function(){
+    error: function()
+    {
       $('#deleteModal').modal('hide');
       alert("Error delete! this field is has relationship with another...");
-
     }
   });
 });
 
-
-// update department modal pop up by ajax
-$('#showdata').on('click', '.item-edit', function(){
+// Update department modal pop up by ajax
+$('#showdata').on('click', '.item-edit', function()
+{
   var id = $(this).attr('dataid');
   $.ajax({
     type: 'POST',
     data: {iddepartment: id},
-    url: '<?php echo base_url();?>departments/showEditDepartment',
+    url: '<?php echo base_url();?>departments/showEditDepartment',  // url access show edit department in controller
     async: true,
     dataType: 'json',
-    success: function(data){
+    success: function(data)
+    {
       $('#frm_edit').html(data);
-      $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
+      $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function()
+      {
         $('input[name=update_department]').focus();
       });
     },
-    error: function(){
+    error: function()
+    {
       alert('Could not get any data from Database');
     }
   });
 });
 
-// save update button 
+// Save update department by button update 
 $("#update").click(function(){
   var id = $('#frmConfirmEdit').data('id');
   var departmentName = $('input[name=update_department]');
   var result = '';
-  if(departmentName.val()==''){
+  if(departmentName.val()=='')
+  {
     departmentName.parent().parent().addClass('has-error');
   }else{
     departmentName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') {
+  if (result=='1') 
+  {
     $.ajax({
-      url: "<?php echo base_url()?>departments/update",
+      url: "<?php echo base_url()?>departments/update",  // url access to update department in controller
       type: "POST",
       data: $('#frm_edit').serialize(),
       dataType: 'json',
       success: function(data){
-        if(data.status){
+        if(data.status)
+        {
           $('#frm_edit')[0].reset();
           $('#frmConfirmEdit').modal('hide');
           $('.alert-info').html('Department was updated successfully').fadeIn().delay(6000).fadeOut('slow');
           showAllDepartments();
         }
       },
-      error: function(){
+      error: function()
+      {
         $('#frmConfirmEdit').modal('hide');
         alert("Error update! This field has relationship with another ...");
       }
     });
   }
 });
-
 });
+
 </script>

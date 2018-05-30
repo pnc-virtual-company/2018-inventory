@@ -1,6 +1,4 @@
-
-<!-- this is owner layout -->
-<br>
+<!-- this is  borrow feature layout -->
 <div id="container" class="container">
   <div class="row-fluid">
    <div class="col-12">   
@@ -8,10 +6,10 @@
        <div class="col-9">
          <h2><?php echo $title;?></h2>
        </div>
-    </div>
-  </div><br>
-  <div class="alert alert-info" style="display: none;"></div>
-  <table id="borrow" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
+     </div>
+   </div><br>
+   <div class="alert alert-info" style="display: none;"></div>
+   <table id="borrow" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
     <thead>
       <tr>
         <th>ID</th>
@@ -21,7 +19,8 @@
         <th>Return Date</th>
       </tr>
     </thead>
-    <tbody id="showdata">
+    <!-- show list of borrower -->
+    <tbody id="showdata"> 
 
     </tbody>
   </table>
@@ -37,13 +36,13 @@
     var t = $('#borrow').DataTable({order:[]});
     showAllBorrow();
 
-// showAlldepartment function get department data to table 
+// show all borrow list function get from showAllBorrow controller to table 
 function showAllBorrow()
 {
   $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
   $.ajax({
     type: 'ajax',
-    url: '<?php echo base_url();?>borrow/showAllBorrow',
+    url: '<?php echo base_url();?>borrow/showAllBorrow',  //url access to controller
     async: true,
     dataType: 'json',
     success: function(data){
@@ -53,7 +52,6 @@ function showAllBorrow()
       for(i=0; i<data.length; i++){
         t.row.add( [
           n,
-        
           data[i].borrower,
           data[i].item,
           data[i].startDate,
@@ -62,11 +60,11 @@ function showAllBorrow()
         n++;
       }
     },
-    error: function(){
+    error: function()
+    {
       alert('Could not get Data from Database');
     }
   });
 }
-
 });
 </script>
