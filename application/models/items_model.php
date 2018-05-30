@@ -17,6 +17,27 @@ class items_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
 
+    // controller when export an item into excel file
+    public function getitems($id = 0) {
+          $this->db->select('item.iditem,item.code, item.item, item.itemdescription AS "description",condition as "condition",  item.itemcost AS "cost", item.date AS "date", category.category AS ,"cat",location.location as "locat", users.firstname AS "nameuser",department.department as "depart",material.material as "mat",model.model as "model", owner.owner as "owner"
+              ');
+          $this->db->join('category', 'category.idcategory = item.categoryid','left');    
+          $this->db->join('material', 'material.idmaterial = item.materialid','left');    
+          $this->db->join('department', 'department.iddepartment = item.departmentid','left');    
+          $this->db->join('location', 'location.idlocation = item.locationid','left');    
+          $this->db->join('users', 'users.id = item.userid','left');    
+          $this->db->join('owner', 'owner.idowner = item.ownerid','left'); 
+          $this->db->join('model', 'model.idmodel = item.modelid','left'); 
+          $this->db->join('brand', 'model.brandid = brand.idbrand','left'); 
+          
+          if ($id === 0) {
+              $query = $this->db->get('item');
+              return $query->result_array();
+          }
+          $query = $this->db->get_where('item', array('item.iditem' => $id));
+          return $query->row_array();
+      }
+
     // This is use to edit for the item 
     public function showEditItems($id)
     {
