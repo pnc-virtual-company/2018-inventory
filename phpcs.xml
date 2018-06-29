@@ -3,7 +3,6 @@
 	<description>The coding standard for PHP_CodeSniffer itself.</description>
 
 	<file>application/controllers</file>
-	<file>application/config</file>
 	<file>application/models</file>
 	<file>application/views</file>
 
