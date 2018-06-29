@@ -25,11 +25,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_borrow`
+-- Table structure for table `borrow`
 --
 
-DROP TABLE IF EXISTS `skeleton_borrow`;
-CREATE TABLE IF NOT EXISTS `skeleton_borrow` (
+DROP TABLE IF EXISTS `borrow`;
+CREATE TABLE IF NOT EXISTS `borrow` (
   `idBorrow` int(50) UNSIGNED NOT NULL AUTO_INCREMENT,
   `borrower` varchar(30) NOT NULL,
   `itemBorrow` varchar(30) NOT NULL,
@@ -40,10 +40,10 @@ CREATE TABLE IF NOT EXISTS `skeleton_borrow` (
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_borrow`
+-- Dumping data for table `borrow`
 --
 
-INSERT INTO `skeleton_borrow` (`idBorrow`, `borrower`, `itemBorrow`, `startDate`, `returnDate`, `actualDate`) VALUES
+INSERT INTO `borrow` (`idBorrow`, `borrower`, `itemBorrow`, `startDate`, `returnDate`, `actualDate`) VALUES
 (31, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', '2018-05-28'),
 (32, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', '2018-05-28'),
 (33, 'Admin ADMINISTRATOR', '15', '2018-05-28', '0000-00-00', '2018-05-28'),
@@ -60,21 +60,21 @@ INSERT INTO `skeleton_borrow` (`idBorrow`, `borrower`, `itemBorrow`, `startDate`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_brand`
+-- Table structure for table `brand`
 --
 
-DROP TABLE IF EXISTS `skeleton_brand`;
-CREATE TABLE IF NOT EXISTS `skeleton_brand` (
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE IF NOT EXISTS `brand` (
   `idbrand` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idbrand`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_brand`
+-- Dumping data for table `brand`
 --
 
-INSERT INTO `skeleton_brand` (`idbrand`, `brand`) VALUES
+INSERT INTO `brand` (`idbrand`, `brand`) VALUES
 (2, 'Philips'),
 (3, 'sony'),
 (5, 'Unknown'),
@@ -89,21 +89,21 @@ INSERT INTO `skeleton_brand` (`idbrand`, `brand`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_category`
+-- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `skeleton_category`;
-CREATE TABLE IF NOT EXISTS `skeleton_category` (
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE IF NOT EXISTS `category` (
   `idcategory` int(11) NOT NULL AUTO_INCREMENT,
   `category` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idcategory`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_category`
+-- Dumping data for table `category`
 --
 
-INSERT INTO `skeleton_category` (`idcategory`, `category`) VALUES
+INSERT INTO `category` (`idcategory`, `category`) VALUES
 (3, 'Garden'),
 (6, 'Fan'),
 (10, 'Pen'),
@@ -115,21 +115,21 @@ INSERT INTO `skeleton_category` (`idcategory`, `category`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_department`
+-- Table structure for table `department`
 --
 
-DROP TABLE IF EXISTS `skeleton_department`;
-CREATE TABLE IF NOT EXISTS `skeleton_department` (
+DROP TABLE IF EXISTS `department`;
+CREATE TABLE IF NOT EXISTS `department` (
   `iddepartment` int(11) NOT NULL AUTO_INCREMENT,
   `department` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`iddepartment`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_department`
+-- Dumping data for table `department`
 --
 
-INSERT INTO `skeleton_department` (`iddepartment`, `department`) VALUES
+INSERT INTO `department` (`iddepartment`, `department`) VALUES
 (1, 'Admin & Finance'),
 (3, 'WEP'),
 (4, 'SNA'),
@@ -139,11 +139,11 @@ INSERT INTO `skeleton_department` (`iddepartment`, `department`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_item`
+-- Table structure for table `item`
 --
 
-DROP TABLE IF EXISTS `skeleton_item`;
-CREATE TABLE IF NOT EXISTS `skeleton_item` (
+DROP TABLE IF EXISTS `item`;
+CREATE TABLE IF NOT EXISTS `item` (
   `iditem` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) DEFAULT NULL,
   `date` date DEFAULT NULL,
@@ -160,20 +160,20 @@ CREATE TABLE IF NOT EXISTS `skeleton_item` (
   `ownerid` int(11) DEFAULT NULL,
   `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`iditem`),
-  KEY `fk_skeleton_item_skeleton_material_idx` (`materialid`),
-  KEY `fk_skeleton_item_skeleton_category1_idx` (`categoryid`),
-  KEY `fk_skeleton_item_skeleton_department1_idx` (`departmentid`),
-  KEY `fk_skeleton_item_skeleton_location1_idx` (`locationid`),
-  KEY `fk_skeleton_item_skeleton_model1_idx` (`modelid`),
-  KEY `fk_skeleton_item_skeleton_owner1_idx` (`ownerid`),
-  KEY `fk_skeleton_item_skeleton_users1_idx` (`userid`)
+  KEY `fk_item_material_idx` (`materialid`),
+  KEY `fk_item_category1_idx` (`categoryid`),
+  KEY `fk_item_department1_idx` (`departmentid`),
+  KEY `fk_item_location1_idx` (`locationid`),
+  KEY `fk_item_model1_idx` (`modelid`),
+  KEY `fk_item_owner1_idx` (`ownerid`),
+  KEY `fk_item_users1_idx` (`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_item`
+-- Dumping data for table `item`
 --
 
-INSERT INTO `skeleton_item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemcost`, `condition`, `status`, `materialid`, `categoryid`, `departmentid`, `locationid`, `modelid`, `ownerid`, `userid`) VALUES
+INSERT INTO `item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemcost`, `condition`, `status`, `materialid`, `categoryid`, `departmentid`, `locationid`, `modelid`, `ownerid`, `userid`) VALUES
 (15, 'A22-F', '0000-00-00', 'Chair by ANZ', 'This chair was donated by ANZ company.', '', 'Damaged', '2', 2, 13, 3, 2, 0, 3, 9),
 (16, 'B21-G', '0000-00-00', 'RJ45 cable', 'This item was owned by SNA student for VC2.', '', 'Damaged', '2', 2, 0, 4, 1, 0, 2, 5),
 (18, 'A22-I', '2018-05-15', 'Apple airII', 'This computer was donated by Chip Mong Group Company.', '219', 'New', '2', 5, 15, 3, 2, 4, 2, 1),
@@ -183,21 +183,21 @@ INSERT INTO `skeleton_item` (`iditem`, `code`, `date`, `item`, `itemdescription`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_location`
+-- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `skeleton_location`;
-CREATE TABLE IF NOT EXISTS `skeleton_location` (
+DROP TABLE IF EXISTS `location`;
+CREATE TABLE IF NOT EXISTS `location` (
   `idlocation` int(11) NOT NULL AUTO_INCREMENT,
   `location` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idlocation`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_location`
+-- Dumping data for table `location`
 --
 
-INSERT INTO `skeleton_location` (`idlocation`, `location`) VALUES
+INSERT INTO `location` (`idlocation`, `location`) VALUES
 (1, 'B21'),
 (2, 'A22'),
 (3, 'Teachers room'),
@@ -207,21 +207,21 @@ INSERT INTO `skeleton_location` (`idlocation`, `location`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_material`
+-- Table structure for table `material`
 --
 
-DROP TABLE IF EXISTS `skeleton_material`;
-CREATE TABLE IF NOT EXISTS `skeleton_material` (
+DROP TABLE IF EXISTS `material`;
+CREATE TABLE IF NOT EXISTS `material` (
   `idmaterial` int(11) NOT NULL AUTO_INCREMENT,
   `material` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idmaterial`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_material`
+-- Dumping data for table `material`
 --
 
-INSERT INTO `skeleton_material` (`idmaterial`, `material`) VALUES
+INSERT INTO `material` (`idmaterial`, `material`) VALUES
 (1, 'Wood'),
 (2, 'Plastic'),
 (3, 'Resin'),
@@ -232,23 +232,23 @@ INSERT INTO `skeleton_material` (`idmaterial`, `material`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_model`
+-- Table structure for table `model`
 --
 
-DROP TABLE IF EXISTS `skeleton_model`;
-CREATE TABLE IF NOT EXISTS `skeleton_model` (
+DROP TABLE IF EXISTS `model`;
+CREATE TABLE IF NOT EXISTS `model` (
   `idmodel` int(11) NOT NULL AUTO_INCREMENT,
   `model` varchar(45) DEFAULT NULL,
   `brandid` int(11) DEFAULT NULL,
   PRIMARY KEY (`idmodel`),
-  KEY `fk_skeleton_model_skeleton_brand1_idx` (`brandid`)
+  KEY `fk_model_brand1_idx` (`brandid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_model`
+-- Dumping data for table `model`
 --
 
-INSERT INTO `skeleton_model` (`idmodel`, `model`, `brandid`) VALUES
+INSERT INTO `model` (`idmodel`, `model`, `brandid`) VALUES
 (1, 'Lenovo X2', NULL),
 (2, 'Lenovo X2', NULL),
 (3, 'Lenovo T1', NULL),
@@ -260,21 +260,21 @@ INSERT INTO `skeleton_model` (`idmodel`, `model`, `brandid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_owner`
+-- Table structure for table `owner`
 --
 
-DROP TABLE IF EXISTS `skeleton_owner`;
-CREATE TABLE IF NOT EXISTS `skeleton_owner` (
+DROP TABLE IF EXISTS `owner`;
+CREATE TABLE IF NOT EXISTS `owner` (
   `idowner` int(11) NOT NULL AUTO_INCREMENT,
   `owner` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idowner`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_owner`
+-- Dumping data for table `owner`
 --
 
-INSERT INTO `skeleton_owner` (`idowner`, `owner`) VALUES
+INSERT INTO `owner` (`idowner`, `owner`) VALUES
 (1, 'EDU department '),
 (2, 'IT admin'),
 (3, 'ERO'),
@@ -284,32 +284,32 @@ INSERT INTO `skeleton_owner` (`idowner`, `owner`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_roles`
+-- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `skeleton_roles`;
-CREATE TABLE IF NOT EXISTS `skeleton_roles` (
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_roles`
+-- Dumping data for table `roles`
 --
 
-INSERT INTO `skeleton_roles` (`id`, `name`) VALUES
+INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'Admin'),
 (2, 'User');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skeleton_users`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `skeleton_users`;
-CREATE TABLE IF NOT EXISTS `skeleton_users` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
@@ -319,14 +319,14 @@ CREATE TABLE IF NOT EXISTS `skeleton_users` (
   `active` tinyint(1) DEFAULT NULL,
   `role` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_skeleton_users_skeleton_roles1_idx` (`role`)
+  KEY `fk_users_roles1_idx` (`role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `skeleton_users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `skeleton_users` (`id`, `firstname`, `lastname`, `email`, `login`, `password`, `active`, `role`) VALUES
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `login`, `password`, `active`, `role`) VALUES
 (1, 'Benjamin', 'BALET', 'benjamin.balet@gmail.com', 'bbalet', '$2a$08$LeUbaGFqJjLSAN7to9URsuHB41zcmsMBgBhpZuFp2y2OTxtVcMQ.C', 1, 1),
 (2, 'john', 'DOE', 'jdoe@test.org', 'jdoe', '$2a$08$sZjK.lypJ7EQLwvZ8sLRd.FiUEBsDuCsJg9UCw0n0U/pR.hj0o9lC', 1, 2),
 (3, 'Bob', 'DENARD', 'bdenard@test.org', 'bdenard', '$2a$08$14jdHTPUZe5.zXxQ1NqhhO83xUt2Zkr.csGw10BH75B3VrJiNU8Bq', 1, 2),
@@ -342,17 +342,17 @@ INSERT INTO `skeleton_users` (`id`, `firstname`, `lastname`, `email`, `login`, `
 -- Constraints for dumped tables
 --
 
+--²
+-- Constraints for table `model`
 --
--- Constraints for table `skeleton_model`
---
-ALTER TABLE `skeleton_model`
-  ADD CONSTRAINT `skeleton_model_ibfk_1` FOREIGN KEY (`brandid`) REFERENCES `skeleton_brand` (`idbrand`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `model`
+  ADD CONSTRAINT `model_ibfk_1` FOREIGN KEY (`brandid`) REFERENCES `brand` (`idbrand`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `skeleton_users`
+-- Constraints for table `users`
 --
-ALTER TABLE `skeleton_users`
-  ADD CONSTRAINT `skeleton_users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `skeleton_roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
