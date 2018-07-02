@@ -9,7 +9,8 @@
  */
 
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This controller serves the user management pages and tools.
@@ -29,7 +30,6 @@ class Items extends CI_Controller
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->model('items_model');
         // $this->returnLate();
-
     }//end __construct()
 
 
@@ -49,7 +49,6 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/index', $data);
         $this->load->view('templates/footer', $data);
-
     }//end index()
 
 
@@ -61,7 +60,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->showAllItems();
         echo json_encode($result);
-
     }//end showAllitems()
 
 
@@ -78,7 +76,6 @@ class Items extends CI_Controller
         } else {
             echo "0";
         }
-
     }//end deleteItems()
 
 
@@ -100,7 +97,6 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/edit', $data);
         $this->load->view('templates/footer');
-
     }//end edit()
 
 
@@ -144,7 +140,6 @@ class Items extends CI_Controller
             $this->session->set_flashdata('msg', 'The item was updated successfully.');
             redirect('items');
         }
-
     }//end itemUpdate()
 
 
@@ -165,7 +160,6 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/create', $data);
         $this->load->view('templates/footer');
-
     }//end create()
 
 
@@ -211,7 +205,6 @@ class Items extends CI_Controller
             $this->session->set_flashdata('msg', 'The item was created successfully.');
             redirect('items');
         }
-
     }//end itemcreate()
 
 
@@ -223,7 +216,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllCate();
         echo json_encode($result);
-
     }//end showAllCategories()
 
 
@@ -235,7 +227,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllMat();
         echo json_encode($result);
-
     }//end showAllMaterials()
 
 
@@ -247,7 +238,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllDep();
         echo json_encode($result);
-
     }//end showAllDepartments()
 
 
@@ -259,7 +249,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllLoc();
         echo json_encode($result);
-
     }//end showAllLocations()
 
 
@@ -271,7 +260,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllUser();
         echo json_encode($result);
-
     }//end showAllUsers()
 
 
@@ -283,7 +271,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllOwner();
         echo json_encode($result);
-
     }//end showAllOwners()
 
 
@@ -295,7 +282,6 @@ class Items extends CI_Controller
     {
         $result = $this->items_model->getAllBrand();
         echo json_encode($result);
-
     }//end showAllBrands()
 
 
@@ -308,7 +294,6 @@ class Items extends CI_Controller
         $brandid = $this->uri->segment(3);
         $result  = $this->items_model->getAllModel($brandid);
         echo json_encode($result);
-
     }//end showAllModelsByBrand()
 
 
@@ -319,7 +304,7 @@ class Items extends CI_Controller
      */
     public function showDetailItem()
     {
-        $form   = '';
+        $form;
         $iditem = $this->input->post('iditem');
         $result = $this->items_model->showDetailItem($iditem);
         $status = '';
@@ -331,69 +316,26 @@ class Items extends CI_Controller
                     $status = 'Not available';
                 }
 
-                // TODO: beautify
-                $form .= '<tr>';
-                $form .= '<td>Name </td>';
-                $form .= '<td>: '.$value->item.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Description </td>';
-                $form .= '<td>: '.$value->description.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Label </td>';
-                $form .= '<td>: '.$value->code.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Cost of item </td>';
-                $form .= '<td>: $'.$value->cost.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Condition </td>';
-                $form .= '<td>: '.$value->condition.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Type </td>';
-                $form .= '<td>: '.$value->cat.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<tr>';
-                $form .= '<td>Brand </td>';
-                $form .= '<td>: '.$value->brand.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Model </td>';
-                $form .= '<td>: '.$value->model.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Material </td>';
-                $form .= '<td>: '.$value->mat.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Location </td>';
-                $form .= '<td>: '.$value->locat.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Department </td>';
-                $form .= '<td>: '.$value->depat.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Username </td>';
-                $form .= '<td>: '.$value->nameuser.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Owner </td>';
-                $form .= '<td>: '.$value->owner.'</td>';
-                $form .= '</tr>';
-                $form .= '<tr>';
-                $form .= '<td>Status </td>';
-                $form .= '<td>: '.$status.'</td>';
-                $form .= '</tr>';
+                $form = (object)[
+                  'name' => $value->item,
+                  'description' => $value->description,
+                  'code' => $value->code,
+                  'cost' => $value->cost,
+                  'condition' => $value->condition,
+                  'cat' => $value->cat,
+                  'brand' => $value->brand,
+                  'model' => $value->model,
+                  'mat' => $value->mat,
+                  'locat' => $value->locat,
+                  'depat' => $value->depat,
+                  'nameuser' => $value->nameuser,
+                  'owner' => $value->owner,
+                  'status' => $status
+                ];
             }//end foreach
         }//end if
 
         echo json_encode($form);
-
     }//end showDetailItem()
 
 
@@ -404,7 +346,6 @@ class Items extends CI_Controller
     public function export()
     {
         $this->load->view('items/export');
-
     }//end export()
 
 
@@ -416,7 +357,6 @@ class Items extends CI_Controller
     {
         $borrower = $this->items_model->showUser();
         echo json_encode($borrower);
-
     }//end borrowerName()
 
 
@@ -437,7 +377,6 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/borrow', $data);
         $this->load->view('templates/footer');
-
     }//end borrower()
 
 
@@ -459,7 +398,6 @@ class Items extends CI_Controller
         } else {
             echo "error";
         }
-
     }//end insertBorrower()
 
 
@@ -476,13 +414,12 @@ class Items extends CI_Controller
         $id = $this->uri->segment(3);
         $data['borrow'] = $this->items_model->showListBorrower($id);
         $data['r_item'] = $this->items_model->returnitem($id);
-            // var_dump($data['r_item']);die();
+        // var_dump($data['r_item']);die();
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/returnItem', $data);
         //is use to load view to return an item form
         $this->load->view('templates/footer');
-
     }//end returnItem()
 
 
@@ -499,19 +436,18 @@ class Items extends CI_Controller
         $maxIdBorrow        = $this->items_model->getMaxIdBorrow($this->input->post('itemId'));
         //use to get max id of borrower
         $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
-            //var_dump($data);die();
+        //var_dump($data);die();
         $status_update = $this->items_model->r_u_status($data);
         //load model for update status in database and table
-            // var_dump($status_update);die();
+        // var_dump($status_update);die();
 
         // validate update status in database table item column status
         if ($status_update) {
             redirect('items');
-                // echo "updated status...";
+        // echo "updated status...";
         } else {
             echo "Error...";
         }
-
     }//end returnAnItem()
 
 
@@ -523,13 +459,10 @@ class Items extends CI_Controller
     public function returnLate()
     {
         $lateIds = $this->items_model->returnLate();
-          //print_r($lateIds);
+        //print_r($lateIds);
         foreach ($lateIds as $value) {
             $this->items_model->updateStatus($value->itemBorrow);
             //load model update status late
         }
-
     }//end returnLate()
-
-
 }//end class

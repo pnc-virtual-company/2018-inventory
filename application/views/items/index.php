@@ -1,4 +1,4 @@
-<style> 
+<style>
 .highlight { background-color: #007bff; color:#fff;}
 .dt-buttons .buttons-colvis{
   background:#007bff;
@@ -53,7 +53,7 @@
             $role = $this->session->Role;
             if ($role == 1 || $role == 8) {
                 ?>
-            <a href="<?php echo base_url();?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
+            <a href="<?php echo base_url(); ?>items/create" class="btn btn-primary float-right"><i class="mdi mdi-plus-circle"></i>&nbsp;Create a new item</a>
                 <?php
             }
             ?>
@@ -111,7 +111,7 @@
     $role = $this->session->Role;
     if ($role == 1 || $role == 8) {
         ?>
-      <a href="<?php echo base_url();?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
+      <a href="<?php echo base_url(); ?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
         <?php
     }
     ?>
@@ -157,15 +157,74 @@
             <col span="1" style="background-color:#eff3f7;">
           </colgroup>
           <tbody id="frm_view">
-
+            <tr>
+              <td>Name </td>
+              <td id="detail-name"></td>
+            </tr>
+            <tr>
+              <td>Description </td>
+              <td id="detail-description"></td>
+            </tr>
+            <tr>
+              <td>Label </td>
+              <td id="detail-label"></td>
+            </tr>
+            <tr>
+              <td>Cost of item </td>
+              <td>
+                <span>$</span>
+                <span id="detail-cost"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Condition </td>
+              <td id="detail-condition"></td>
+            </tr>
+            <tr>
+              <td>Type </td>
+              <td id="detail-type"></td>
+            </tr>
+            <tr>
+            <tr>
+              <td>Brand </td>
+              <td id="detail-brand"></td>
+            </tr>
+            <tr>
+              <td>Model </td>
+              <td id="detail-model"></td>
+            </tr>
+            <tr>
+              <td>Material </td>
+              <td id="detail-material"></td>
+            </tr>
+            <tr>
+              <td>Location </td>
+              <td id="detail-location"></td>
+            </tr>
+            <tr>
+              <td>Department </td>
+              <td id="detail-department"></td>
+            </tr>
+            <tr>
+              <td>Username </td>
+              <td id="detail-username"></td>
+            </tr>
+            <tr>
+              <td>Owner </td>
+              <td id="detail-owner"></td>
+            </tr>
+            <tr>
+              <td>Status </td>
+              <td id="detail-status"></td>
+            </tr>
             <!-- for show data detail from controller -->
 
           </tbody>
         </table>
-      </div> 
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-      </div>     
+      </div>
     </div>
   </div>
 </div>
@@ -208,7 +267,7 @@
      <div class="modal-header">
        <h4 class="modal-title">Select a value</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="catlist">
@@ -222,8 +281,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -241,7 +300,7 @@
      <div class="modal-header">
       <h4 class="modal-title">Select a value</h4>
       <button type="button" class="close" data-dismiss="modal">&times;</button>
-    </div>          
+    </div>
     <!-- Modal body -->
     <div class="modal-body ">
       <div class="matlist">
@@ -255,8 +314,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -282,7 +341,7 @@
           <li class="list-group-item list-group-item-action" value="Fair" id="set_Fair">Fair</li>
           <li class="list-group-item list-group-item-action" value="Damaged" id="set_Damaged">Damaged</li>
           <li class="list-group-item list-group-item-action" value="Broken" id="set_Broken">Broken</li>
-          
+
         </ul>
       </div>
       <div class="modal-footer">
@@ -301,7 +360,7 @@
      <div class="modal-header">
        <h4 class="modal-title">Select a value</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="deplist">
@@ -315,8 +374,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -335,7 +394,7 @@
      <div class="modal-header">
        <h4 class="modal-title">Select a value</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="loclist">
@@ -349,8 +408,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="locset">OK</button>
@@ -369,7 +428,7 @@
      <div class="modal-header">
        <h4 class="modal-title">Select a value</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="userlist">
@@ -383,8 +442,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -402,7 +461,7 @@
      <div class="modal-header">
        <h4 class="modal-title">Select a value</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="ownerlist">
@@ -416,8 +475,8 @@
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -485,7 +544,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
-  // to make column reorder in table list item 
+  // to make column reorder in table list item
   var t = $('#items').DataTable({
     order:[] ,
     colReorder: true,
@@ -493,7 +552,7 @@
     'ajax':
     {
       'type': 'GET',
-      'url':'<?php echo base_url();?>items/showAllitems', //access to controller for get data from database 
+      'url':'<?php echo base_url();?>items/showAllitems', //access to controller for get data from database
       'dataType':'json'
     },
     "colReorder":
@@ -508,12 +567,12 @@
       columns:':not(.permanent)'
     }]
   });
-  showAllitems(); //call function to use 
+  showAllitems(); //call function to use
 
-  // showAllitems function get data from database in items show in table 
+  // showAllitems function get data from database in items show in table
   function showAllitems()
   {
-    // show spin waiting for the result by ajax 
+    // show spin waiting for the result by ajax
     $("#showdata").html('<tr> <td class="text-center text-info"colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i> Loading...</td></tr>');
     $.ajax({
       type: 'ajax',
@@ -521,13 +580,13 @@
       async: true,
       dataType: 'json',
       success: function(data){
-        t.clear().draw(); //this funciton is for make a result don't have dupplicate result 
-        var n = 1; //variable for count number 
+        t.clear().draw(); //this funciton is for make a result don't have dupplicate result
+        var n = 1; //variable for count number
         var i;
         var status="";
-        for(i=0; i<data.length; i++) //validate for status available 
-        { 
-          if (data[i].status=='0') 
+        for(i=0; i<data.length; i++) //validate for status available
+        {
+          if (data[i].status=='0')
           {
             status='<span class="badge badge-success">Available</span>';
             <?php $role = $this->session->Role; ?>
@@ -536,7 +595,8 @@
               '&nbsp;<?php
                 if ($role == 1 || $role == 8) {
                     ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
-                '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
+                '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php
+                } ?>'+
                 '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
                 '&nbsp;<a href="<?php echo base_url();?>items/borrower/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-basket-fill" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>',
 
@@ -544,7 +604,7 @@
                 ] ).draw( false );
             n++;
 
-          }else if(data[i].status =='1'){ //validate for status borrowed  
+          }else if(data[i].status =='1'){ //validate for status borrowed
 
             status='<span class="badge badge-warning">Borrowed</span>';
             <?php $role = $this->session->Role; ?>
@@ -553,37 +613,43 @@
               '&nbsp;<?php
                 if ($role == 1 || $role == 8) {
                     ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
-               '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
+               '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php
+                } ?>'+
                '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
                '&nbsp; <?php
                 if ($role == 1 || $role == 8) {
-                    ?> <a href="<?php echo base_url();?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php } ?>',
+                    ?> <a href="<?php echo base_url(); ?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php
+                } ?>',
 
-                   //display the data that get from database to table tbody 
+                   //display the data that get from database to table tbody
 
                    data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
                    ] ).draw( false );
-              n++; //count number on id 
-          }else { //validate for status late 
+              n++; //count number on id
+          }else { //validate for status late
 
             <?php $role = $this->session->Role; if ($role == 1 || $role == 8) {
-                ?> //validate role if normal user will not display late status 
+                    ?> //validate role if normal user will not display late status
               status='<span class="badge badge-danger">Late</span>';
-                <?php } else {
-    ?> //for normal user will display borrowed status instead of late status 
+                <?php
+                } else {
+                    ?> //for normal user will display borrowed status instead of late status
                 status='<span class="badge badge-warning">Borrowed</span>';
-                <?php } ?>
+                <?php
+                } ?>
 
               t.row.add( [
                 data[i].itemcodeid+
                 '&nbsp;<?php
                 if ($role == 1 || $role == 8) {
                     ?><a href="<?php echo base_url() ?>items/edit/'+data[i].iditem+'" class="item-edit" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Edit item"><i class="mdi mdi-pencil"></i></a>'+
-                 '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php } ?>'+
+                 '<a href="#" class="item-delete text-danger" dataid="'+data[i].iditem+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a> <?php
+                } ?>'+
                  '&nbsp;<a href="#" class="item-view" dataid="'+data[i].iditem+'" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>'+
                  '&nbsp; <?php
                     if ($role == 1 || $role == 8) {
-                        ?> <a href="<?php echo base_url();?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php } ?>',
+                        ?> <a href="<?php echo base_url(); ?>items/returnItem/'+data[i].iditem+'" class="item" dataid="'+data[i].iditem+'"><i class="mdi mdi-redo-variant" id="return" data-toggle="tooltip" title="Return"></i></a><?php
+                    } ?>',
 
                    data[i].item,data[i].cat,data[i].mat,data[i].condition,data[i].depat,data[i].locat,data[i].nameuser,data[i].owner,status
                    ] ).draw( false );
@@ -599,7 +665,7 @@
       });
 }
 
-  //  Combine btn onclick OK with key Enter when delete  
+  //  Combine btn onclick OK with key Enter when delete
   $('#deleteModal').keypress(function(e){
     if(e.which === 13){//Enter key pressed
       e.preventDefault();
@@ -607,24 +673,24 @@
     }
   });
 
-  // delete item by ajax when click on icon delete 
+  // delete item by ajax when click on icon delete
   $('#showdata').on('click', '.item-delete', function(){
     var id = $(this).attr('dataid');
     $('#deleteModal').data('id', id).modal('show');
   });
 
-  // load modal confirmation when click delete icon 
+  // load modal confirmation when click delete icon
   $("#delete-comfirm").on('click',function(){
     var id = $('#deleteModal').data('id');
     $.ajax({
-      url: "<?php echo base_url() ?>items/deleteItems", // access to controller to delete from database 
+      url: "<?php echo base_url() ?>items/deleteItems", // access to controller to delete from database
       type: "POST",
       data: {iditem: id},
       dataType: "json",
       success: function(data){
         $('#deleteModal').modal('hide');
-        //alert message when delete successfully 
-        $('.alert-info').html('Item was deleted successfully').fadeIn().delay(4000).fadeOut('slow'); 
+        //alert message when delete successfully
+        $('.alert-info').html('Item was deleted successfully').fadeIn().delay(4000).fadeOut('slow');
         showAllitems();
       },
       error: function(){
@@ -634,18 +700,31 @@
     });
   });
 
-  // load modal for show the detail an item when click on eye icon to show detail of each item that clicked 
+  // load modal for show the detail an item when click on eye icon to show detail of each item that clicked
   $('#showdata').on('click', '.item-view', function(){
     var id = $(this).attr('dataid');
     $.ajax({
      type: 'POST',
      data: {iditem: id},
-     url: '<?php echo base_url();?>/items/showDetailItem', //access to controller to get all the detail item from database 
+     url: '<?php echo base_url();?>/items/showDetailItem', //access to controller to get all the detail item from database
      async: true,
      dataType: 'json',
      success: function(data){
-      // alert('success');
-      $('#frm_view').html(data);
+      // $('#frm_view').html(data);
+      $('#detail-name').html(data.name);
+      $('#detail-description').html(data.description);
+      $('#detail-label').html(data.code);
+      $('#detail-cost').html(data.cost ? data.cost : 0);
+      $('#detail-condition').html(data.condition);
+      $('#detail-type').html(data.cat);
+      $('#detail-brand').html(data.brand);
+      $('#detail-model').html(data.model);
+      $('#detail-material').html(data.mat);
+      $('#detail-location').html(data.locat);
+      $('#detail-department').html(data.depat);
+      $('#detail-username').html(data.nameuser);
+      $('#detail-owner').html(data.owner);
+      $('#detail-status').html(data.status);
       $('#viewDetailModal').modal('show');
     },
     error: function(){
@@ -685,7 +764,7 @@
           c.row.add ( [
             data[i].category
             ] ).draw( false );
-          n++;    
+          n++;
         }
       },
       error: function(){
@@ -722,7 +801,7 @@
           c.row.add ( [
             data[i].material
             ] ).draw( false );
-          n++;    
+          n++;
         }
       },
       error: function(){
@@ -771,7 +850,7 @@
               c.row.add ( [
                 data[i].department
                 ] ).draw( false );
-              n++;    
+              n++;
             }
           },
           error: function(){
@@ -807,7 +886,7 @@
           c.row.add ( [
             data[i].location
             ] ).draw( false );
-          n++;    
+          n++;
         }
       },
       error: function(){
@@ -843,7 +922,7 @@
           c.row.add ( [
             data[i].firstname+' '+data[i].lastname
             ] ).draw( false );
-          n++;    
+          n++;
         }
       },
       error: function(){
@@ -878,7 +957,7 @@
             c.row.add ( [
               data[i].owner
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
