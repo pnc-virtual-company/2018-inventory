@@ -56,7 +56,7 @@ class Owners_model extends CI_Model
     	$this->db->delete('owner');
     }
 
-    // function for insert data that enter by admin into database in table skeleton_owner and argument $data get from controller that store the info form user that input into modal form 
+    // function for insert data that enter by admin into database in table owner and argument $data get from controller that store the info form user that input into modal form 
     public function create_owner($data)
     {
     	$this->db->insert('owner', $data);

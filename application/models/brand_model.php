@@ -14,10 +14,10 @@ class brand_model extends CI_Model
     // Display all data in brand from database
     public function showAllBrand()
     {
-        $this->db->select('idbrand, brand, count(skeleton_model.idmodel) AS "ModelCount" ');
+        $this->db->select('idbrand, brand, count(model.idmodel) AS "ModelCount" ');
         $this->db->from('brand');
         $this->db->join('model', 'model.brandid = brand.idbrand', 'left');
-        $this->db->group_by('skeleton_brand.brand');
+        $this->db->group_by('brand.brand');
         $query = $this->db->get();
         
         if ($query->num_rows() > 0) 

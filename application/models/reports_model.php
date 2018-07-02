@@ -49,33 +49,33 @@ class reports_model extends CI_Model
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
 
-    // model to count all the condition New from table skeleton_item
+    // model to count all the condition New from table item
     public function getCountNew() 
     {
-        $this->db->select("COUNT(skeleton_item.condition) AS countNew");
+        $this->db->select("COUNT(item.condition) AS countNew");
         $countQuery =  $this->db->get_where('item',array('item.condition'=>'New'));
         return $countQuery->result();
 
     }
-    // model to count all the condition Fair from table skeleton_item
+    // model to count all the condition Fair from table item
     public function getCountFair() 
     {
-        $this->db->select("COUNT(skeleton_item.condition) AS countFair");
+        $this->db->select("COUNT(item.condition) AS countFair");
         $countQuery =  $this->db->get_where('item',array('item.condition'=>'Fair'));
         return $countQuery->result();
 
     }
-    // model to count all the condition Danaged from table skeleton_item
+    // model to count all the condition Danaged from table item
     public function getCountDamaged() 
     {
-        $this->db->select("COUNT(skeleton_item.condition) AS countDamaged");
+        $this->db->select("COUNT(item.condition) AS countDamaged");
         $countQuery =  $this->db->get_where('item',array('item.condition'=>'Damaged'));
         return $countQuery->result();
     }
-    // model to count all the condition Broken from table skeleton_item
+    // model to count all the condition Broken from table item
     public function getCountBroken() 
     {
-        $this->db->select("COUNT(skeleton_item.condition) AS countBroken");
+        $this->db->select("COUNT(item.condition) AS countBroken");
         $countQuery =  $this->db->get_where('item',array('item.condition'=>'Broken'));
         return $countQuery->result();
     }
@@ -83,7 +83,7 @@ class reports_model extends CI_Model
     // this function is to get all the item that have relationship with the department 
     public function getItemByDepartment() 
     {
-        $this->db->select('department.department, COUNT(skeleton_item.iditem) AS itemcount');
+        $this->db->select('department.department, COUNT(item.iditem) AS itemcount');
         $this->db->join('item', 'department.iddepartment=item.departmentid','left');
         $this->db->group_by(array("department.iddepartment"));
         $query = $this->db->get('department');

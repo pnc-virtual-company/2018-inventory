@@ -512,7 +512,7 @@
   });
   showAllitems(); //call function to use 
 
-  // showAllitems function get data from database in skeleton_items show in table 
+  // showAllitems function get data from database in items show in table 
   function showAllitems()
   {
     // show spin waiting for the result by ajax 
