@@ -1,6 +1,7 @@
 <?php
 /**
  * This view allows to create a new employee
+ *
  * @copyright  Copyright (c) 2014-2017 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton
@@ -16,7 +17,10 @@
 <?php echo validation_errors(); ?>
 
 <?php
-$attributes = array('id' => 'target', 'class' => 'form-horizontal');
+$attributes = [
+    'id'    => 'target',
+    'class' => 'form-horizontal',
+];
 echo form_open('users/create', $attributes); ?>
 
     <div class="form-group">
@@ -51,9 +55,10 @@ echo form_open('users/create', $attributes); ?>
     <div class="form-group">
       <label class="control-label" for="role[]">Role</label>
       <select multiple class="form-control" name="role[]" size="3" required>
-      <?php foreach ($roles as $roles_item): ?>
-          <option value="<?php echo $roles_item['id'] ?>" <?php if ($roles_item['id'] == 2) echo "selected"; ?>><?php echo $roles_item['name'] ?></option>
-      <?php endforeach ?>
+        <?php foreach ($roles as $roles_item) : ?>
+          <option value="<?php echo $roles_item['id'] ?>" <?php if ($roles_item['id'] == 2) {
+                echo "selected";} ?>><?php echo $roles_item['name'] ?></option>
+        <?php endforeach ?>
       </select>
     </div>
 
@@ -189,20 +194,20 @@ echo form_open('users/create', $attributes); ?>
       //On any change on firstname or lastname fields, automatically build the
       //login identifier with first character of firstname and the 31 first characters of lastname
       $("#firstname").change(function() {
-          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern')!==FALSE?$this->config->item('login_pattern'):'jdoe';?>',32);
+          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern') !== false ? $this->config->item('login_pattern') : 'jdoe';?>',32);
           $("#login").val(login);
       });
       $("#lastname").change(function() {
-          <?php if ($this->config->item('disable_capitalization') === FALSE) {?>
+            <?php if ($this->config->item('disable_capitalization') === false) {?>
           $("#lastname").val($("#lastname").val().toUpperCase());
-          <?php }?>
-          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern')!==FALSE?$this->config->item('login_pattern'):'jdoe';?>',32);
+            <?php }?>
+          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern') !== false ? $this->config->item('login_pattern') : 'jdoe';?>',32);
           $("#login").val(login);
       });
 
       //Compute automatically a login according to the rules of the configuration file
       $('#cmdRefreshLogin').click(function() {
-          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern')!==FALSE?$this->config->item('login_pattern'):'jdoe';?>',32);
+          var login = generateLogin($("#firstname").val(), $("#lastname").val(), '<?php echo $this->config->item('login_pattern') !== false ? $this->config->item('login_pattern') : 'jdoe';?>',32);
           $("#login").val(login);
           checkLogin();
       });

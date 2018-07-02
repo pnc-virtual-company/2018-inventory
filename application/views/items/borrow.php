@@ -34,12 +34,12 @@ input[type=number]::-webkit-outer-spin-button {
               <label class="control-label" for="items">Item</label>
               <div class="input-group mb-3">
                 <!-- foreach to get value form database to store in input tag and disable it -->
-                <?php 
+                <?php
                 foreach ($borrow as $value) {
-                  ?>
+                    ?>
                   <input type="text" class="form-control" value="<?php echo $value->item ?>"   disabled >
                   <input type="hidden" id="borrowerid" value="<?php echo $value->iditem ?>"  name="itemName"  >
-                  <?php 
+                    <?php
                 }
                 ?>
               </div>

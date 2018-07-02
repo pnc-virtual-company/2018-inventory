@@ -16,7 +16,10 @@ body {
                 <div class="card-body"> 
                     <?php echo $flashPartialView;?>
                     <?php
-                    $attributes = array('id' => 'formLogin', 'class' => 'form-signin');
+                    $attributes = [
+                        'id'    => 'formLogin',
+                        'class' => 'form-signin',
+                    ];
                     echo form_open('connection/login', $attributes); ?>
                     <h2 class="form-signin-heading">Please sign in</h2><br>
                     <div class="login-form form">

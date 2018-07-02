@@ -1,6 +1,7 @@
 <?php
 /**
  * Email template.You can change the content of this template
+ *
  * @copyright  Copyright (c) 2018 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton

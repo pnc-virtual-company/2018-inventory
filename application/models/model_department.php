@@ -1,5 +1,5 @@
 <?php
-// Edit by @author Dalin LOEM <dalin.loem@student.passerellesnumeriques.org> 
+// Edit by @author Dalin LOEM <dalin.loem@student.passerellesnumeriques.org>
 
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
@@ -9,18 +9,24 @@ if (!defined('BASEPATH')) {
  * This model contains the business logic and manages the persistence of users and roles
  * It is also used by the session controller for the authentication.
  */
-class model_department extends CI_Model
+class Model_department extends CI_Model
 {
-    
+
+
     /**
      * Default constructor
      */
     public function __construct()
     {
         parent::__construct();
-    }
-    
-    // Get data department from database
+
+    }//end __construct()
+
+
+    /**
+     * Get data department from database
+     * @return bool result
+     */
     public function showAllDepartments()
     {
         $query = $this->db->get('department');
@@ -29,9 +35,15 @@ class model_department extends CI_Model
         } else {
             return false;
         }
-    }
-    
-    // Update department to database
+
+    }//end showAllDepartments()
+
+
+    /**
+     * Update department to database
+     * @param  int $id id
+     * @return bool    result
+     */
     public function showEditDepartment($id)
     {
         $this->db->where('iddepartment', $id);
@@ -41,29 +53,52 @@ class model_department extends CI_Model
         } else {
             return false;
         }
-    }
-    
-    // Delete department from database
-    function deleteDepartment($id)
+
+    }//end showEditDepartment()
+
+
+    /**
+     * Delete department from database
+     * @param  int $id id
+     * @return void
+     */
+    public function deleteDepartment($id)
     {
         $this->db->where('iddepartment', $id);
         $this->db->delete('department');
-    }
-    
-    // Create department to database 
+
+    }//end deleteDepartment()
+
+
+    /**
+     * Create department to database
+     * @param  any $data data
+     * @return int       id of inserted data
+     */
     public function create_department($data)
     {
         $this->db->insert('department', $data);
         return $insert_id = $this->db->insert_id();
-    }
-    
+
+    }//end create_department()
+
+
+    /**
+     * Use for update department that get value from form input to upddate in database
+     * @param  int $iddepartment id department
+     * @param  any $department   department
+     * @return any               result
+     */
     public function updateDepartment($iddepartment, $department)
     {
-        $data = array(
+        $data = [
             'iddepartment' => $iddepartment,
-            'department' => $department
-        );
+            'department'   => $department,
+        ];
         $this->db->where('iddepartment', $iddepartment);
         return $this->db->replace('department', $data);
-    }
-}
+
+    }//end updateDepartment()
+
+
+}//end class

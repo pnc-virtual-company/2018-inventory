@@ -10,9 +10,9 @@ tr:hover{cursor: pointer;}
 </style>
 <div class="container bg-light">
   <div class="row-fluid">
-    <?php 
+    <?php
     foreach ($itemEdit as $value) {
-      ?>
+        ?>
       <form id="frm_create" action="<?php echo base_url();?>items/itemUpdate/<?php echo $value->iditem ?>" method="POST">
         <div class="col-12">
           <h2><?php echo $title.' ( '.$value->item.' )'; ?></h2>
@@ -138,7 +138,7 @@ tr:hover{cursor: pointer;}
                   <option value="Broken">Broken</option>
                 </select>
               </div>
-              <?php  $condition= $value->date; ?>
+              <?php  $condition = $value->date; ?>
               <!-- item date -->
               <div class="form-group">
                 <label for="inputdate">Date:</label>
@@ -160,8 +160,8 @@ tr:hover{cursor: pointer;}
         </div>
       </div>
 
-      <?php 
-    }
+        <?php
+    }//end foreach
     ?>
     <div class="row-fluid">
       <div class="col-12">
@@ -469,7 +469,8 @@ tr:hover{cursor: pointer;}
   var username, userid ='';
   var ownername, ownerid ='';
   var brandname;
-  var brandid ='<?php foreach ($itemEdit as $value) { echo $value->brandid; }?>';
+  var brandid ='<?php foreach ($itemEdit as $value) {
+        echo $value->brandid; }?>';
   var modelname, modelid ='';
   $(function(){
 

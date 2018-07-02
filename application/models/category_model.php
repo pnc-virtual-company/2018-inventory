@@ -9,19 +9,24 @@ if (!defined('BASEPATH')) {
  * This model contains the business logic and manages the persistence of users and roles
  * It is also used by the session controller for the authentication.
  */
-class category_model extends CI_Model
+class Category_model extends CI_Model
 {
-    
+
+
     /**
-     *     
      * Default constructor
      */
     public function __construct()
     {
         parent::__construct();
-    }
-    
-    // Get category from database
+
+    }//end __construct()
+
+
+    /**
+     * Get category from database
+     * @return bool result
+     */
     public function getAllCate()
     {
         $query = $this->db->get('category');
@@ -30,26 +35,44 @@ class category_model extends CI_Model
         } else {
             return false;
         }
-    }
-    
+
+    }//end getAllCate()
+
+
+    //
+    // /**
+    //  * Delete category from database
+    //  * @param  int $id id
+    //  * @return void
+    //  */
+    // public function deleteCate($id)
+    // {
+    //     $this->db->delete(
+    //         'category',
+    //         ['category.idcategory' => $id]
+    //     );
+    //
+    // }//end deleteCate()
+
+
     /**
-     * Delete a category from the database
+     * Create category to database
+     * @param  any $data data
+     * @return int       id of inserted data
      */
-    public function deleteCate($id)
-    {
-        $this->db->delete('category', array(
-            'category.idcategory' => $id
-        ));
-    }
-    
-    // Create category to database
     public function create_category($data)
     {
         $this->db->insert('category', $data);
         return $insert_id = $this->db->insert_id();
-    }
-    
-    // Display show edit category to controller
+
+    }//end create_category()
+
+
+    /**
+     * Display show edit category to controller
+     * @param  int $id id
+     * @return bool    result
+     */
     public function showEditCategory($id)
     {
         $this->db->where('idcategory', $id);
@@ -59,23 +82,39 @@ class category_model extends CI_Model
         } else {
             return false;
         }
-    }
-    
-    // Update data from pop up modal to database
+
+    }//end showEditCategory()
+
+
+    /**
+     * Update data from pop up modal to database
+     * @param  int $idcategory id category
+     * @param  any $category   category
+     * @return any             result
+     */
     public function updateCategory($idcategory, $category)
     {
-        $data = array(
+        $data = [
             'idcategory' => $idcategory,
-            'category' => $category
-        );
+            'category'   => $category,
+        ];
         $this->db->where('idcategory', $idcategory);
         return $this->db->replace('category', $data);
-    }
-    
-    //delete category from database
-    function deleteCategory($id)
+
+    }//end updateCategory()
+
+
+    /**
+     * Delete category from database
+     * @param  int $id id
+     * @return void
+     */
+    public function deleteCategory($id)
     {
         $this->db->where('idcategory', $id);
         $this->db->delete('category');
-    }
-}
+
+    }//end deleteCategory()
+
+
+}//end class

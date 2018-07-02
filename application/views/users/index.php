@@ -1,6 +1,7 @@
 <?php
 /**
  * This view displays the list of users.
+ *
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton
@@ -9,8 +10,8 @@
 ?>
 
 <div id="container">
-	<div class="row-fluid">
-		<div class="col-12">
+    <div class="row-fluid">
+        <div class="col-12">
             <div class="table-responsive">
 
                 <h2><?php echo $title;?></h2>
@@ -29,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($users as $user):?>
+                        <?php foreach ($users as $user) :?>
                             <tr>
                                 <td data-order="<?php echo $user['id']; ?>" data-id="<?php echo $user['id'];?>">
                                     <?php echo $user['id'] ?>&nbsp;
@@ -64,7 +65,7 @@
       </div>
 </div>
 <div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
            <div class="modal-header">
             <h5 class="modal-title">Delete confirmation</h5>
@@ -85,8 +86,8 @@
 </div>
 
 <div id="frmResetPwd" class="modal hide fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
            <div class="modal-header">
             <h5 class="modal-title">Reset a password</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

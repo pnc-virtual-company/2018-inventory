@@ -1,5 +1,5 @@
 <?php
-// Edit by @author Sinat NEAM <sinat.neam@student.passerellesnumeriques.org> 
+// Edit by @author Sinat NEAM <sinat.neam@student.passerellesnumeriques.org>
 ?>
 
 <div id="container" class="container">
@@ -8,8 +8,8 @@
       <div class="row">
         <div class="col-9">
           <h2><?php
-echo $title;
-?></h2>
+            echo $title;
+            ?></h2>
         </div>
         <!-- Create new location -->
         <div class="col-3">

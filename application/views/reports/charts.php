@@ -16,10 +16,10 @@
         <tr>
           <td>New</td>
           <td>
-            <?php 
-            foreach ($reportNew as $key ) {
-              $new= $key->countNew;
-              echo $new;
+            <?php
+            foreach ($reportNew as $key) {
+                $new = $key->countNew;
+                echo $new;
             }
             ?>    
           </td>
@@ -27,10 +27,10 @@
         <tr>
           <td>Fair</td>
           <td>
-            <?php 
-            foreach ($reportFair as $key ) {
-              $fair = $key->countFair;
-              echo $fair;
+            <?php
+            foreach ($reportFair as $key) {
+                $fair = $key->countFair;
+                echo $fair;
             }
             ?>   
           </td>
@@ -38,20 +38,20 @@
         <tr>
           <td>Damaged</td>
           <td>
-            <?php 
-            foreach ($reportDamaged as $key ) {
-              $Damaged = $key->countDamaged;
-              echo $Damaged;
+            <?php
+            foreach ($reportDamaged as $key) {
+                $Damaged = $key->countDamaged;
+                echo $Damaged;
             }
             ?>   
           </td>
         </tr><tr>
           <td>Broken</td>
           <td>
-            <?php 
-            foreach ($reportBroken as $key ) {
-              $Broken = $key->countBroken;
-              echo $Broken;
+            <?php
+            foreach ($reportBroken as $key) {
+                $Broken = $key->countBroken;
+                echo $Broken;
             }
             ?>   
           </td>

@@ -20,11 +20,11 @@ input[type=number]::-webkit-outer-spin-button {
               <label class="control-label" for="borrower">Borrower</label>
               <div class="input-group mb-3">
                 <!-- foreach to get the name of borrower to display into form input borrowe and disable it -->
-                <?php 
+                <?php
                 foreach ($r_item as $borrower) {
-                  ?>
+                    ?>
                   <input type="text" class="form-control" aria-label="borrower" aria-describedby="basic-addon2" id="borrowName" name="nameBorrower" value="<?php echo  $borrower->borrower;?>" disabled>
-                  <?php 
+                    <?php
                 }
                 ?>
               </div>
@@ -34,12 +34,12 @@ input[type=number]::-webkit-outer-spin-button {
               <label class="control-label" for="items">Item</label>
 
               <div class="input-group mb-3">
-                <?php 
+                <?php
                 foreach ($borrow as $value) {
-                  ?>
+                    ?>
                   <input type="text" class="form-control" value="<?php echo $value->item ?>"   disabled >
                   <input type="hidden" id="borrowerid" value="<?php echo $value->iditem ?>"  name="itemId"  >
-                  <?php 
+                    <?php
                 }
                 ?>
               </div>
@@ -49,12 +49,12 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="form-group">
               <label class="control-label" for="startDate">Start Date</label>
               <div class="input-group mb-3">
-                <?php 
+                <?php
                 foreach ($r_item as $valueDate) {
-                  ?>
+                    ?>
                   <input type="date" class="form-control"  id="" name="startDate" disabled value="<?php echo $valueDate->startDate;?>">
                   <input type="hidden" name="startDate" value="<?php echo $valueDate->startDate;?>">
-                  <?php
+                    <?php
                 }
                 ?>
               </div>
@@ -64,11 +64,11 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="form-group">
               <label class="control-label" for="returnDate">Return Date</label>
               <div class="input-group mb-3">
-                <?php 
+                <?php
                 foreach ($r_item as $valueDate) {
-                  ?>
+                    ?>
                   <input type="date" class="form-control" name="returnDate" disabled value="<?php echo $valueDate->returnDate; ?>">
-                  <?php
+                    <?php
                 }
                 ?>
               </div>

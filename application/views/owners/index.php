@@ -1,6 +1,7 @@
 <?php
 /**
  * This view displays the list of users.
+ *
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton
@@ -11,7 +12,7 @@
 <!-- this is owner layout -->
 <br>
 <div id="container" class="container">
-	<div class="row-fluid">
+    <div class="row-fluid">
     <div class="col-12">
       <div class="row">
         <div class="col-9">

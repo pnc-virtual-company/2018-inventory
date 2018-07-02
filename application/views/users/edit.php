@@ -1,6 +1,7 @@
 <?php
 /**
  * This view allows to modify a user record.
+ *
  * @copyright  Copyright (c) 2014-2018 Benjamin BALET
  * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
  * @link       https://github.com/bbalet/skeleton
@@ -16,8 +17,8 @@
 <?php echo validation_errors(); ?>
 
 <?php
-$attributes = array('class' => 'form-horizontal');
-echo form_open('users/edit/' . $users_item['id'], $attributes);
+$attributes = ['class' => 'form-horizontal'];
+echo form_open('users/edit/'.$users_item['id'], $attributes);
 ?>
 
     <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
@@ -45,9 +46,10 @@ echo form_open('users/edit/' . $users_item['id'], $attributes);
     <div class="control-group">
       <label class="control-label" for="role[]">Role</label>
       <select class="form-control" name="role[]" multiple="multiple" size="3">
-      <?php foreach ($roles as $roles_item): ?>
-          <option value="<?php echo $roles_item['id'] ?>" <?php if ((((int)$roles_item['id']) & ((int) $users_item['role']))) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
-      <?php endforeach ?>
+        <?php foreach ($roles as $roles_item) : ?>
+          <option value="<?php echo $roles_item['id'] ?>" <?php if ((((int) $roles_item['id']) & ((int) $users_item['role']))) {
+                echo "selected"; } ?>><?php echo $roles_item['name'] ?></option>
+        <?php endforeach ?>
       </select>
     </div>
 
