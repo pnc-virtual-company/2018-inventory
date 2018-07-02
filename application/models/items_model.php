@@ -3,7 +3,8 @@
  * This model contains the business logic and manages the persistence of users and roles
  */
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This model contains the business logic and manages the persistence of users and roles
@@ -32,23 +33,22 @@ class Items_model extends CI_Model
             'item.iditem,item.code, item.item, item.itemdescription AS "description",condition as "condition",  item.itemcost AS "cost", item.date AS "date", category.category AS ,"cat",location.location as "locat", users.firstname AS "nameuser",department.department as "depart",material.material as "mat",model.model as "model", owner.owner as "owner"
               '
         );
-          $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
-          $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
-          $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
-          $this->db->join('location', 'location.idlocation = item.locationid', 'left');
-          $this->db->join('users', 'users.id = item.userid', 'left');
-          $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
-          $this->db->join('model', 'model.idmodel = item.modelid', 'left');
-          $this->db->join('brand', 'model.brandid = brand.idbrand', 'left');
+        $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
+        $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
+        $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
+        $this->db->join('location', 'location.idlocation = item.locationid', 'left');
+        $this->db->join('users', 'users.id = item.userid', 'left');
+        $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
+        $this->db->join('model', 'model.idmodel = item.modelid', 'left');
+        $this->db->join('brand', 'model.brandid = brand.idbrand', 'left');
 
         if ($id === 0) {
             $query = $this->db->get('item');
             return $query->result_array();
         }
 
-          $query = $this->db->get_where('item', ['item.iditem' => $id]);
-          return $query->row_array();
-
+        $query = $this->db->get_where('item', ['item.iditem' => $id]);
+        return $query->row_array();
     }//end getitems()
 
 
@@ -76,7 +76,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showEditItems()
 
 
@@ -104,7 +103,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showDetailItem()
 
 
@@ -114,7 +112,6 @@ class Items_model extends CI_Model
      */
     public function showAllItems()
     {
-
         $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",status');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
@@ -129,7 +126,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showAllItems()
 
 
@@ -142,138 +138,7 @@ class Items_model extends CI_Model
     {
         $this->db->where('iditem', $id);
         $this->db->delete('item');
-
     }//end deleteItems()
-
-
-    /**
-     * Select all the category from database
-     * @return any result
-     */
-    public function getAllCate()
-    {
-        $query = $this->db->get('category');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllCate()
-
-
-    /**
-     * Model select material
-     * @return any result
-     */
-    public function getAllMat()
-    {
-        $query = $this->db->get('material');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllMat()
-
-
-    /**
-     * Model select department
-     * @return any result
-     */
-    public function getAllDep()
-    {
-        $query = $this->db->get('department');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllDep()
-
-
-    /**
-     * Model select location
-     * @return any result
-     */
-    public function getAllLoc()
-    {
-        $query = $this->db->get('location');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllLoc()
-
-
-    /**
-     * Model select user
-     * @return any result
-     */
-    public function getAllUser()
-    {
-        $query = $this->db->get('users');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllUser()
-
-
-    /**
-     * Model select owner
-     * @return any result
-     */
-    public function getAllOwner()
-    {
-        $query = $this->db->get('owner');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllOwner()
-
-
-    /**
-     * Model select brand
-     * @return any result
-     */
-    public function getAllBrand()
-    {
-        $query = $this->db->get('brand');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllBrand()
-
-
-    /**
-     * Model select model by brand
-     * @param  int $id id
-     * @return any     result
-     */
-    public function getAllModel($id)
-    {
-        $this->db->where('brandid', $id);
-        $query = $this->db->get('model');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllModel()
 
 
     /**
@@ -289,7 +154,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end getmaxiditem()
 
 
@@ -308,7 +172,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end getiditem()
 
 
@@ -326,7 +189,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end getLocById()
 
 
@@ -371,7 +233,6 @@ class Items_model extends CI_Model
         //this use for insert into database
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 1');
         return $query;
-
     }//end add_item()
 
 
@@ -417,7 +278,6 @@ class Items_model extends CI_Model
         $result = $this->db->update('item');
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 1');
         return $result;
-
     }//end update_item()
 
 
@@ -434,7 +294,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showUser()
 
 
@@ -454,7 +313,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showListBorrower()
 
 
@@ -480,7 +338,6 @@ class Items_model extends CI_Model
         $this->db->where('item.iditem', $item);
         $this->db->update('item');
         return $query;
-
     }//end insertBorrow()
 
 
@@ -498,7 +355,6 @@ class Items_model extends CI_Model
         } else {
             return false;
         }
-
     }//end returnitem()
 
 
@@ -513,7 +369,6 @@ class Items_model extends CI_Model
         $this->db->where('itemBorrow', $id);
         $query = $this->db->get('borrow');
         return $query->result();
-
     }//end getMaxIdBorrow()
 
 
@@ -534,7 +389,6 @@ class Items_model extends CI_Model
         $this->db->update('borrow');
 
         return $s_update;
-
     }//end r_u_status()
 
 
@@ -553,7 +407,6 @@ class Items_model extends CI_Model
         $this->db->where('returnDate <', date('Y/m/d'));
         $query = $this->db->get();
         return $query->result();
-
     }//end returnLate()
 
 
@@ -565,8 +418,5 @@ class Items_model extends CI_Model
     public function updateStatus($id)
     {
         $this->db->query("update item set item.status = '2' where item.iditem = '".$id."'");
-
     }//end updateStatus()
-
-
 }//end class

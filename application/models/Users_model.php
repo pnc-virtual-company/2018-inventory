@@ -3,7 +3,8 @@
  * This model contains the business logic and manages the persistence of users and roles
  */
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This model contains the business logic and manages the persistence of users and roles
@@ -18,7 +19,6 @@ class Users_model extends CI_Model
      */
     public function __construct()
     {
-
     }//end __construct()
 
 
@@ -39,8 +39,21 @@ class Users_model extends CI_Model
 
         $query = $this->db->get_where('users', ['users.id' => $id]);
         return $query->row_array();
-
     }//end getUsers()
+
+    /**
+     * Model select user
+     * @return any result
+     */
+    public function getAllUser()
+    {
+        $query = $this->db->get('users');
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }//end getAllUser()
 
 
     /**
@@ -57,7 +70,6 @@ class Users_model extends CI_Model
         $this->db->group_by($this->db->dbprefix('users').'.id, active, firstname, lastname, login, email');
         $query = $this->db->get('users');
         return $query->result_array();
-
     }//end getUsersAndRoles()
 
 
@@ -83,7 +95,6 @@ class Users_model extends CI_Model
 
         $query = $this->db->get_where('roles', ['id' => $id]);
         return $query->row_array();
-
     }//end getRoles()
 
 
@@ -100,7 +111,6 @@ class Users_model extends CI_Model
         if (count($record) > 0) {
             return $record['firstname'].' '.$record['lastname'];
         }
-
     }//end getName()
 
 
@@ -122,7 +132,6 @@ class Users_model extends CI_Model
         } else {
             return false;
         }
-
     }//end isLoginAvailable()
 
 
@@ -136,7 +145,6 @@ class Users_model extends CI_Model
     public function deleteUser($id)
     {
         $this->db->delete('users', ['id' => $id]);
-
     }//end deleteUser()
 
 
@@ -169,7 +177,6 @@ class Users_model extends CI_Model
         ];
         $this->db->insert('users', $data);
         return $password;
-
     }//end setUsers()
 
 
@@ -197,7 +204,6 @@ class Users_model extends CI_Model
         $this->db->where('id', $this->input->post('id'));
         $result = $this->db->update('users', $data);
         return $result;
-
     }//end updateUsers()
 
 
@@ -217,7 +223,6 @@ class Users_model extends CI_Model
         $data = ['password' => $hash];
         $this->db->where('id', $id);
         return $this->db->update('users', $data);
-
     }//end resetPassword()
 
 
@@ -233,7 +238,6 @@ class Users_model extends CI_Model
         $chars    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $password = substr(str_shuffle($chars), 0, $length);
         return $password;
-
     }//end randomPassword()
 
 
@@ -249,7 +253,6 @@ class Users_model extends CI_Model
      */
     private function loadProfile($row)
     {
-
         $isAdmin = false;
         if (((int) $row->role & 1)) {
             $isAdmin = true;
@@ -272,7 +275,6 @@ class Users_model extends CI_Model
             'loggedIn'     => true,
         ];
         $this->session->set_userdata($newdata);
-
     }//end loadProfile()
 
 
@@ -306,7 +308,6 @@ class Users_model extends CI_Model
                 return false;
             }
         }
-
     }//end checkCredentials()
 
 
@@ -323,7 +324,6 @@ class Users_model extends CI_Model
         $this->db->set('active', $active);
         $this->db->where('id', $id);
         return $this->db->update('users');
-
     }//end setActive()
 
 
@@ -345,7 +345,6 @@ class Users_model extends CI_Model
         } else {
             return false;
         }
-
     }//end isActive()
 
 
@@ -367,7 +366,6 @@ class Users_model extends CI_Model
         } else {
             return $query->row();
         }
-
     }//end getUserByLogin()
 
 
@@ -408,8 +406,5 @@ class Users_model extends CI_Model
         }
 
         return $rnd;
-
     }//end getRandomBytes()
-
-
 }//end class

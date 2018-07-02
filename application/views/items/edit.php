@@ -1,10 +1,10 @@
 
 <style>
 .highlight { background-color: #007bff; color:#fff;}
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 tr:hover{cursor: pointer;}
 </style>
@@ -13,7 +13,7 @@ tr:hover{cursor: pointer;}
     <?php
     foreach ($itemEdit as $value) {
         ?>
-      <form id="frm_create" action="<?php echo base_url();?>items/itemUpdate/<?php echo $value->iditem ?>" method="POST">
+      <form id="frm_create" action="<?php echo base_url(); ?>items/itemUpdate/<?php echo $value->iditem ?>" method="POST">
         <div class="col-12">
           <h2><?php echo $title.' ( '.$value->item.' )'; ?></h2>
           <div class="form-group">
@@ -56,7 +56,7 @@ tr:hover{cursor: pointer;}
               <div class="form-group">
                 <label class="control-label" for="inputdep">Department</label>
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" aria-label="department" aria-describedby="basic-addon2" id="inputdep" value="<?php echo $value->depat;?>" disabled>
+                  <input type="text" class="form-control" aria-label="department" aria-describedby="basic-addon2" id="inputdep" value="<?php echo $value->depat; ?>" disabled>
                   <input type="hidden" id="inputdepid" name="depitem" value="<?php echo $value->depatid?>">
                   <div class="input-group-append">
                     <button id="select_department" class="btn btn-outline-primary" type="button" >Select</button>
@@ -68,8 +68,8 @@ tr:hover{cursor: pointer;}
               <div class="form-group">
                 <label class="control-label" for="inputloc">Location</label>
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" aria-label="user" aria-describedby="basic-addon2" id="inputloc" value="<?php echo $value->locat;?>" disabled>
-                  <input type="hidden" id="inputlocid" name="locitem" value="<?php echo $value->locatid;?>">
+                  <input type="text" class="form-control" aria-label="user" aria-describedby="basic-addon2" id="inputloc" value="<?php echo $value->locat; ?>" disabled>
+                  <input type="hidden" id="inputlocid" name="locitem" value="<?php echo $value->locatid; ?>">
                   <div class="input-group-append">
                     <button id="select_location" class="btn btn-outline-primary" type="button" >Select</button>
                   </div>
@@ -187,7 +187,7 @@ tr:hover{cursor: pointer;}
          <div class="modal-header">
            <h4 class="modal-title">Select category</h4>
            <button type="button" class="close" data-dismiss="modal">&times;</button>
-         </div>          
+         </div>
          <!-- Modal body -->
          <div class="modal-body ">
           <div class="catlist">
@@ -202,8 +202,8 @@ tr:hover{cursor: pointer;}
 
               </tbody>
             </table>
-          </div>  
-        </div> 
+          </div>
+        </div>
         <!-- Modal footer -->
         <div class="modal-footer">
          <button type="button" class="btn btn-primary" id="catset">OK</button>
@@ -220,7 +220,7 @@ tr:hover{cursor: pointer;}
        <div class="modal-header">
          <h4 class="modal-title">Select material</h4>
          <button type="button" class="close" data-dismiss="modal">&times;</button>
-       </div>          
+       </div>
        <!-- Modal body -->
        <div class="modal-body ">
         <div class="matlist">
@@ -235,8 +235,8 @@ tr:hover{cursor: pointer;}
 
             </tbody>
           </table>
-        </div>  
-      </div> 
+        </div>
+      </div>
       <!-- Modal footer -->
       <div class="modal-footer">
        <button type="button" class="btn btn-primary" id="matset">OK</button>
@@ -254,7 +254,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select department</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="deplist">
@@ -269,8 +269,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="depset">OK</button>
@@ -289,7 +289,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select location</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="loclist">
@@ -304,8 +304,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="locset">OK</button>
@@ -323,7 +323,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select user</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="userlist">
@@ -338,8 +338,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="userset">OK</button>
@@ -358,7 +358,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select Owner</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="ownerlist">
@@ -373,8 +373,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="ownerset">OK</button>
@@ -393,7 +393,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select  Brand</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="brandlist">
@@ -408,8 +408,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="brandset">OK</button>
@@ -428,7 +428,7 @@ tr:hover{cursor: pointer;}
      <div class="modal-header">
        <h4 class="modal-title">Select Model</h4>
        <button type="button" class="close" data-dismiss="modal">&times;</button>
-     </div>          
+     </div>
      <!-- Modal body -->
      <div class="modal-body ">
       <div class="modellist">
@@ -443,8 +443,8 @@ tr:hover{cursor: pointer;}
 
           </tbody>
         </table>
-      </div>  
-    </div> 
+      </div>
+    </div>
     <!-- Modal footer -->
     <div class="modal-footer">
      <button type="button" class="btn btn-primary" id="modelset">OK</button>
@@ -470,7 +470,8 @@ tr:hover{cursor: pointer;}
   var ownername, ownerid ='';
   var brandname;
   var brandid ='<?php foreach ($itemEdit as $value) {
-        echo $value->brandid; }?>';
+        echo $value->brandid;
+    }?>';
   var modelname, modelid ='';
   $(function(){
 
@@ -478,7 +479,7 @@ tr:hover{cursor: pointer;}
     $("#select_category").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllCategories',
+        url: '<?php echo base_url();?>/category/showAllCategory',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -492,7 +493,7 @@ tr:hover{cursor: pointer;}
               data[i].idcategory,
               data[i].category
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -500,7 +501,7 @@ tr:hover{cursor: pointer;}
         }
       });
     });
-    
+
     $(document).on("click", "#category tbody tr", function() {
       $('#category tbody tr').removeClass("highlight");
       $(this).addClass("highlight");
@@ -521,7 +522,7 @@ tr:hover{cursor: pointer;}
           // var catid='';
           $.ajax({
             type: 'POST',
-            url: '<?php echo base_url();?>/items/showAllMaterials',
+            url: '<?php echo base_url();?>/materials/showAllMaterial',
             async: true,
             dataType: 'json',
             success: function(data){
@@ -535,7 +536,7 @@ tr:hover{cursor: pointer;}
                   data[i].idmaterial,
                   data[i].material
                   ] ).draw( false );
-                n++;    
+                n++;
               }
             },
             error: function(){
@@ -562,7 +563,7 @@ tr:hover{cursor: pointer;}
     $("#select_department").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllDepartments',
+        url: '<?php echo base_url();?>/departments/showAllDepartments',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -576,7 +577,7 @@ tr:hover{cursor: pointer;}
               data[i].iddepartment,
               data[i].department
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -604,7 +605,7 @@ tr:hover{cursor: pointer;}
     $("#select_location").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllLocations',
+        url: '<?php echo base_url();?>/locations/showAlllocat',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -618,7 +619,7 @@ tr:hover{cursor: pointer;}
               data[i].idlocation,
               data[i].location
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -645,7 +646,7 @@ tr:hover{cursor: pointer;}
     $("#select_user").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllUsers',
+        url: '<?php echo base_url();?>/users/showAllUsers',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -659,7 +660,7 @@ tr:hover{cursor: pointer;}
               data[i].id,
               data[i].firstname+' '+data[i].lastname
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -687,7 +688,7 @@ tr:hover{cursor: pointer;}
     $("#select_owner").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllOwners',
+        url: '<?php echo base_url();?>/owner/showAllOwner',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -701,7 +702,7 @@ tr:hover{cursor: pointer;}
               data[i].idowner,
               data[i].owner
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -730,7 +731,7 @@ tr:hover{cursor: pointer;}
     $("#select_brand").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllBrands',
+        url: '<?php echo base_url();?>/brand/showAllBrand',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -744,7 +745,7 @@ tr:hover{cursor: pointer;}
               data[i].idbrand,
               data[i].brand
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
@@ -768,12 +769,12 @@ tr:hover{cursor: pointer;}
     });
 
     // $('.alert-model').html("You cannot select model without selected any item's brand. ").fadeIn();
-    
+
     // model function
     $("#select_model").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllModelsByBrand/'+brandid,
+        url: '<?php echo base_url();?>/models/showAllModelsByBrandId/'+brandid,
         async: true,
         dataType: 'json',
         success: function(data){
@@ -787,14 +788,14 @@ tr:hover{cursor: pointer;}
               data[i].idmodel,
               data[i].model
               ] ).draw( false );
-            n++;    
+            n++;
           }
         },
         error: function(){
           alert('Could not get Data from Database');
         }
       });
-      
+
     });
 
     $(document).on("click", "#models tbody tr", function() {

@@ -750,7 +750,7 @@
   $("#select_category").click(function(){
     $.ajax({
       type: 'POST',
-      url: '<?php echo base_url();?>/items/showAllCategories',
+      url: '<?php echo base_url();?>/category/showAllCategory',
       async: true,
       dataType: 'json',
       success: function(data){
@@ -787,7 +787,7 @@
   $("#select_material").click(function(){
     $.ajax({
       type: 'POST',
-      url: '<?php echo base_url();?>/items/showAllMaterials',
+      url: '<?php echo base_url();?>/materials/showAllMaterial',
       async: true,
       dataType: 'json',
       success: function(data){
@@ -836,7 +836,7 @@
        $("#select_department").click(function(){
         $.ajax({
           type: 'POST',
-          url: '<?php echo base_url();?>/items/showAllDepartments',
+          url: '<?php echo base_url();?>/departments/showAllDepartments',
           async: true,
           dataType: 'json',
           success: function(data){
@@ -872,7 +872,7 @@
   $("#select_location").click(function(){
     $.ajax({
       type: 'POST',
-      url: '<?php echo base_url();?>/items/showAllLocations',
+      url: '<?php echo base_url();?>/locations/showAlllocat',
       async: true,
       dataType: 'json',
       success: function(data){
@@ -908,7 +908,7 @@
   $("#select_user").click(function(){
     $.ajax({
       type: 'POST',
-      url: '<?php echo base_url();?>/items/showAllUsers',
+      url: '<?php echo base_url();?>/users/showAllUsers',
       async: true,
       dataType: 'json',
       success: function(data){
@@ -943,7 +943,7 @@
     $("#select_owner").click(function(){
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/items/showAllOwners',
+        url: '<?php echo base_url();?>/owner/showAllOwner',
         async: true,
         dataType: 'json',
         success: function(data){

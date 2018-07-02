@@ -9,7 +9,8 @@
  */
 
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This controller serves the user management pages and tools.
@@ -41,7 +42,6 @@ class Users extends CI_Controller
         }
 
         $this->load->model('users_model');
-
     }//end __construct()
 
 
@@ -62,8 +62,17 @@ class Users extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('users/index', $data);
         $this->load->view('templates/footer', $data);
-
     }//end index()
+
+    /**
+     * This function is use to show all the user on modal table in create and update item
+     * @return void
+     */
+    public function showAllUsers()
+    {
+        $result = $this->users_model->getAllUser();
+        echo json_encode($result);
+    }//end showAllUsers()
 
 
     /**
@@ -79,7 +88,6 @@ class Users extends CI_Controller
         $this->users_model->setActive($id, $active);
         $this->session->set_flashdata('msg', 'The user was successfully modified');
         redirect('users');
-
     }//end active()
 
 
@@ -93,7 +101,6 @@ class Users extends CI_Controller
     public function enable($id)
     {
         $this->active($id, true);
-
     }//end enable()
 
 
@@ -107,7 +114,6 @@ class Users extends CI_Controller
     public function disable($id)
     {
         $this->active($id, false);
-
     }//end disable()
 
 
@@ -151,7 +157,6 @@ class Users extends CI_Controller
                 redirect('users');
             }
         }
-
     }//end edit()
 
 
@@ -175,7 +180,6 @@ class Users extends CI_Controller
         log_message('error', 'User #'.$id.' has been deleted by user #'.$this->session->userdata('id'));
         $this->session->set_flashdata('msg', 'The user was successfully deleted');
         redirect('users');
-
     }//end delete()
 
 
@@ -239,7 +243,6 @@ class Users extends CI_Controller
                 redirect('home');
             }
         }//end if
-
     }//end reset()
 
 
@@ -309,7 +312,6 @@ class Users extends CI_Controller
             $this->session->set_flashdata('msg', 'The user was successfully created');
             redirect('users');
         }//end if
-
     }//end create()
 
 
@@ -328,7 +330,6 @@ class Users extends CI_Controller
         } else {
             return true;
         }
-
     }//end checkLogin()
 
 
@@ -345,7 +346,6 @@ class Users extends CI_Controller
         } else {
             $this->output->set_output('false');
         }
-
     }//end checkLoginByAjax()
 
 
@@ -357,8 +357,5 @@ class Users extends CI_Controller
     public function export()
     {
         $this->load->view('users/export');
-
     }//end export()
-
-
 }//end class
