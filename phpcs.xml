@@ -26,6 +26,8 @@
         <exclude name="PEAR.Commenting.FileComment" />
         <exclude name="PEAR.Commenting.InlineComment" />
         <exclude name="PEAR.WhiteSpace.ScopeClosingBrace" />
+        <exclude name="Generic.Commenting.DocComment" />
+        <exclude name="PEAR.NamingConventions.ValidClassName.Invalid" />
     </rule>
 
     <!-- Include some sniffs from other standards that don't conflict with PEAR -->
