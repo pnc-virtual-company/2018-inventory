@@ -38,30 +38,30 @@ $sheet->setCellValue('N1', 'Item Description');
 $sheet->getStyle('A1:N1')->getFont()->setBold(true);
 $sheet->getStyle('A1:N1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-$item = $this->items_model->getitems();
+$items = $this->items_model->getitems();
 $line = 2;
 
-foreach ($item as $items) {
+foreach ($items as $item) {
     $date = '';
-    if ($items['date'] != '0000-00-00') {
-        $date = $items['date'];
+    if ($item['date'] != '0000-00-00') {
+        $date = $item['date'];
     }
 
-    $sheet->setCellValue('A'.$line, $items['iditem']);
-    $sheet->setCellValue('B'.$line, $items['code']);
+    $sheet->setCellValue('A'.$line, $item['iditem']);
+    $sheet->setCellValue('B'.$line, $item['code']);
     $sheet->setCellValue('C'.$line, $date);
-    $sheet->setCellValue('D'.$line, $items['item']);
-    $sheet->setCellValue('E'.$line, $items['nameuser']);
-    $sheet->setCellValue('F'.$line, '$'.$items['cost']);
-    $sheet->setCellValue('G'.$line, $items['condition']);
-    $sheet->setCellValue('H'.$line, $items['model']);
-    $sheet->setCellValue('I'.$line, $items['owner']);
-    $sheet->setCellValue('J'.$line, $items['cat']);
-    $sheet->setCellValue('K'.$line, $items['locat']);
-    $sheet->setCellValue('L'.$line, $items['mat']);
-    $sheet->setCellValue('M'.$line, $items['depart']);
-    $sheet->setCellValue('N'.$line, $items['description']);
-    // $sheet->setCellValue('N' . $line, $items['Status']);
+    $sheet->setCellValue('D'.$line, $item['item']);
+    $sheet->setCellValue('E'.$line, $item['nameuser']);
+    $sheet->setCellValue('F'.$line, '$'.$item['cost']);
+    $sheet->setCellValue('G'.$line, $item['condition']);
+    $sheet->setCellValue('H'.$line, $item['model']);
+    $sheet->setCellValue('I'.$line, $item['owner']);
+    $sheet->setCellValue('J'.$line, $item['cat']);
+    $sheet->setCellValue('K'.$line, $item['locat']);
+    $sheet->setCellValue('L'.$line, $item['mat']);
+    $sheet->setCellValue('M'.$line, $item['depart']);
+    $sheet->setCellValue('N'.$line, $item['description']);
+    // $sheet->setCellValue('N' . $line, $item['Status']);
     $line++;
 }//end foreach
 
