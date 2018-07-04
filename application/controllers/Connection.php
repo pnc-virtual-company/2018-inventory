@@ -14,7 +14,6 @@ class Connection extends CI_Controller
     {
         parent::__construct();
         log_message('debug', 'URI='.$this->uri->uri_string());
-
     }//end __construct()
 
 
@@ -25,6 +24,9 @@ class Connection extends CI_Controller
      */
     public function login()
     {
+        if (isset($this->session->userdata['loggedIn']) && $this->session->userdata['loggedIn'] === true) {
+            redirect('items');
+        }
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('login', 'Login', 'required|strip_tags');
@@ -56,7 +58,6 @@ class Connection extends CI_Controller
                 redirect('connection/login');
             }
         }//end if
-
     }//end login()
 
 
@@ -71,8 +72,5 @@ class Connection extends CI_Controller
         log_message('debug', 'Logout current user and redirect to the home page');
         $this->session->sess_destroy();
         redirect('connection/login');
-
     }//end logout()
-
-
 }//end class

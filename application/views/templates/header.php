@@ -1,4 +1,7 @@
 <?php
+if ($title !== 'Login' && !isset($this->session->userdata['loggedIn'])) {
+    header("location: ". base_url() . "connection/login");
+}
 defined('BASEPATH') or exit('No direct script access allowed');
 $title    = (isset($title)) ? $title : "Skeleton";
 $langCode = (isset($langCode)) ? $langCode : "en";
