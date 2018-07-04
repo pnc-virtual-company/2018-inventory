@@ -403,8 +403,10 @@ class Items_model extends CI_Model
         // return $query->result();
         $this->db->select('itemBorrow');
         $this->db->from('borrow');
+        $this->db->join('item', 'borrow.itemBorrow = item.iditem');
         $this->db->where('actualDate', null);
         $this->db->where('returnDate <', date('Y/m/d'));
+        $this->db->where('status', 1);
         $query = $this->db->get();
         return $query->result();
     }//end returnLate()
@@ -413,10 +415,13 @@ class Items_model extends CI_Model
     /**
      * This use for auto update status when borrower return an item later than expected return date
      * @param  int $id id
-     * @return void
+     * @return bool    true if status is updated
      */
     public function updateStatus($id)
     {
-        $this->db->query("update item set item.status = '2' where item.iditem = '".$id."'");
+        $this->db->set('status', '2');
+        $this->db->where('item.iditem', $id);
+        $s_update = $this->db->update('item');
+        return $s_update;
     }//end updateStatus()
 }//end class
