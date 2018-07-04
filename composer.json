@@ -10,9 +10,7 @@
 		"sabre/vobject": "^3.4",
 		"phpoffice/phpspreadsheet": "dev-develop",
 		"paragonie/random_compat": "^2.0",
-		"guzzlehttp/guzzle": "^6.3",
-		"dompdf/dompdf": "^0.8.2",
-		"picqer/php-barcode-generator": "^0.2.2"
+		"guzzlehttp/guzzle": "^6.3"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^6",
