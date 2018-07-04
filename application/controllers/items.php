@@ -26,8 +26,12 @@ class Items extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('connection_model');
+        if (!$this->connection_model->isConnected()) {
+            redirect('connection/login');
+        }
         log_message('debug', 'URI='.$this->uri->uri_string());
-        $this->session->set_userdata('last_page', $this->uri->uri_string());
+        // $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->model('items_model');
         // $this->returnLate();
     }//end __construct()
@@ -40,6 +44,7 @@ class Items extends CI_Controller
      */
     public function index()
     {
+        $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->returnLate();
         $this->load->helper('form');
         $data['title']            = 'List of Items';

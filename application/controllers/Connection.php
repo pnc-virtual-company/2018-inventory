@@ -14,6 +14,7 @@ class Connection extends CI_Controller
     {
         parent::__construct();
         log_message('debug', 'URI='.$this->uri->uri_string());
+        $this->load->model('connection_model');
     }//end __construct()
 
 
@@ -24,7 +25,7 @@ class Connection extends CI_Controller
      */
     public function login()
     {
-        if (isset($this->session->userdata['loggedIn']) && $this->session->userdata['loggedIn'] === true) {
+        if ($this->connection_model->isConnected()) {
             redirect('items');
         }
         $this->load->helper('form');

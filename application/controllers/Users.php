@@ -28,18 +28,14 @@ class Users extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        log_message('debug', 'URI='.$this->uri->uri_string());
-        $this->session->set_userdata('last_page', $this->uri->uri_string());
-        if ($this->session->loggedIn === true) {
-            // Allowed methods
-            if ($this->session->isAdmin || $this->session->isSuperAdmin) {
-                //User management is reserved to admins and super admins
-            } else {
-                redirect('errors/privileges');
-            }
-        } else {
+        $this->load->model('connection_model');
+        if (!$this->connection_model->isConnected()) {
             redirect('connection/login');
         }
+        if (!$this->connection_model->isAdmin()) {
+            redirect('errors/privileges');
+        }
+        log_message('debug', 'URI='.$this->uri->uri_string());
 
         $this->load->model('users_model');
     }//end __construct()
@@ -53,6 +49,7 @@ class Users extends CI_Controller
      */
     public function index()
     {
+        $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->helper('form');
         $data['users']            = $this->users_model->getUsersAndRoles();
         $data['title']            = 'List of users';

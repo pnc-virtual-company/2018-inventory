@@ -9,7 +9,8 @@
  */
 
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This controller serves the user management pages and tools.
@@ -25,10 +26,15 @@ class Reports extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->model('connection_model');
+        if (!$this->connection_model->isConnected()) {
+            redirect('connection/login');
+        }
+        if (!$this->connection_model->isAdmin()) {
+            redirect('errors/privileges');
+        }
         $this->load->model('reports_model');
         //load report model
-
     }//end __construct()
 
 
@@ -39,6 +45,7 @@ class Reports extends CI_Controller
      */
     public function index()
     {
+        $this->session->set_userdata('last_page', $this->uri->uri_string());
         // $this->load->helper('form');
         $data['reportNew'] = $this->reports_model->getCountNew();
         //call function getCountNew from mode to use in view
@@ -57,7 +64,6 @@ class Reports extends CI_Controller
         $this->load->view('reports/charts', $data);
         //to load view chart
         $this->load->view('templates/footer', $data);
-
     }//end index()
 
 
@@ -69,8 +75,5 @@ class Reports extends CI_Controller
     {
         $resultDep = $this->reports_model->getItemByDepartment();
         echo json_encode($resultDep);
-
     }//end showDepCount()
-
-
 }//end class

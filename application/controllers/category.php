@@ -21,21 +21,16 @@ class Category extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        log_message('debug', 'URI='.$this->uri->uri_string());
-        $this->session->set_userdata('last_page', $this->uri->uri_string());
-        if ($this->session->loggedIn === true) {
-            // Allowed methods
-            if ($this->session->isAdmin || $this->session->isSuperAdmin) {
-                //User management is reserved to admins and super admins
-            } else {
-                redirect('errors/privileges');
-            }
-        } else {
+        $this->load->model('connection_model');
+        if (!$this->connection_model->isConnected()) {
             redirect('connection/login');
         }
+        if (!$this->connection_model->isAdmin()) {
+            redirect('errors/privileges');
+        }
+        log_message('debug', 'URI='.$this->uri->uri_string());
 
         $this->load->model('category_model', 'category_model', true);
-
     }//end __construct()
 
 
@@ -46,6 +41,7 @@ class Category extends CI_Controller
      */
     public function index()
     {
+        $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->helper('form');
         $data['title']            = 'List of categories';
         $data['activeLink']       = 'others';
@@ -54,7 +50,6 @@ class Category extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('category/index', $data);
         $this->load->view('templates/footer', $data);
-
     }//end index()
 
 
@@ -66,7 +61,6 @@ class Category extends CI_Controller
     {
         $result = $this->category_model->getAllCate();
         echo json_encode($result);
-
     }//end showAllCategory()
 
 
@@ -87,7 +81,6 @@ class Category extends CI_Controller
                 ['status' => false]
             );
         }
-
     }//end create()
 
 
@@ -110,7 +103,6 @@ class Category extends CI_Controller
         }
 
         echo json_encode($form);
-
     }//end showEditCategory()
 
 
@@ -133,7 +125,6 @@ class Category extends CI_Controller
                 ['status' => false]
             );
         }
-
     }//end update()
 
 
@@ -151,8 +142,5 @@ class Category extends CI_Controller
         } else {
             echo "0";
         }
-
     }//end deleteCategory()
-
-
 }//end class

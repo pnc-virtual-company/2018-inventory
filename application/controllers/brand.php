@@ -21,8 +21,14 @@ class Brand extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('connection_model');
+        if (!$this->connection_model->isConnected()) {
+            redirect('connection/login');
+        }
+        if (!$this->connection_model->isAdmin()) {
+            redirect('errors/privileges');
+        }
         $this->load->model('brand_model', 'brand_model', true);
-
     }//end __construct()
 
 
@@ -33,6 +39,7 @@ class Brand extends CI_Controller
      */
     public function index()
     {
+        $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->helper('form');
         $data['brands']           = $this->brand_model->showAllBrand();
         $data['title']            = 'List of brands';
@@ -42,7 +49,6 @@ class Brand extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('brands/index', $data);
         $this->load->view('templates/footer', $data);
-
     }//end index()
 
 
@@ -55,7 +61,6 @@ class Brand extends CI_Controller
         $result = $this->brand_model->showAllBrand();
         //Load show all brand from brand model
         echo json_encode($result);
-
     }//end showAllBrand()
 
 
@@ -78,7 +83,6 @@ class Brand extends CI_Controller
                 ['status' => false]
             );
         }
-
     }//end create_brand()
 
 
@@ -96,7 +100,6 @@ class Brand extends CI_Controller
         } else {
             echo "0";
         }
-
     }//end deleteBrand()
 
 
@@ -119,7 +122,6 @@ class Brand extends CI_Controller
         }
 
         echo json_encode($form);
-
     }//end showEditBrand()
 
 
@@ -142,8 +144,5 @@ class Brand extends CI_Controller
                 ['status' => false]
             );
         }
-
     }//end update()
-
-
 }//end class
