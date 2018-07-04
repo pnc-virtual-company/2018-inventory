@@ -1,5 +1,4 @@
 var hasPrivilege = document.currentScript.getAttribute('hasPrivilege') === 'true';
-console.log(document.currentScript.getAttribute('hasPrivilege'), hasPrivilege);
 var baseUrl = document.currentScript.getAttribute('baseUrl');
 $(document).ready(function() {
 
@@ -23,6 +22,7 @@ $(document).ready(function() {
       columns: ':not(.permanent)'
     }]
   });
+  resetFilter();
   showAllitems(); //call function to use
 
   // showAllitems function get data from database in items show in table
@@ -163,10 +163,14 @@ $(document).ready(function() {
 
   $("#clearFilter").click(function() {
     $('#inputFilter').html('');
+    filterTable();
   });
 
-  $(".remove_filter").click(function() {
-    $(this).parent().fadeOut('slow');
+  $("#formfilter").on("click", "i.remove_filter", function() {
+    $(this).parent().fadeOut('slow', function() {
+      $(this).remove();
+      filterTable();
+    });
   });
 
   $("#addFilter").click(function() {
@@ -206,6 +210,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Category: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectCategory").modal("hide");
+    filterTable();
   });
 
 
@@ -242,6 +247,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Material: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectMaterial").modal("hide");
+    filterTable();
   });
 
   // select condition function
@@ -256,6 +262,7 @@ $(document).ready(function() {
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Condition: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#conditionModal").modal("hide");
     $('.conditionList li').removeClass("highlight");
+    filterTable();
   })
 
   //select department function
@@ -291,6 +298,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Department: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectDepartment").modal("hide");
+    filterTable();
   });
 
 
@@ -327,6 +335,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Location: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectLocation").modal("hide");
+    filterTable();
   });
 
 
@@ -363,6 +372,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">User: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectUser").modal("hide");
+    filterTable();
   });
 
   // owner function
@@ -398,6 +408,7 @@ $(document).ready(function() {
     valueFilter = $(this).find("td:eq(0)").html();
     $('#inputFilter').append('<span class="badge badge-pill badge-info ">Owner: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $("#selectOwner").modal("hide");
+    filterTable();
   });
 
 
@@ -409,9 +420,10 @@ $(document).ready(function() {
   $('#saveDate').click(function() {
     var dateValCondition = $('#conditionDate').val();
     var valueFilter = $('#datecondition').val();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Date ' + dateValCondition + ' ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Date: ' + dateValCondition + ' ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
     $('#datecondition').val('');
     $("#dateModal").modal("hide");
+    filterTable();
   })
 
   // date picker
@@ -421,6 +433,25 @@ $(document).ready(function() {
     todayHighlight: true,
     autoclose: true,
   });
+
+  function filterTable() {
+    resetFilter();
+    let filters = $('#inputFilter > span').toArray().map(e => e.textContent);
+    filters.forEach(filter => {
+      let [constrainst, value] = filter.split(':');
+      if(constrainst !== 'Date') {
+        t.column(`:contains(${constrainst})`).search(value.trim()).draw();
+      }
+    });
+  }
+
+  function resetFilter(){
+    t.columns().every( function () {
+        this.search('');
+    } );
+    t.draw();
+  }
+
 });
 
 function privilegedItem(itemCallback) {
