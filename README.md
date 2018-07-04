@@ -55,3 +55,19 @@ The default user is *admin* and its password is *password*.
 Would become:
 
     $config['sess_cookie_name'] = 'my_application_session';
+
+
+
+## New possible feature ##
+
+- Advanced filter
+- Better report (Category, Condition, ...)
+- If an item has an owner it cannot be borrowed
+- New condition : sold out & donated
+- Add condition setting
+- CHange the generation of the label of an item
+  - ex : CH-A13-00043
+- Export excel with all the label sort by location
+- Change the borrow workfow
+  - Request to Admin
+  - The admin accept
