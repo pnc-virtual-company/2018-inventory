@@ -38,6 +38,10 @@
   width: max-content;
   max-width: 100%;
 }
+
+#inputFilter {
+  min-width: 150px; 
+}
 </style>
 <br>
 <div id="container">
