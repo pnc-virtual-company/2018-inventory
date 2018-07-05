@@ -3,8 +3,8 @@ var baseUrl = document.currentScript.getAttribute('baseUrl');
 $(document).ready(function() {
 
   // to make column reorder in table list item
-  let dateFilter = null;
-  let dateOperatorFilter = null;
+  let dateFilter = [];
+  let dateOperatorFilter = [];
 
   var t = $('#items').DataTable({
     order: [],
@@ -447,28 +447,39 @@ $(document).ready(function() {
   $.fn.dataTableExt.afnFiltering.push(
     function(oSettings, data, iDataIndex) {
       // No filter on the date or not the right table
-      if (!dateFilter || data.length === 1) {
+      if (dateFilter.length === 0 || data.length === 1) {
         return true;
       }
       let date = new Date(data[10]);
       // Only compare date and not time.
       date.setHours(0, 0, 0, 0);
-      date = date.getTime()
+      date = date.getTime();
       if (date) {
-        switch (dateOperatorFilter) {
-          case '==':
-            return date === dateFilter;
-          case '>':
-            return date > dateFilter;
-          case '>=':
-            return date >= dateFilter;
-          case '<':
-            return date < dateFilter;
-          case '<=':
-            return date <= dateFilter;
-          default:
-            return false;
+        let isFiltered = true;
+        for (let i = 0; i < dateFilter.length; i++) {
+          let isFilteredTmp = true;
+          switch (dateOperatorFilter[i]) {
+            case '==':
+              isFilteredTmp = date === dateFilter[i];
+              break;
+            case '>':
+              isFilteredTmp = date > dateFilter[i];
+              break;
+            case '>=':
+              isFilteredTmp = date >= dateFilter[i];
+              break;
+            case '<':
+              isFilteredTmp = date < dateFilter[i];
+              break;
+            case '<=':
+              isFilteredTmp = date <= dateFilter[i];
+              break;
+            default:
+              isFilteredTmp = false;
+          }
+          isFiltered = isFiltered && isFilteredTmp;
         }
+        return isFiltered;
       } else {
         // Filter on date but no date to filter for this row
         return false;
@@ -485,10 +496,11 @@ $(document).ready(function() {
       if (constrainst !== 'Date') {
         t.column(`:contains(${constrainst})`).search(value.trim());
       } else {
-        [dateOperatorFilter, dateFilter] = value.trim().split(' ');
-        dateFilter = new Date(dateFilter);
-        dateFilter.setHours(0, 0, 0, 0);
-        dateFilter = dateFilter.getTime();
+        let [dateOperatorFilterTmp, dateFilterTmp] = value.trim().split(' ');
+        dateOperatorFilter.push(dateOperatorFilterTmp);
+        dateFilterTmp = new Date(dateFilterTmp);
+        dateFilterTmp.setHours(0, 0, 0, 0);
+        dateFilter.push(dateFilterTmp.getTime());
       }
     });
     t.draw();
@@ -498,8 +510,8 @@ $(document).ready(function() {
     t.columns().every(function() {
       this.search('');
     });
-    dateFilter = null;
-    dateOperatorFilter = null;
+    dateFilter = [];
+    dateOperatorFilter = [];
     t.draw();
   }
 
