@@ -175,10 +175,8 @@ $(document).ready(function() {
   });
 
   $("#formfilter").on("click", "i.remove_filter", function() {
-    $(this).parent().fadeOut('slow', function() {
-      $(this).remove();
-      filterTable();
-    });
+    $(this).parent().remove();
+    filterTable();
   });
 
   $("#addFilter").click(function() {
@@ -216,7 +214,7 @@ $(document).ready(function() {
     $('#category tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Category: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Category', valueFilter);
     $("#selectCategory").modal("hide");
     filterTable();
   });
@@ -253,7 +251,7 @@ $(document).ready(function() {
     $('#material tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Material: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Material', valueFilter);
     $("#selectMaterial").modal("hide");
     filterTable();
   });
@@ -267,7 +265,7 @@ $(document).ready(function() {
     $('.conditionList li').removeClass("highlight");
     $(this).addClass("highlight");
     var valueFilter = $(this).attr("value");
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Condition: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Condition', valueFilter);
     $("#conditionModal").modal("hide");
     $('.conditionList li').removeClass("highlight");
     filterTable();
@@ -304,7 +302,7 @@ $(document).ready(function() {
     $('#department tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Department: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Department', valueFilter);
     $("#selectDepartment").modal("hide");
     filterTable();
   });
@@ -341,7 +339,7 @@ $(document).ready(function() {
     $('#department tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Location: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Location', valueFilter);
     $("#selectLocation").modal("hide");
     filterTable();
   });
@@ -378,7 +376,7 @@ $(document).ready(function() {
     $('#user tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">User: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('User', valueFilter);
     $("#selectUser").modal("hide");
     filterTable();
   });
@@ -414,7 +412,7 @@ $(document).ready(function() {
     $('#owners tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Owner: ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    addFilterBadge('Owner', valueFilter);
     $("#selectOwner").modal("hide");
     filterTable();
   });
@@ -428,7 +426,10 @@ $(document).ready(function() {
   $('#saveDate').click(function() {
     var dateValCondition = $('#conditionDate').val();
     var valueFilter = $('#datecondition').val();
-    $('#inputFilter').append('<span class="badge badge-pill badge-info ">Date: ' + dateValCondition + ' ' + valueFilter + '&nbsp;<i class="mdi mdi-close-circle remove_filter"></i></span>&nbsp;');
+    $('#inputFilter').append(
+      `<span data-value='{"filterColumnName": "Date", "dateCondition" : "${dateValCondition}", "filterValue": "${valueFilter}"}'
+        class="badge badge-pill badge-info ">Date: ${dateValCondition} ${valueFilter}<i class="mdi mdi-close-circle remove_filter"></i></span>`
+    );
     $('#datecondition').val('');
     $("#dateModal").modal("hide");
     filterTable();
@@ -477,6 +478,7 @@ $(document).ready(function() {
 
   function filterTable() {
     resetFilter();
+    sortUsingText($('#inputFilter'), "span");
     let filters = $('#inputFilter > span').toArray().map(e => e.textContent);
     filters.forEach(filter => {
       let [constrainst, value] = filter.split(':');
@@ -505,4 +507,95 @@ $(document).ready(function() {
 
 function privilegedItem(itemCallback) {
   return hasPrivilege ? itemCallback() : '';
+}
+
+//Sort the filter items by the text of their label
+function sortUsingText(parent, childSelector) {
+  var items = parent.children(childSelector).sort(function(a, b) {
+    var vA = $(a).text();
+    var vB = $(b).text();
+    return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+  });
+  parent.append(items);
+}
+
+//Prevent having two filters on the same column
+//We don't call this function for dates because a date range needs two dates
+function preventDuplicatedFilter(filterColumnName) {
+  //Iterate on the card-body's children
+  $('#inputFilter').find("span").each(function() {
+    var obj = $(this).data("value");
+    console.log(filterColumnName, obj['filterColumnName']);
+    if (filterColumnName == obj['filterColumnName']) {
+      $(this).remove();
+    }
+  });
+}
+
+
+//Add a generic filter to the widget and trigger change event
+//Generic filter is related to a text (ie. not a date)
+function addFilterToWidget() {
+  preventDuplicatedFilter(filterColumnName);
+  var htmlElement = "<span data-value='" +
+    "{\"" + filterColumnName + "\":\"" + filterColumnValue + "\"}' class='badge badge-pill badge-info filter-item'>" +
+    filterColumnName + ": " + filterColumnValue + " <i class='mdi mdi-close-circle close-icon'></i></span>";
+  //Add the SPAN into card-body
+  $('#inputFilter').append(htmlElement);
+  sortUsingText($('#inputFilter'), "span");
+  // $( "#input-tag-1" ).trigger( "change" );
+}
+
+//Add a date filter to the widget and trigger change event
+function addDateFilterToWidget() {
+  var symbol;
+  var index = 1;
+  var value = new Object();
+  //Count the number of date filters
+  $('#inputFilter').find("span").each(function() {
+    var obj = $(this).data("value");
+    $.extend(value, obj);
+  });
+  for (var key in value) {
+    if (key.startsWith('Date')) {
+      index++;
+    }
+  }
+  filterPropName = 'Date' + index.toString();
+  switch (filterColumnOperator) {
+    case 'gt':
+      symbol = ' > ';
+      break;
+    case 'ge':
+      symbol = ' >= ';
+      break;
+    case 'e':
+      symbol = ' = ';
+      break;
+    case 'lt':
+      symbol = ' < ';
+      break;
+    case 'le':
+      symbol = ' <= ';
+      break;
+  }
+  var dateFormatted = moment(filterColumnValue).format('L');
+  var dateISO = moment(filterColumnValue).toISOString();
+  var htmlElement = "<span data-value='" +
+    "{\"" + filterPropName + "\":{\"" +
+    "operator\":\"" + filterColumnOperator + "\",\"" +
+    "date\":\"" + dateISO +
+    "\"}}' class='badge badge-pill badge-info filter-item'>" +
+    filterColumnName + symbol + dateFormatted + " <i class='mdi mdi-close-circle close-icon'></i></span>";
+  //Add the SPAN into card-body
+  $('#inputFilter').append(htmlElement);
+  sortUsingText($('#inputFilter'), "span");
+  // $( "#input-tag-1" ).trigger( "change" );
+}
+
+function addFilterBadge(filterName, filterValue) {
+  preventDuplicatedFilter(filterName);
+
+  $('#inputFilter').append(`<span data-value='{"filterColumnName": "${filterName}", "filterValue": "${filterValue}"}'
+    class="badge badge-pill badge-info">${filterName}: ${filterValue}<i class="mdi mdi-close-circle remove_filter"></i></span>`);
 }

@@ -39,9 +39,26 @@
   max-width: 100%;
 }
 
+.remove_filter { cursor: pointer; }
+
 #inputFilter {
-  min-width: 150px;
+  padding-left: 2px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 2px;
+  min-height: 1.5em !important;
+  min-width: 5em !important;
 }
+
+#inputFilter > span{
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-top: 0;
+}
+
+.filter-column-name, .filter-column-value { cursor: pointer; }
+
+#addFilter-icon, #clearFilter { cursor: pointer; }
 </style>
 <br>
 <div id="container">
@@ -71,7 +88,11 @@
           <div class="input-group-append">
             <button id="filterbutton" class="btn btn-default" type="button" disabled>Filter</button>
           </div>
-          <div type="text" class="form-control" id="inputFilter" type="text"></div>
+          <div class="card" data-value=''>
+      			<div id="inputFilter" class="card-body input-tag">
+      			</div>
+      		</div>
+          <!-- <div type="text" class="form-control card-body" id="inputFilter" type="text"></div> -->
           <div class="input-group-append">
             <button id="addFilter" class="btn btn-primary" type="button" ><i class="mdi mdi-plus"></i>
             </button>
@@ -99,7 +120,7 @@
             <th>User</th>
             <th>Owner</th>
             <th>Status</th>
-            <th>Date</th>    
+            <th>Date</th>
           </tr>
         </thead>
         <tbody id="showdata">
