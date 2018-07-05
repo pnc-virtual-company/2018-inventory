@@ -525,7 +525,6 @@ function preventDuplicatedFilter(filterColumnName) {
   //Iterate on the card-body's children
   $('#inputFilter').find("span").each(function() {
     var obj = $(this).data("value");
-    console.log(filterColumnName, obj['filterColumnName']);
     if (filterColumnName == obj['filterColumnName']) {
       $(this).remove();
     }
