@@ -3,13 +3,11 @@ var baseUrl = document.currentScript.getAttribute('baseUrl');
 $(document).ready(function() {
 
   // to make column reorder in table list item
+  let dateFilter = null;
+  let dateOperatorFilter = null;
+
   var t = $('#items').DataTable({
     order: [],
-    "columnDefs": [{
-      "targets": 10,
-      "visible": false,
-      "searchable": false
-    }],
     colReorder: true,
     responsive: true,
     'ajax': {
@@ -78,10 +76,15 @@ $(document).ready(function() {
               '<span class="badge badge-danger">Late</span>' :
               '<span class="badge badge-warning">Borrowed</span>';
           }
-
+          date = new Date(data[i].date);
+          if (!date.getTime()) {
+            date = '';
+          } else {
+            date = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+          }
           t.row.add([
             row,
-            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, status, data[i].date
+            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, status, date
           ]).draw(false);
           n++;
         }
@@ -442,17 +445,33 @@ $(document).ready(function() {
   // Date managment.
   $.fn.dataTableExt.afnFiltering.push(
     function(oSettings, data, iDataIndex) {
-      console.log('data', data);
-      // if (typeof aData._date == 'undefined') {
-      //   aData._date = new Date(aData[0]).getTime();
-      // }
-      //
-      // if (minDateFilter && !isNaN(minDateFilter)) {
-      //   if (aData._date < minDateFilter) {
-      //     return false;
-      //   }
-      // }
-      return true;
+      // No filter on the date or not the right table
+      if (!dateFilter || data.length === 1) {
+        return true;
+      }
+      let date = new Date(data[10]);
+      // Only compare date and not time.
+      date.setHours(0, 0, 0, 0);
+      date = date.getTime()
+      if (date) {
+        switch (dateOperatorFilter) {
+          case '==':
+            return date === dateFilter;
+          case '>':
+            return date > dateFilter;
+          case '>=':
+            return date >= dateFilter;
+          case '<':
+            return date < dateFilter;
+          case '<=':
+            return date <= dateFilter;
+          default:
+            return false;
+        }
+      } else {
+        // Filter on date but no date to filter for this row
+        return false;
+      }
     }
   );
 
@@ -462,15 +481,23 @@ $(document).ready(function() {
     filters.forEach(filter => {
       let [constrainst, value] = filter.split(':');
       if (constrainst !== 'Date') {
-        t.column(`:contains(${constrainst})`).search(value.trim()).draw();
+        t.column(`:contains(${constrainst})`).search(value.trim());
+      } else {
+        [dateOperatorFilter, dateFilter] = value.trim().split(' ');
+        dateFilter = new Date(dateFilter);
+        dateFilter.setHours(0, 0, 0, 0);
+        dateFilter = dateFilter.getTime();
       }
     });
+    t.draw();
   }
 
   function resetFilter() {
     t.columns().every(function() {
       this.search('');
     });
+    dateFilter = null;
+    dateOperatorFilter = null;
     t.draw();
   }
 
