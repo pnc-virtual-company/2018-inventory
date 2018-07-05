@@ -5,6 +5,11 @@ $(document).ready(function() {
   // to make column reorder in table list item
   var t = $('#items').DataTable({
     order: [],
+    "columnDefs": [{
+      "targets": 10,
+      "visible": false,
+      "searchable": false
+    }],
     colReorder: true,
     responsive: true,
     'ajax': {
@@ -76,7 +81,7 @@ $(document).ready(function() {
 
           t.row.add([
             row,
-            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, status
+            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, status, data[i].date
           ]).draw(false);
           n++;
         }
@@ -434,21 +439,38 @@ $(document).ready(function() {
     autoclose: true,
   });
 
+  // Date managment.
+  $.fn.dataTableExt.afnFiltering.push(
+    function(oSettings, data, iDataIndex) {
+      console.log('data', data);
+      // if (typeof aData._date == 'undefined') {
+      //   aData._date = new Date(aData[0]).getTime();
+      // }
+      //
+      // if (minDateFilter && !isNaN(minDateFilter)) {
+      //   if (aData._date < minDateFilter) {
+      //     return false;
+      //   }
+      // }
+      return true;
+    }
+  );
+
   function filterTable() {
     resetFilter();
     let filters = $('#inputFilter > span').toArray().map(e => e.textContent);
     filters.forEach(filter => {
       let [constrainst, value] = filter.split(':');
-      if(constrainst !== 'Date') {
+      if (constrainst !== 'Date') {
         t.column(`:contains(${constrainst})`).search(value.trim()).draw();
       }
     });
   }
 
-  function resetFilter(){
-    t.columns().every( function () {
-        this.search('');
-    } );
+  function resetFilter() {
+    t.columns().every(function() {
+      this.search('');
+    });
     t.draw();
   }
 

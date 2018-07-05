@@ -40,7 +40,7 @@
 }
 
 #inputFilter {
-  min-width: 150px; 
+  min-width: 150px;
 }
 </style>
 <br>
@@ -99,6 +99,7 @@
             <th>User</th>
             <th>Owner</th>
             <th>Status</th>
+            <th>Date</th>    
           </tr>
         </thead>
         <tbody id="showdata">
