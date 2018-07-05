@@ -342,7 +342,7 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `login`, `password`
 -- Constraints for dumped tables
 --
 
---²
+--
 -- Constraints for table `model`
 --
 ALTER TABLE `model`
