@@ -13,6 +13,8 @@ $langCode = (isset($langCode)) ? $langCode : "en";
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap-4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/offline.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/offline-language-english.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/select2-4.0.6-rc.1/css/select2.min.css"></script>
+
   <link href="<?php echo base_url();?>assets/MDI-2.1.19/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
 
   <!-- Custom style //-->
@@ -23,6 +25,7 @@ $langCode = (isset($langCode)) ? $langCode : "en";
   <script src="<?php echo base_url();?>assets/js/popper-1.12.9..min.js"></script>
   <script src="<?php echo base_url();?>assets/bootstrap-4.0.0/js/bootstrap.min.js"></script>
   <script src="<?php echo base_url();?>assets/js/offline.min.js"></script>
+  <script src="<?php echo base_url();?>assets/select2-4.0.6-rc.1/js/select2.min.js"></script>
   <script type="text/javascript">
     Offline.options = {
       // to check the connection status immediatly on page load.

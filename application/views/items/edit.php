@@ -466,7 +466,9 @@ tr:hover{cursor: pointer;}
     }?>';
   var modelname, modelid ='';
   $(function(){
-
+    $('#sel1').select2({
+      minimumResultsForSearch: Infinity
+    });
     // cate function
     $("#select_category").click(function(){
       $.ajax({

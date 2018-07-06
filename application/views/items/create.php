@@ -462,6 +462,9 @@ tr:hover{ cursor: pointer;}
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
   $(function(){
+    $('#sel1').select2({
+      minimumResultsForSearch: Infinity
+    });
     var catname, catid ='';
     var matname, matid ='';
     var depname, depid ='';
