@@ -387,7 +387,7 @@ $(document).ready(function() {
     $('#user tbody tr').removeClass("highlight");
     $(this).addClass("highlight");
     valueFilter = $(this).find("td:eq(0)").html();
-    addFilterBadge('User', valueFilter);
+    addFilterBadge('User', valueFilter.split(" ")[0]);
     $("#selectUser").modal("hide");
     filterTable();
   });
