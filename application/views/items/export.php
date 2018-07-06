@@ -52,7 +52,7 @@ foreach ($items as $item) {
     $sheet->setCellValue('C'.$line, $date);
     $sheet->setCellValue('D'.$line, $item['item']);
     $sheet->setCellValue('E'.$line, $item['nameuser']);
-    $sheet->setCellValue('F'.$line, '$'.$item['cost']);
+    $sheet->setCellValue('F'.$line, $item['cost'] ? '$'.$item['cost'] : '');
     $sheet->setCellValue('G'.$line, $item['condition']);
     $sheet->setCellValue('H'.$line, $item['model']);
     $sheet->setCellValue('I'.$line, $item['owner']);
