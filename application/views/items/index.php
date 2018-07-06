@@ -26,6 +26,14 @@
   margin-top: 2px;
 }
 
+.badge.badge-success {
+    background-color: #12b738;
+}
+
+.badge.badge-danger {
+  background-color: #ec1126;
+}
+
 .list-group-item{
   cursor: pointer;
 }
