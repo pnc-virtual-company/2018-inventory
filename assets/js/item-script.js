@@ -183,7 +183,13 @@ $(document).ready(function() {
   $("#select_category").click(function() {
     $('#selectCategory').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#category').DataTable();
+    var c = $('#category').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
@@ -217,7 +223,13 @@ $(document).ready(function() {
   $("#select_material").click(function() {
     $('#selectMaterial').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#material').DataTable();
+    var c = $('#material').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
@@ -265,7 +277,13 @@ $(document).ready(function() {
   $("#select_department").click(function() {
     $('#selectDepartment').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#department').DataTable();
+    var c = $('#department').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
@@ -299,7 +317,13 @@ $(document).ready(function() {
   $("#select_location").click(function() {
     $('#selectLocation').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#location').DataTable();
+    var c = $('#location').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
@@ -333,7 +357,13 @@ $(document).ready(function() {
   $("#select_user").click(function() {
     $('#selectUser').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#user').DataTable();
+    var c = $('#user').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
@@ -366,7 +396,13 @@ $(document).ready(function() {
   $("#select_owner").click(function() {
     $('#selectOwner').modal('show');
     $('#filteradd').modal('hide');
-    var c = $('#owners').DataTable();
+    var c = $('#owners').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
     c.clear().draw();
     $.ajax({
       type: 'POST',
