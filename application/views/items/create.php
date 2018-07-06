@@ -210,7 +210,6 @@ tr:hover{ cursor: pointer;}
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
-         <button type="button" class="btn btn-primary" id="catset">OK</button>
          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
        </div>
      </div>
@@ -243,7 +242,6 @@ tr:hover{ cursor: pointer;}
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-       <button type="button" class="btn btn-primary" id="matset">OK</button>
        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
      </div>
    </div>
@@ -277,7 +275,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="depset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -312,7 +309,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="locset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -346,7 +342,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="userset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -381,7 +376,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="ownerset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -416,7 +410,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="brandset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -451,7 +444,6 @@ tr:hover{ cursor: pointer;}
     </div>
     <!-- Modal footer -->
     <div class="modal-footer">
-     <button type="button" class="btn btn-primary" id="modelset">OK</button>
      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
    </div>
  </div>
@@ -488,7 +480,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectCategory').modal('show');
-          var c = $('#category').DataTable();
+          var c = $('#category').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -508,13 +506,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       catid= $(this).find("td:eq(0)").html();
       catname= $(this).find("td:eq(1)").html();
-      $("#catset").click(function(){
-        $('#inputcat').val('');
-        $('#inputcat').val(catname);
-        $('#inputcatid').val('');
-        $('#inputcatid').val(catid);
-        $("#selectCategory").modal("hide");
-      });
+      $('#inputcat').val('');
+      $('#inputcat').val(catname);
+      $('#inputcatid').val('');
+      $('#inputcatid').val(catid);
+      $("#selectCategory").modal("hide");
     });
 
 
@@ -528,7 +524,13 @@ tr:hover{ cursor: pointer;}
             dataType: 'json',
             success: function(data){
               $('#selectMaterial').modal('show');
-              var c = $('#material').DataTable();
+              var c = $('#material').DataTable({
+                destroy: true,
+                responsive: true,
+                pageLength: 5,
+                info: false,
+                lengthChange: false
+              });
               c.clear().draw();
               var i;
               var n = 1;
@@ -548,13 +550,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       matid= $(this).find("td:eq(0)").html();
       matname= $(this).find("td:eq(1)").html();
-      $("#matset").click(function(){
-        $('#inputmat').val('');
-        $('#inputmat').val(matname);
-        $('#inputmatid').val('');
-        $('#inputmatid').val(matid);
-        $("#selectMaterial").modal("hide");
-      });
+      $('#inputmat').val('');
+      $('#inputmat').val(matname);
+      $('#inputmatid').val('');
+      $('#inputmatid').val(matid);
+      $("#selectMaterial").modal("hide");
     });
 
     // department function
@@ -566,7 +566,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectDepartment').modal('show');
-          var c = $('#department').DataTable();
+          var c = $('#department').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -586,13 +592,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       depid= $(this).find("td:eq(0)").html();
       depname= $(this).find("td:eq(1)").html();
-      $("#depset").click(function(){
-        $('#inputdep').val('');
-        $('#inputdep').val(depname);
-        $('#inputdepid').val('');
-        $('#inputdepid').val(depid);
-        $("#selectDepartment").modal("hide");
-      });
+      $('#inputdep').val('');
+      $('#inputdep').val(depname);
+      $('#inputdepid').val('');
+      $('#inputdepid').val(depid);
+      $("#selectDepartment").modal("hide");
     });
 
 
@@ -605,7 +609,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectLocation').modal('show');
-          var c = $('#location').DataTable();
+          var c = $('#location').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -625,13 +635,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       locid= $(this).find("td:eq(0)").html();
       locname= $(this).find("td:eq(1)").html();
-      $("#locset").click(function(){
-        $('#inputloc').val('');
-        $('#inputloc').val(locname);
-        $('#inputlocid').val('');
-        $('#inputlocid').val(locid);
-        $("#selectLocation").modal("hide");
-      });
+      $('#inputloc').val('');
+      $('#inputloc').val(locname);
+      $('#inputlocid').val('');
+      $('#inputlocid').val(locid);
+      $("#selectLocation").modal("hide");
     });
 
     // user function
@@ -643,7 +651,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectUser').modal('show');
-          var c = $('#user').DataTable();
+          var c = $('#user').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -663,13 +677,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       locid= $(this).find("td:eq(0)").html();
       locname= $(this).find("td:eq(1)").html();
-      $("#userset").click(function(){
-        $('#inputuser').val('');
-        $('#inputuser').val(locname);
-        $('#inputuserid').val('');
-        $('#inputuserid').val(locid);
-        $("#selectUser").modal("hide");
-      });
+      $('#inputuser').val('');
+      $('#inputuser').val(locname);
+      $('#inputuserid').val('');
+      $('#inputuserid').val(locid);
+      $("#selectUser").modal("hide");
     });
 
 
@@ -682,7 +694,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectOwner').modal('show');
-          var c = $('#owners').DataTable();
+          var c = $('#owners').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -702,13 +720,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       ownerid= $(this).find("td:eq(0)").html();
       ownername= $(this).find("td:eq(1)").html();
-      $("#ownerset").click(function(){
-        $('#inputowner').val('');
-        $('#inputowner').val(ownername);
-        $('#inputownerid').val('');
-        $('#inputownerid').val(ownerid);
-        $("#selectOwner").modal("hide");
-      });
+      $('#inputowner').val('');
+      $('#inputowner').val(ownername);
+      $('#inputownerid').val('');
+      $('#inputownerid').val(ownerid);
+      $("#selectOwner").modal("hide");
     });
 
 
@@ -722,7 +738,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectBrand').modal('show');
-          var c = $('#brands').DataTable();
+          var c = $('#brands').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -742,13 +764,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       brandid= $(this).find("td:eq(0)").html();
       brandname= $(this).find("td:eq(1)").html();
-      $("#brandset").click(function(){
-        $('#inputbrand').val('');
-        $("#select_model").removeAttr('disabled');
-        $('.alert-model').fadeOut('slow');
-        $('#inputbrand').val(brandname);
-        $("#selectBrand").modal("hide");
-      });
+      $('#inputbrand').val('');
+      $("#select_model").removeAttr('disabled');
+      $('.alert-model').fadeOut('slow');
+      $('#inputbrand').val(brandname);
+      $("#selectBrand").modal("hide");
     });
 
     $('.alert-model').html("You cannot select model without selected any item's brand. ").fadeIn();
@@ -762,7 +782,13 @@ tr:hover{ cursor: pointer;}
         dataType: 'json',
         success: function(data){
           $('#selectModel').modal('show');
-          var c = $('#models').DataTable();
+          var c = $('#models').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
           c.clear().draw();
           var i;
           var n = 1;
@@ -783,13 +809,11 @@ tr:hover{ cursor: pointer;}
       $(this).addClass("highlight");
       modelid= $(this).find("td:eq(0)").html();
       modelname= $(this).find("td:eq(1)").html();
-      $("#modelset").click(function(){
-        $('#inputmodel').val('');
-        $('#inputmodel').val(modelname);
-        $('#inputmodid').val('');
-        $('#inputmodid').val(modelid);
-        $("#selectModel").modal("hide");
-      });
+      $('#inputmodel').val('');
+      $('#inputmodel').val(modelname);
+      $('#inputmodid').val('');
+      $('#inputmodid').val(modelid);
+      $("#selectModel").modal("hide");
     });
 
 
