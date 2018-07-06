@@ -20,7 +20,7 @@
      </div>
    </div><br>
    <div class="alert alert-info" style="display: none;"> <!--Show exist data-->
-     
+
    </div>
    <table id="location" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
     <thead>
@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    
+
     <link href="<?php echo base_url(); ?>assets/DataTable/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
@@ -139,13 +139,13 @@ function showAlllocat()
           ] ).draw( false );
         n++;
       }
-    },
-    error: function()
-    {
-      alert('Could not get Data from Database');
     }
   });
 }
+
+Offline.on('up', function() {
+  showAlllocat();
+});
 
     //  Combine btn onclick OK with key Enter when create
     $('#frmConfirmAdd').keypress(function(e)
@@ -157,7 +157,7 @@ function showAlllocat()
             }
           });
 
-      //  Combine btn onclick OK with key Enter when delete  
+      //  Combine btn onclick OK with key Enter when delete
       $('#deleteModal').keypress(function(e)
       {
            if(e.which === 13) //Enter key pressed
@@ -167,7 +167,7 @@ function showAlllocat()
             }
           });
 
-       //  Combine btn onclick OK with key Enter when update  
+       //  Combine btn onclick OK with key Enter when update
        $('#frmConfirmEdit').keypress(function(e)
        {
            if(e.which === 13) //Enter key pressed
@@ -198,27 +198,20 @@ $("#create").click(function()
     locationName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url(); ?>locations/create", // url access to create location in controller
       type: "POST",
       data: $('#frm_create').serialize(),
       dataType: 'json',
-      success: function(data)
-      {
-        if(data.status)
-        {
-          $('#frm_create')[0].reset();
-          $('#frmConfirmAdd').modal('hide');
-          $('.alert-info').html('Location was added successfully').fadeIn().delay(6000).fadeOut('slow');
-          showAlllocat();
-        }
-      },
-      error: function()
-      {
-        alert("Error ...");
-      }
+      async: true
+    }).always(function(data)
+    {
+      $('#frm_create')[0].reset();
+      $('#frmConfirmAdd').modal('hide');
+      $('.alert-info').html('Location was added successfully').fadeIn().delay(6000).fadeOut('slow');
+      showAlllocat();
     });
   }
 });
@@ -270,10 +263,6 @@ $('#showdata').on('click', '.item-edit', function()
       {
         $('input[name=update_location]').focus();
       });
-    },
-    error: function()
-    {
-      alert('Could not get any data from Database');
     }
   });
 });
@@ -291,7 +280,7 @@ $("#update").click(function()
     locationName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url();?>locations/update",
@@ -314,7 +303,7 @@ $("#update").click(function()
       }
     });
   }
-});    
+});
 });
 
 </script>

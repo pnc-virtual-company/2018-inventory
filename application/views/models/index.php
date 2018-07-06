@@ -5,7 +5,7 @@
     <div class="col-12">
       <div class="row">
         <div class="col-9">
-          <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title; ?>)</span> </h2> 
+          <h2>List of models from <span style="color: green; font-size: 30px;">(<?php echo $title; ?>)</span> </h2>
         </div>
         <div class="col-3">
           <button type="button" class="btn btn-primary float-right" id="create_model">
@@ -119,12 +119,12 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script>
- $(document).ready(function() 
+ $(document).ready(function()
  {
   var t = $('#models').DataTable({order:[]});
   showAllModels();
 
-// Show all model by ajax 
+// Show all model by ajax
    function showAllModels()
    {
     $("#model_row").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
@@ -147,13 +147,12 @@
         ] ).draw( false );
        n++;
      }
-   },
-   error: function()
-   {
-     alert('Could not get Data from Database');
    }
  });
   }
+  Offline.on('up', function() {
+    showAllModels();
+  });
 
 //  Combine btn onclick OK with key Enter when create
     $('#frmConfirmCreate').keypress(function(e)
@@ -165,7 +164,7 @@
             }
           });
 
-      //  Combine btn onclick OK with key Enter when delete  
+      //  Combine btn onclick OK with key Enter when delete
       $('#frmConfirmDelete').keypress(function(e)
       {
            if(e.which === 13) //Enter key pressed
@@ -175,7 +174,7 @@
             }
           });
 
-      //  Combine btn onclick OK with key Enter when update  
+      //  Combine btn onclick OK with key Enter when update
        $('#frmConfirmEdit').keypress(function(e)
        {
            if(e.which === 13) //Enter key pressed
@@ -213,20 +212,12 @@
              type: "POST",
              data: $('#frm-create').serialize(),
              dataType: 'json',
-             success: function(data)
-             {
-               if(data.status)
-               {
-                $('#frm-create')[0].reset();
-                $('#frmConfirmCreate').modal('hide');
-                $('.alert-info').html('Model was created successfully').fadeIn().delay(6000).fadeOut('slow');
-                showAllModels();
-              }
-            },
-            error: function()
-            {
-             alert('Error can not create...');
-           }
+           async: true
+         }).always(function(data) {
+           $('#frm-create')[0].reset();
+           $('#frmConfirmCreate').modal('hide');
+           $('.alert-info').html('Model was created successfully').fadeIn().delay(6000).fadeOut('slow');
+           showAllModels();
          });
          }
        });
@@ -241,7 +232,7 @@
          // Comfirm delete by button even
          $("#delete-comfirm").on('click',function()
          {
-           var id = $('#frmConfirmDelete').data('id');     
+           var id = $('#frmConfirmDelete').data('id');
            $.ajax({
              url: "<?php echo base_url(); ?>models/deleteModel", // url access to delete model in controller
              type: "POST",
@@ -277,10 +268,6 @@
              {
               $('input[name=update_model]').focus();
             });
-           },
-           error: function()
-           {
-             alert('Could not get any data from Database');
            }
          });
        });

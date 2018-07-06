@@ -2,7 +2,7 @@
 
 <div id="container" class="container">
   <div class="row-fluid">
-   <div class="col-12">   
+   <div class="col-12">
      <div class="row">
        <div class="col-9">
          <h2><?php echo $title;?></h2>
@@ -16,7 +16,7 @@
     </div>
   </div><br>
   <div class="alert alert-info" style="display: none;"> <!--Pop up message create-->
-    
+
   </div>
   <table id="department" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
     <thead>
@@ -91,7 +91,7 @@
       </div>
       <div class="modal-body">
         <form id="frm_edit">
-          <div class="form-inline"> <!--Show data exist--> 
+          <div class="form-inline"> <!--Show data exist-->
 
           </div>
         </form>
@@ -113,7 +113,7 @@
     var t = $('#department').DataTable({order:[]});
     showAllDepartments();
 
-// Show all department by ajax 
+// Show all department by ajax
 function showAllDepartments()
 {
   $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
@@ -136,14 +136,12 @@ function showAllDepartments()
           ] ).draw( false );
         n++;
       }
-    },
-    error: function()
-    {
-      alert('Could not get Data from Database');
     }
   });
 }
-
+Offline.on('up', function() {
+  showAllDepartments();
+});
   //  Combine btn onclick OK with key Enter when create
   $('#frmConfirmAdd').keypress(function(e)
   {
@@ -154,7 +152,7 @@ function showAllDepartments()
           }
         });
 
-    //  Combine btn onclick OK with key Enter when delete  
+    //  Combine btn onclick OK with key Enter when delete
     $('#deleteModal').keypress(function(e)
     {
          if(e.which === 13) //Enter key pressed
@@ -164,7 +162,7 @@ function showAllDepartments()
           }
         });
 
-     //  Combine btn onclick OK with key Enter when update  
+     //  Combine btn onclick OK with key Enter when update
      $('#frmConfirmEdit').keypress(function(e)
      {
          if(e.which === 13) //Enter key pressed
@@ -195,27 +193,20 @@ $("#create").click(function()
     departmentName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url()?>departments/create",
       type: "POST",
       data: $('#frm_create').serialize(),
       dataType: 'json',
-      success: function(data)
-      {
-        if(data.status)
-        {
-          $('#frm_create')[0].reset();
-          $('#frmConfirmAdd').modal('hide');
-          $('.alert-info').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
-          showAllDepartments();
-        }
-      },
-      error: function()
-      {
-        alert("Error ...");
-      }
+      async: true
+    }).always(function(data)
+    {
+      $('#frm_create')[0].reset();
+      $('#frmConfirmAdd').modal('hide');
+      $('.alert-info').html('Department was added successfully').fadeIn().delay(6000).fadeOut('slow');
+      showAllDepartments();
     });
   }
 });
@@ -267,15 +258,11 @@ $('#showdata').on('click', '.item-edit', function()
       {
         $('input[name=update_department]').focus();
       });
-    },
-    error: function()
-    {
-      alert('Could not get any data from Database');
     }
   });
 });
 
-// Save update department by button update 
+// Save update department by button update
 $("#update").click(function(){
   var id = $('#frmConfirmEdit').data('id');
   var departmentName = $('input[name=update_department]');
@@ -287,7 +274,7 @@ $("#update").click(function(){
     departmentName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url()?>departments/update",  // url access to update department in controller

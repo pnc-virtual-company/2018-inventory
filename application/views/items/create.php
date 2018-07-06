@@ -499,9 +499,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -542,9 +539,6 @@ tr:hover{ cursor: pointer;}
                   ] ).draw( false );
                 n++;
               }
-            },
-            error: function(){
-              alert('Could not get Data from Database');
             }
           });
         });
@@ -583,9 +577,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -625,9 +616,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -666,9 +654,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -708,9 +693,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -751,9 +733,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
     });
@@ -794,9 +773,6 @@ tr:hover{ cursor: pointer;}
               ] ).draw( false );
             n++;
           }
-        },
-        error: function(){
-          alert('Could not get Data from Database');
         }
       });
 

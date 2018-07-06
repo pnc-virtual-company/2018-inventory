@@ -9,7 +9,7 @@
         <div class="col-3"> <!-- create new category -->
          <button type="button" class="btn btn-primary create-category float-right" id="add_category">
           <i class="mdi mdi-plus-circle"></i>&nbsp;Create category
-        </button> 
+        </button>
       </div>
     </div>
   </div><br>
@@ -106,8 +106,9 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
 
-  $(function() 
-  {
+
+$(document).ready(function()
+{
     var c = $('#category').DataTable({order:[]});
     showAllCat();
 // Display all category from showAllCategory
@@ -131,27 +132,26 @@ function showAllCat()
                 '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="delete category"></i></a>',
                 data[i].category
                 ] ).draw( false );
-              n++;    
+              n++;
             }
-          },
-          error: function()
-          {
-            alert('Could not get Data from Database');
           }
         });
 }
+Offline.on('up', function() {
+  showAllCat();
+});
 
       //  Combine btn onclick OK with key Enter when create
       $('#frmConfirmAdd').keypress(function(e)
       {
              if(e.which === 13) //Enter key pressed
-             {  
+             {
               e.preventDefault();
                 $('#btn-create').click();//Trigger search button click event
               }
             });
 
-        //  Combine btn onclick OK with key Enter when delete  
+        //  Combine btn onclick OK with key Enter when delete
         $('#frmConfirmDelete').keypress(function(e)
         {
              if(e.which === 13) //Enter key pressed
@@ -161,7 +161,7 @@ function showAllCat()
               }
             });
 
-         //  Combine btn onclick OK with key Enter when update  
+         //  Combine btn onclick OK with key Enter when update
          $('#frmConfirmEdit').keypress(function(e)
          {
              if(e.which === 13) //Enter key pressed
@@ -192,27 +192,23 @@ function showAllCat()
             category.parent().parent().removeClass('has-error');
             result +='1';
           }
-          if (result=='1') 
+          if (result=='1')
           {
             $.ajax({
               url: "<?php echo base_url()?>category/create", //url access to create controller
               type: "POST",
               data: $('#frm_create').serialize(),
               dataType: 'json',
-              success: function(data)
-              {
-                if(data.status)
-                {
-                  $('#frm_create')[0].reset();
-                  $('#frmConfirmAdd').modal('hide');
-                  $('.alert-info').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
-                  showAllCat();
-                }
-              },
-              error: function()
-              {
-                alert("Error ...");
-              }
+              async: true
+            }).always(function(data)
+            {
+              // if(data.status)
+              // {
+                $('#frm_create')[0].reset();
+                $('#frmConfirmAdd').modal('hide');
+                $('.alert-info').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
+                showAllCat();
+              // }
             });
           }
         });
@@ -234,10 +230,6 @@ function showAllCat()
              {
               $('input[name=update_category]').focus();
             });
-           },
-           error: function()
-           {
-             alert('Could not get any data from Database');
            }
          });
        });
@@ -255,7 +247,7 @@ function showAllCat()
      categoryName.parent().parent().removeClass('has-error');
      result +='1';
    }
-   if (result=='1') 
+   if (result=='1')
    {
      $.ajax({
        url: "<?php echo base_url()?>/category/update",

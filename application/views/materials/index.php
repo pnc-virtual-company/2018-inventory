@@ -113,7 +113,7 @@
     var t = $('#material').DataTable({order:[]});
     showAllMaterial();
 
-// Show all material by ajax 
+// Show all material by ajax
 function showAllMaterial()
 {
   $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
@@ -136,13 +136,13 @@ function showAllMaterial()
           ] ).draw( false );
         n++;
       }
-    },
-    error: function()
-    {
-      alert('Could not get Data from Database');
     }
   });
 }
+
+Offline.on('up', function() {
+  showAllMaterial();
+});
 
   //  Combine btn onclick OK with key Enter when create
   $('#frmConfirmAdd').keypress(function(e){
@@ -153,7 +153,7 @@ function showAllMaterial()
           }
         });
 
-    //  Combine btn onclick OK with key Enter when delete  
+    //  Combine btn onclick OK with key Enter when delete
     $('#deleteModal').keypress(function(e)
     {
          if(e.which === 13) //Enter key pressed
@@ -163,7 +163,7 @@ function showAllMaterial()
           }
         });
 
-     //  Combine btn onclick OK with key Enter when update  
+     //  Combine btn onclick OK with key Enter when update
      $('#frmConfirmEdit').keypress(function(e)
      {
          if(e.which === 13) //Enter key pressed
@@ -194,27 +194,19 @@ $("#create").click(function()
     materialName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url()?>materials/create", // url access to create material in controller
       type: "POST",
       data: $('#frm_create').serialize(),
       dataType: 'json',
-      success: function(data)
-      {
-        if(data.status)
-        {
-          $('#frm_create')[0].reset();
-          $('#frmConfirmAdd').modal('hide');
-          $('.alert-info').html('Material was added successfully').fadeIn().delay(6000).fadeOut('slow');
-          showAllMaterial();
-        }
-      },
-      error: function()
-      {
-        alert("Error ...");
-      }
+      async: true
+    }).always(function(data) {
+      $('#frm_create')[0].reset();
+      $('#frmConfirmAdd').modal('hide');
+      $('.alert-info').html('Material was added successfully').fadeIn().delay(6000).fadeOut('slow');
+      showAllMaterial();
     });
   }
 });
@@ -265,15 +257,11 @@ $('#showdata').on('click', '.item-edit', function()
       {
         $('input[name=update_material]').focus();
       });
-    },
-    error: function()
-    {
-      alert('Could not get any data from Database');
     }
   });
 });
 
-// save update button 
+// save update button
 $("#update").click(function()
 {
   var id = $('#frmConfirmEdit').data('id');
@@ -286,7 +274,7 @@ $("#update").click(function()
     materialName.parent().parent().removeClass('has-error');
     result +='1';
   }
-  if (result=='1') 
+  if (result=='1')
   {
     $.ajax({
       url: "<?php echo base_url()?>materials/update",  // url access to update material in controller

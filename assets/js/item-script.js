@@ -160,9 +160,6 @@ $(document).ready(function() {
         $('#detail-owner').html(data.owner);
         $('#detail-status').html(data.status);
         $('#viewDetailModal').modal('show');
-      },
-      error: function() {
-        alert('Could not get any data from Database');
       }
     });
   });
@@ -184,29 +181,25 @@ $(document).ready(function() {
   });
 
   $("#select_category").click(function() {
+    $('#selectCategory').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#category').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}category/showAllCategory`,
       async: true,
       dataType: 'json',
-      success: function(data) {
-        $('#selectCategory').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#category').DataTable();
-        c.clear().draw();
-        var i;
-        var n = 1;
-        for (i = 0; i < data.length; i++) {
-          c.row.add([
-            data[i].category
-          ]).draw(false);
-          n++;
-        }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
+    }).done(function(data) {
+      var i;
+      var n = 1;
+      for (i = 0; i < data.length; i++) {
+        c.row.add([
+          data[i].category
+        ]).draw(false);
+        n++;
       }
-    });
+    })
   });
 
   var valueFilter = '';
@@ -222,16 +215,16 @@ $(document).ready(function() {
 
   // material function
   $("#select_material").click(function() {
+    $('#selectMaterial').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#material').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}materials/showAllMaterial`,
       async: true,
       dataType: 'json',
       success: function(data) {
-        $('#selectMaterial').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#material').DataTable();
-        c.clear().draw();
         var i;
         var n = 1;
         for (i = 0; i < data.length; i++) {
@@ -240,9 +233,6 @@ $(document).ready(function() {
           ]).draw(false);
           n++;
         }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
       }
     });
   });
@@ -273,16 +263,16 @@ $(document).ready(function() {
 
   //select department function
   $("#select_department").click(function() {
+    $('#selectDepartment').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#department').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}departments/showAllDepartments`,
       async: true,
       dataType: 'json',
       success: function(data) {
-        $('#selectDepartment').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#department').DataTable();
-        c.clear().draw();
         var i;
         var n = 1;
         for (i = 0; i < data.length; i++) {
@@ -291,9 +281,6 @@ $(document).ready(function() {
           ]).draw(false);
           n++;
         }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
       }
     });
   });
@@ -310,16 +297,16 @@ $(document).ready(function() {
 
   // location function
   $("#select_location").click(function() {
+    $('#selectLocation').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#location').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}locations/showAlllocat`,
       async: true,
       dataType: 'json',
       success: function(data) {
-        $('#selectLocation').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#location').DataTable();
-        c.clear().draw();
         var i;
         var n = 1;
         for (i = 0; i < data.length; i++) {
@@ -328,9 +315,6 @@ $(document).ready(function() {
           ]).draw(false);
           n++;
         }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
       }
     });
   });
@@ -347,16 +331,16 @@ $(document).ready(function() {
 
   // user function
   $("#select_user").click(function() {
+    $('#selectUser').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#user').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}users/showAllUsers`,
       async: true,
       dataType: 'json',
       success: function(data) {
-        $('#selectUser').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#user').DataTable();
-        c.clear().draw();
         var i;
         var n = 1;
         for (i = 0; i < data.length; i++) {
@@ -365,9 +349,6 @@ $(document).ready(function() {
           ]).draw(false);
           n++;
         }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
       }
     });
   });
@@ -383,16 +364,16 @@ $(document).ready(function() {
 
   // owner function
   $("#select_owner").click(function() {
+    $('#selectOwner').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#owners').DataTable();
+    c.clear().draw();
     $.ajax({
       type: 'POST',
       url: `${baseUrl}owner/showAllOwner`,
       async: true,
       dataType: 'json',
       success: function(data) {
-        $('#selectOwner').modal('show');
-        $('#filteradd').modal('hide');
-        var c = $('#owners').DataTable();
-        c.clear().draw();
         var i;
         var n = 1;
         for (i = 0; i < data.length; i++) {
@@ -401,9 +382,6 @@ $(document).ready(function() {
           ]).draw(false);
           n++;
         }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
       }
     });
   });
@@ -541,67 +519,6 @@ function preventDuplicatedFilter(filterColumnName) {
       $(this).remove();
     }
   });
-}
-
-
-//Add a generic filter to the widget and trigger change event
-//Generic filter is related to a text (ie. not a date)
-function addFilterToWidget() {
-  preventDuplicatedFilter(filterColumnName);
-  var htmlElement = "<span data-value='" +
-    "{\"" + filterColumnName + "\":\"" + filterColumnValue + "\"}' class='badge badge-pill badge-info filter-item'>" +
-    filterColumnName + ": " + filterColumnValue + " <i class='mdi mdi-close-circle close-icon'></i></span>";
-  //Add the SPAN into card-body
-  $('#inputFilter').append(htmlElement);
-  sortUsingText($('#inputFilter'), "span");
-  // $( "#input-tag-1" ).trigger( "change" );
-}
-
-//Add a date filter to the widget and trigger change event
-function addDateFilterToWidget() {
-  var symbol;
-  var index = 1;
-  var value = new Object();
-  //Count the number of date filters
-  $('#inputFilter').find("span").each(function() {
-    var obj = $(this).data("value");
-    $.extend(value, obj);
-  });
-  for (var key in value) {
-    if (key.startsWith('Date')) {
-      index++;
-    }
-  }
-  filterPropName = 'Date' + index.toString();
-  switch (filterColumnOperator) {
-    case 'gt':
-      symbol = ' > ';
-      break;
-    case 'ge':
-      symbol = ' >= ';
-      break;
-    case 'e':
-      symbol = ' = ';
-      break;
-    case 'lt':
-      symbol = ' < ';
-      break;
-    case 'le':
-      symbol = ' <= ';
-      break;
-  }
-  var dateFormatted = moment(filterColumnValue).format('L');
-  var dateISO = moment(filterColumnValue).toISOString();
-  var htmlElement = "<span data-value='" +
-    "{\"" + filterPropName + "\":{\"" +
-    "operator\":\"" + filterColumnOperator + "\",\"" +
-    "date\":\"" + dateISO +
-    "\"}}' class='badge badge-pill badge-info filter-item'>" +
-    filterColumnName + symbol + dateFormatted + " <i class='mdi mdi-close-circle close-icon'></i></span>";
-  //Add the SPAN into card-body
-  $('#inputFilter').append(htmlElement);
-  sortUsingText($('#inputFilter'), "span");
-  // $( "#input-tag-1" ).trigger( "change" );
 }
 
 function addFilterBadge(filterName, filterValue) {

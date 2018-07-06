@@ -11,6 +11,8 @@ $langCode = (isset($langCode)) ? $langCode : "en";
     <title><?php echo $title; ?></title>
   <link rel="shortcut icon" href="<?php echo base_url();?>assets/images/logo-img/file-icon.png" type="image/x-icon">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap-4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/offline.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/offline-language-english.css">
   <link href="<?php echo base_url();?>assets/MDI-2.1.19/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
 
   <!-- Custom style //-->
@@ -20,6 +22,28 @@ $langCode = (isset($langCode)) ? $langCode : "en";
   <script src="<?php echo base_url();?>assets/tether-1.4.3/js/tether.min.js"></script>
   <script src="<?php echo base_url();?>assets/js/popper-1.12.9..min.js"></script>
   <script src="<?php echo base_url();?>assets/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+  <script src="<?php echo base_url();?>assets/js/offline.min.js"></script>
+  <script type="text/javascript">
+    Offline.options = {
+      // to check the connection status immediatly on page load.
+      checkOnLoad: false,
+
+      // to monitor AJAX requests to check connection.
+      interceptRequests: true,
+
+      // to automatically retest periodically when the connection is down (set to false to disable).
+      reconnect: {
+        // delay time in seconds to wait before rechecking.
+        initialDelay: 3,
+
+        // wait time in seconds between retries.
+        delay: 10
+      },
+
+      // to store and attempt to remake requests which failed while the connection was down.
+      requests: true
+    };
+  </script>
 
   <style type="text/css">
   * {

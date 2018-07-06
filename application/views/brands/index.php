@@ -111,12 +111,12 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script>
- $(document).ready(function() 
+ $(document).ready(function()
  {
   var t = $('#brand').DataTable({order:[]});
   showAllBrand();
-  
-   // Show all brand by ajax 
+
+   // Show all brand by ajax
    function showAllBrand()
    {
       $("#brand_row").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
@@ -140,13 +140,12 @@
                ] ).draw( false );
          n++;
        }
-    },
-     error: function()
-     {
-       alert('Could not get Data from Database');
-     }
+    }
     });
   }
+  Offline.on('up', function() {
+    showAllBrand();
+  });
 
       //  Combine btn onclick OK with key Enter when create
       $('#frmConfirmCreate').keypress(function(e)
@@ -158,7 +157,7 @@
               }
             });
 
-        //  Combine btn onclick OK with key Enter when delete  
+        //  Combine btn onclick OK with key Enter when delete
         $('#frmConfirmDelete').keypress(function(e)
         {
              if(e.which === 13) //Enter key pressed
@@ -168,7 +167,7 @@
               }
             });
 
-         //  Combine btn onclick OK with key Enter when update  
+         //  Combine btn onclick OK with key Enter when update
          $('#frmConfirmEdit').keypress(function(e)
          {
              if(e.which === 13) //Enter key pressed
@@ -203,18 +202,12 @@
              type: "POST",
              data: $('#frm-create').serialize(),
              dataType: 'json',
-             success: function(data){
-               if(data.status){
-                $('#frm-create')[0].reset();
-                $('#frmConfirmCreate').modal('hide');
-                $('.alert-info').html('Brand was created  successfully').fadeIn().delay(6000).fadeOut('slow');
-                showAllBrand();
-              }
-            },
-            error: function()
-            {
-             alert('Error can not create...');
-           }
+             async: true
+         }).always(function(data){
+            $('#frm-create')[0].reset();
+            $('#frmConfirmCreate').modal('hide');
+            $('.alert-info').html('Brand was created  successfully').fadeIn().delay(6000).fadeOut('slow');
+            showAllBrand();
          });
          }
        });
@@ -229,7 +222,7 @@
          // Confirm delete by button even
          $("#delete-comfirm").on('click',function()
          {
-           var id = $('#frmConfirmDelete').data('id');     
+           var id = $('#frmConfirmDelete').data('id');
            $.ajax({
              url: "<?php echo base_url(); ?>brand/deleteBrand",  // url access to delete brand in controller
              type: "POST",
@@ -264,15 +257,11 @@
                $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
                 $('input[name=brand_update]').focus();
               });
-             },
-             error: function()
-             {
-               alert('Could not get any data from Database');
              }
            });
          });
 
-         // Save  update by button even 
+         // Save  update by button even
          $("#update").click(function(){
           var id = $('#frmConfirmEdit').data('id');
           var brand = $('input[name=brand_update]');

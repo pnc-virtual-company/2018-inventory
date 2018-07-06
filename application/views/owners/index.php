@@ -118,12 +118,12 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var t = $('#owners').DataTable({order:[]});
-    showAllOwner(); //call function for show all the owner 
+    showAllOwner(); //call function for show all the owner
 
-  // showAllOwner function get owner data to table 
+  // showAllOwner function get owner data to table
   function showAllOwner()
   {
-    // spin for waiting the result that get from database by ajax 
+    // spin for waiting the result that get from database by ajax
     $("#showdata").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
     $.ajax({
       type: 'ajax',
@@ -143,13 +143,13 @@
             ] ).draw( false );
           n++;
         }
-      },
-      error: function(){
-        alert('Could not get Data from Database');
       }
     });
 
   }
+  Offline.on('up', function() {
+    showAllOwner();
+  });
 
   //  Combine btn onclick OK with key Enter when create
   $('#frmConfirmAdd').keypress(function(e)
@@ -161,7 +161,7 @@
     }
   });
 
-  //  Combine btn onclick OK with key Enter when delete  
+  //  Combine btn onclick OK with key Enter when delete
   $('#deleteModal').keypress(function(e)
   {
     if(e.which === 13)
@@ -171,7 +171,7 @@
     }
   });
 
-  //  Combine btn onclick OK with key Enter when update  
+  //  Combine btn onclick OK with key Enter when update
   $('#frmConfirmEdit').keypress(function(e)
   {
     if(e.which === 13)
@@ -181,14 +181,14 @@
     }
   });
 
-  // create_owner form with ajax after display in datatable 
+  // create_owner form with ajax after display in datatable
   $("#add-owner").click(function(){
     $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function(){
       $('input[name=create_owner]').focus();
     });
   });
 
-  // btn save after create an owner 
+  // btn save after create an owner
   $("#create").click(function()
   {
     var ownerName = $('input[name=create_owner]');
@@ -203,25 +203,17 @@
     if (result=='1')
     {
       $.ajax({
-        url: "<?php echo base_url()?>owner/create", //access to controller to get data from database 
+        url: "<?php echo base_url()?>owner/create", //access to controller to get data from database
         type: "POST",
         data: $('#frm_create').serialize(),
         dataType: 'json',
-        success: function(data)
-        {
-          if(data.status)
-          {
-            $('#frm_create')[0].reset();
-            $('#frmConfirmAdd').modal('hide');
-            // alert message to show the user to know
-            $('.alert-info').html('Owner was added successfully').fadeIn().delay(6000).fadeOut('slow');
-            showAllOwner();//call function to show owner 
-          }
-        },
-        error: function()
-        {
-          alert("Error ...");
-        }
+        async: true
+      }).always(function(data) {
+        $('#frm_create')[0].reset();
+        $('#frmConfirmAdd').modal('hide');
+        // alert message to show the user to know
+        $('.alert-info').html('Owner was added successfully').fadeIn().delay(6000).fadeOut('slow');
+        showAllOwner();//call function to show owner
       });
     }
   });
@@ -232,7 +224,7 @@
     $('#deleteModal').data('id', id).modal('show');
   });
 
-  // comfirm delete button to make sure user want to delete or not 
+  // comfirm delete button to make sure user want to delete or not
   $("#delete-comfirm").on('click',function(){
     var id = $('#deleteModal').data('id');
     $.ajax({
@@ -243,9 +235,9 @@
       success: function(data)
       {
         $('#deleteModal').modal('hide');
-        // alert message to show user with limit the transition time by fadein and fadeout 
+        // alert message to show user with limit the transition time by fadein and fadeout
         $('.alert-info').html('Owner was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
-        showAllOwner(); //call function to show owner 
+        showAllOwner(); //call function to show owner
       },
       error: function()
       {
@@ -262,7 +254,7 @@
     $.ajax({
       type: 'POST',
       data: {idowner: id},
-      url: '<?php echo base_url();?>/owner/showEditOwner', //access to get data edit to database 
+      url: '<?php echo base_url();?>/owner/showEditOwner', //access to get data edit to database
       async: true,
       dataType: 'json',
       success: function(data)
@@ -271,15 +263,11 @@
         $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function(){
           $('input[name=update_owner]').focus();
         });
-      },
-      error: function()
-      {
-        alert('Could not get any data from Database');
       }
     });
   });
 
-  // save update button 
+  // save update button
   $("#update").click(function(){
     var id = $('#frmConfirmEdit').data('id');
     var ownerName = $('input[name=update_owner]');
@@ -291,7 +279,7 @@
       ownerName.parent().parent().removeClass('has-error');
       result +='1';
     }
-    if (result=='1') 
+    if (result=='1')
     {
       $.ajax({
         url: "<?php echo base_url()?>owner/update",
