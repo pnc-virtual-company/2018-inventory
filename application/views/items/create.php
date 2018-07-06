@@ -16,6 +16,15 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 tr:hover{ cursor: pointer;}
+
+.selection .select2-selection {
+  height: 37px;
+  padding-top: 3px;
+}
+
+.selection .select2-selection .select2-selection__arrow {
+  height: 37px;
+}
 </style>
 <div class="container bg-light">
   <div class="row-fluid">
