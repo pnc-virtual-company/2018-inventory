@@ -47,15 +47,6 @@ class Reports extends CI_Controller
     {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         // $this->load->helper('form');
-        $data['reportNew'] = $this->reports_model->getCountNew();
-        //call function getCountNew from mode to use in view
-        $data['reportFair'] = $this->reports_model->getCountFair();
-        //call function from mode to use in view
-        $data['reportDamaged'] = $this->reports_model->getCountDamaged();
-        //call function from mode to use in view
-        $data['reportBroken'] = $this->reports_model->getCountBroken();
-        //call function from mode to use in view
-        // var_dump($data['reportNew']); die();
         $data['title']            = 'Items Report:';
         $data['activeLink']       = 'others';
         $data['flashPartialView'] = $this->load->view('templates/flash', $data, true);
@@ -73,7 +64,65 @@ class Reports extends CI_Controller
      */
     public function showDepCount()
     {
-        $resultDep = $this->reports_model->getItemByDepartment();
-        echo json_encode($resultDep);
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemByDepartment();
+        $obj->title = "Number of items by condition:";
+        echo json_encode($obj);
     }//end showDepCount()
+
+    public function getCountCondition()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getCountCondition();
+        $obj->title = "condition";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByCategory()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByCategory();
+        $obj->title = "category";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByMaterial()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByMaterial();
+        $obj->title = "material";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByDepartment()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByDepartment();
+        $obj->title = "department";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByBrand()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByBrand();
+        $obj->title = "brand";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByLocation()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByLocation();
+        $obj->title = "location";
+        echo json_encode($obj);
+    }
+
+    public function getItemCountByOwner()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByOwner();
+        $obj->title = "owner";
+        echo json_encode($obj);
+    }
 }//end class
