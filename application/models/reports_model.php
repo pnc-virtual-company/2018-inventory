@@ -9,7 +9,8 @@
  */
 
 if (!defined('BASEPATH')) {
-    exit('No direct script access allowed'); }
+    exit('No direct script access allowed');
+}
 
 /**
  * This model contains the business logic and manages the persistence of users and roles
@@ -24,89 +25,73 @@ class Reports_model extends CI_Model
      */
     public function __construct()
     {
-
     }//end __construct()
 
 
-    /**
-     * Get the list of users or one user
-     *
-     * @param int $id optional id of one user
-     * @return array record of users
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-
-    // // model to get the report from
-    // public function getReport($id = 0)
-    // {
-    //     $this->db->select('item.*');
-    //     if ($id === 0) {
-    //         $query = $this->db->get('item');
-    //         return $query->result_array();
-    //     }
-    //     $query = $this->db->get_where('item', array('item.iditem' => $id));
-    //     return $query->row_array();
-    // }
-
-    /**
-     * Get the list of users and their roles
-     *
-     * @return array record of users
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-
-
-    /**
-     * Model to count all the condition New from table item
-     * @return bool true if succed
-     */
-    public function getCountNew()
+    public function getCountCondition()
     {
-        $this->db->select("COUNT(item.condition) AS countNew");
-        $countQuery = $this->db->get_where('item', ['item.condition' => 'New']);
-        return $countQuery->result();
 
-    }//end getCountNew()
+      // 'SELECT i.condition, count(i.condition) as count FROM `item` i WHERE 1 GROUP BY i.condition'
+        $this->db->select('item.condition as key, count(item.condition) as count');
+        $this->db->group_by("item.condition");
+        $query = $this->db->get('item');
+        return $query->result();
+    }
 
-
-    /**
-     * Model to count all the condition Fair from table item
-     * @return bool true if succed
-     */
-    public function getCountFair()
+    public function getItemCountByCategory()
     {
-        $this->db->select("COUNT(item.condition) AS countFair");
-        $countQuery = $this->db->get_where('item', ['item.condition' => 'Fair']);
-        return $countQuery->result();
+        $this->db->select('category.category as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'category.idcategory=item.categoryid', 'left');
+        $this->db->group_by(["category.idcategory"]);
+        $query = $this->db->get('category');
+        return $query->result();
+    }
 
-    }//end getCountFair()
-
-
-    /**
-     * Model to count all the condition Danaged from table item
-     * @return bool true if succed
-     */
-    public function getCountDamaged()
+    public function getItemCountByMaterial()
     {
-        $this->db->select("COUNT(item.condition) AS countDamaged");
-        $countQuery = $this->db->get_where('item', ['item.condition' => 'Damaged']);
-        return $countQuery->result();
+        $this->db->select('material.material as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'material.idmaterial=item.materialid', 'left');
+        $this->db->group_by(["material.idmaterial"]);
+        $query = $this->db->get('material');
+        return $query->result();
+    }
 
-    }//end getCountDamaged()
-
-
-    /**
-     * Model to count all the condition Broken from table item
-     * @return bool TRUE if succed
-     */
-    public function getCountBroken()
+    public function getItemCountByDepartment()
     {
-        $this->db->select("COUNT(item.condition) AS countBroken");
-        $countQuery = $this->db->get_where('item', ['item.condition' => 'Broken']);
-        return $countQuery->result();
+        $this->db->select('department.department as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'department.iddepartment=item.departmentid', 'left');
+        $this->db->group_by(["department.iddepartment"]);
+        $query = $this->db->get('department');
+        return $query->result();
+    }
 
-    }//end getCountBroken()
+    public function getItemCountByBrand()
+    {
+        $this->db->select('brand.brand as key, COUNT(item.iditem) AS count');
+        $this->db->join('model', 'brand.idbrand=model.brandid', 'left');
+        $this->db->join('item', 'model.idmodel=item.modelid', 'left');
+        $this->db->group_by(["brand.idbrand"]);
+        $query = $this->db->get('brand');
+        return $query->result();
+    }
 
+    public function getItemCountByLocation()
+    {
+        $this->db->select('location.location as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'location.idlocation=item.locationid', 'left');
+        $this->db->group_by(["location.idlocation"]);
+        $query = $this->db->get('location');
+        return $query->result();
+    }
+
+    public function getItemCountByOwner()
+    {
+        $this->db->select('owner.owner as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'owner.idowner=item.ownerid', 'left');
+        $this->db->group_by(["owner.idowner"]);
+        $query = $this->db->get('owner');
+        return $query->result();
+    }
 
     /**
      * This function is to get all the item that have relationship with the department
@@ -114,13 +99,10 @@ class Reports_model extends CI_Model
      */
     public function getItemByDepartment()
     {
-        $this->db->select('department.department, COUNT(item.iditem) AS itemcount');
+        $this->db->select('department.departmentn as key, COUNT(item.iditem) AS count');
         $this->db->join('item', 'department.iddepartment=item.departmentid', 'left');
         $this->db->group_by(["department.iddepartment"]);
         $query = $this->db->get('department');
         return $query->result();
-
     }//end getItemByDepartment()
-
-
 }//end class

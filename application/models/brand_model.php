@@ -10,7 +10,6 @@ class Brand_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
     }//end __construct()
 
 
@@ -20,20 +19,23 @@ class Brand_model extends CI_Model
      */
     public function showAllBrand()
     {
-        $this->db->select('idbrand, brand, count(model.idmodel) AS "ModelCount" ');
-        $this->db->from('brand');
+        // $query = $this->db->get('brand');
+        // if ($query->num_rows() > 0) {
+        //     return $query->result();
+        // } else {
+        //     return false;
+        // }
+        $this->db->select('brand.idbrand, brand.brand, count(model.idmodel) AS "ModelCount" ');
         $this->db->join('model', 'model.brandid = brand.idbrand', 'left');
-        $this->db->group_by('brand.brand');
-        $query = $this->db->get();
+        $this->db->group_by('brand.idbrand');
+        $query = $this->db->get('brand');
 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
         }
-
     }//end showAllBrand()
-
 
     /**
      * Create brand into database by $data
@@ -44,7 +46,6 @@ class Brand_model extends CI_Model
     {
         $this->db->insert('brand', $data);
         return $insert_id = $this->db->insert_id();
-
     }//end create_brand()
 
 
@@ -57,7 +58,6 @@ class Brand_model extends CI_Model
     {
         $this->db->where('idbrand', $id);
         $this->db->delete('brand');
-
     }//end deleteBrand()
 
 
@@ -75,7 +75,6 @@ class Brand_model extends CI_Model
         } else {
             return false;
         }
-
     }//end showEditBrand()
 
 
@@ -93,8 +92,5 @@ class Brand_model extends CI_Model
         ];
         $this->db->where('idbrand', $idbrand);
         return $this->db->replace('brand', $data);
-
     }//end updateBrand()
-
-
 }//end class

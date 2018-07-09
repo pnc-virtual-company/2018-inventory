@@ -7,6 +7,15 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 tr:hover{cursor: pointer;}
+
+.selection .select2-selection {
+  height: 37px;
+  padding-top: 3px;
+}
+
+.selection .select2-selection .select2-selection__arrow {
+  height: 37px;
+}
 </style>
 <div class="container bg-light">
   <div class="row-fluid">
@@ -132,10 +141,18 @@ tr:hover{cursor: pointer;}
               <div class="form-group">
                 <label for="sel1">Condition:</label>
                 <select class="form-control" id="sel1" name="conditionitem">
-                  <option value="New">New</option>
-                  <option value="Fair">Fair</option>
-                  <option value="Damaged" selected>Damaged</option>
-                  <option value="Broken">Broken</option>
+                  <option value="New" <?php if ($value->condition == 'New') {
+            echo 'selected';
+        } ?>>New</option>
+                  <option value="Fair" <?php if ($value->condition == 'Fair') {
+            echo 'selected';
+        } ?>>Fair</option>
+                  <option value="Damaged"  <?php if ($value->condition == 'Damaged') {
+            echo 'selected';
+        } ?>>Damaged</option>
+                  <option value="Broken" <?php if ($value->condition == 'Broken') {
+            echo 'selected';
+        } ?>>Broken</option>
                 </select>
               </div>
               <?php  $condition = $value->date; ?>
