@@ -141,10 +141,18 @@ tr:hover{cursor: pointer;}
               <div class="form-group">
                 <label for="sel1">Condition:</label>
                 <select class="form-control" id="sel1" name="conditionitem">
-                  <option value="New">New</option>
-                  <option value="Fair">Fair</option>
-                  <option value="Damaged" selected>Damaged</option>
-                  <option value="Broken">Broken</option>
+                  <option value="New" <?php if ($value->condition == 'New') {
+            echo 'selected';
+        } ?>>New</option>
+                  <option value="Fair" <?php if ($value->condition == 'Fair') {
+            echo 'selected';
+        } ?>>Fair</option>
+                  <option value="Damaged"  <?php if ($value->condition == 'Damaged') {
+            echo 'selected';
+        } ?>>Damaged</option>
+                  <option value="Broken" <?php if ($value->condition == 'Broken') {
+            echo 'selected';
+        } ?>>Broken</option>
                 </select>
               </div>
               <?php  $condition = $value->date; ?>
