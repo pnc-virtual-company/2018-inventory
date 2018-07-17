@@ -33,24 +33,6 @@ CREATE TABLE IF NOT EXISTS `borrow` (
   PRIMARY KEY (`idBorrow`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `borrow`
---
-
-INSERT INTO `borrow` (`idBorrow`, `borrower`, `itemBorrow`, `startDate`, `returnDate`, `actualDate`) VALUES
-(31, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', '2018-05-28'),
-(32, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', '2018-05-28'),
-(33, 'Admin ADMINISTRATOR', '15', '2018-05-28', '0000-00-00', '2018-05-28'),
-(34, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', NULL),
-(35, 'Admin ADMINISTRATOR', '16', '2018-05-28', '2018-05-29', '2018-05-30'),
-(36, 'Admin ADMINISTRATOR', '15', '2018-05-28', '2018-05-29', '2018-05-28'),
-(37, 'Admin ADMINISTRATOR', '15', '2018-05-24', '2018-05-26', '2018-05-29'),
-(38, 'Soheng CHHUM', '18', '2018-05-28', '2018-05-29', '2018-05-28'),
-(39, 'Test TEST', '20', '2018-05-30', '2018-05-31', NULL),
-(40, 'Admin ADMINISTRATOR', '16', '2018-05-30', '0000-00-00', '2018-05-29'),
-(41, 'Admin ADMINISTRATOR', '16', '2018-05-10', '0000-00-00', NULL),
-(42, 'Admin ADMINISTRATOR', '18', '0000-00-00', '0000-00-00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -69,16 +51,17 @@ CREATE TABLE IF NOT EXISTS `brand` (
 --
 
 INSERT INTO `brand` (`idbrand`, `brand`) VALUES
-(2, 'Philips'),
-(3, 'sony'),
-(5, 'Unknown'),
-(6, 'Sony'),
-(7, 'Microtic '),
-(8, 'SAMSUNG'),
-(9, 'LG'),
-(10, 'Panasonic'),
-(12, 'sony'),
-(14, 'Samsung');
+(1, 'Philips'),
+(2, 'Sony'),
+(3, 'Unknown'),
+(4, 'Sony'),
+(5, 'Microtik'),
+(6, 'SAMSUNG'),
+(7, 'LG'),
+(8, 'Panasonic'),
+(9, 'Lenovo'),
+(10, 'HP'),
+(11, 'Samsung');
 
 -- --------------------------------------------------------
 
@@ -99,13 +82,13 @@ CREATE TABLE IF NOT EXISTS `category` (
 --
 
 INSERT INTO `category` (`idcategory`, `category`) VALUES
-(3, 'Garden'),
-(6, 'Fan'),
-(10, 'Pen'),
-(12, 'Air conditioner'),
-(13, 'Chair'),
-(14, 'Desktop'),
-(15, 'Laptop');
+(1, 'Garden'),
+(2, 'Fan'),
+(3, 'Pen'),
+(4, 'Air conditioner'),
+(5, 'Chair'),
+(6, 'Desktop'),
+(7, 'Laptop');
 
 -- --------------------------------------------------------
 
@@ -128,8 +111,7 @@ INSERT INTO `department` (`iddepartment`, `department`) VALUES
 (1, 'Admin & Finance'),
 (3, 'WEP'),
 (4, 'SNA'),
-(5, 'Training '),
-(7, 'Test2');
+(5, 'Training');
 
 -- --------------------------------------------------------
 
@@ -169,11 +151,10 @@ CREATE TABLE IF NOT EXISTS `item` (
 --
 
 INSERT INTO `item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemcost`, `condition`, `status`, `materialid`, `categoryid`, `departmentid`, `locationid`, `modelid`, `ownerid`, `userid`) VALUES
-(15, 'A22-F', '0000-00-00', 'Chair by ANZ', 'This chair was donated by ANZ company.', '', 'Damaged', '2', 2, 13, 3, 2, 0, 3, 9),
-(16, 'B21-G', '0000-00-00', 'RJ45 cable', 'This item was owned by SNA student for VC2.', '', 'Damaged', '2', 2, 0, 4, 1, 0, 2, 5),
-(18, 'A22-I', '2018-05-15', 'Apple airII', 'This computer was donated by Chip Mong Group Company.', '219', 'New', '2', 5, 15, 3, 2, 4, 2, 1),
-(19, 'Teachers room-J', '0000-00-00', 'Apple air 2', '', '', 'Fair', '0', 3, 15, 3, 3, 0, 2, 9),
-(21, 'Test2-J', '0000-00-00', 'Test_Item', 'this is a test', '', 'Broken', '0', 6, 17, 7, 5, 7, 6, 7);
+(1, '', '0000-00-00', 'Simple chair', 'A chair made of wood', '', 'New', '0', 1, 5, 3, 0, 0, 0, 0),
+(2, '', '0000-00-00', 'Computer', 'It is a laptop', '', 'New', '0', 4, 7, 0, 0, 2, 3, 0),
+(24, '-O', '0000-00-00', 'Plastic chair', 'Cheap chair', '', 'Fair', '0', 0, 5, 0, 0, 0, 0, 0),
+(25, 'A22-P', '0000-00-00', 'Chair \'executive\'', 'Enhanced version', '', 'Damaged', '0', 4, 5, 0, 2, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -196,8 +177,7 @@ INSERT INTO `location` (`idlocation`, `location`) VALUES
 (1, 'B21'),
 (2, 'A22'),
 (3, 'Teachers room'),
-(4, 'Strorage room'),
-(5, 'Test2');
+(4, 'Strorage room');
 
 -- --------------------------------------------------------
 
@@ -221,8 +201,7 @@ INSERT INTO `material` (`idmaterial`, `material`) VALUES
 (2, 'Plastic'),
 (3, 'Resin'),
 (4, 'Composite'),
-(5, 'Iron'),
-(6, 'Test2');
+(5, 'Iron');
 
 -- --------------------------------------------------------
 
@@ -244,13 +223,12 @@ CREATE TABLE IF NOT EXISTS `model` (
 --
 
 INSERT INTO `model` (`idmodel`, `model`, `brandid`) VALUES
-(1, 'Lenovo X2', NULL),
-(2, 'Lenovo X2', NULL),
-(3, 'Lenovo T1', NULL),
-(4, 'ProBook6440b', 2),
-(5, 'ProBook70b', 2),
-(6, 'ProBook6460b', 2),
-(7, 'Test2', NULL);
+(1, 'Lenovo X2', 9),
+(2, 'Lenovo X2', 9),
+(3, 'Lenovo T1', 9),
+(4, 'ProBook 6440b', 10),
+(5, 'ProBook 70b', 10),
+(6, 'ProBook 6460b', 10);
 
 -- --------------------------------------------------------
 
@@ -270,11 +248,9 @@ CREATE TABLE IF NOT EXISTS `owner` (
 --
 
 INSERT INTO `owner` (`idowner`, `owner`) VALUES
-(1, 'EDU department '),
+(1, 'EDU department'),
 (2, 'IT admin'),
-(3, 'ERO'),
-(4, 'Reth NHEL'),
-(6, 'Test2');
+(3, 'ERO');
 
 -- --------------------------------------------------------
 
@@ -322,16 +298,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `login`, `password`, `active`, `role`) VALUES
-(1, 'Benjamin', 'BALET', 'benjamin.balet@gmail.com', 'bbalet', '$2a$08$LeUbaGFqJjLSAN7to9URsuHB41zcmsMBgBhpZuFp2y2OTxtVcMQ.C', 1, 1),
-(2, 'john', 'DOE', 'jdoe@test.org', 'jdoe', '$2a$08$sZjK.lypJ7EQLwvZ8sLRd.FiUEBsDuCsJg9UCw0n0U/pR.hj0o9lC', 1, 2),
-(3, 'Bob', 'DENARD', 'bdenard@test.org', 'bdenard', '$2a$08$14jdHTPUZe5.zXxQ1NqhhO83xUt2Zkr.csGw10BH75B3VrJiNU8Bq', 1, 2),
-(5, 'Admin', 'ADMINISTRATOR', 'admin@skeleton.org', 'admin', '$2a$08$cnX6al6aTkoyh/N/tKZ11e8ec9J/sldA6R4NdP.2qhhDi0OD3ek1G', 1, 1),
-(7, 'Panha', 'HUOR', 'panha.huor@student.passerellesnumeriques.org', 'panha', '$2a$08$rPG73j58iO1hu/OvMgH1Ze538r5PQRpPtWihpaKGp7SsLJmHXlSw2', 1, 2),
-(8, 'Dalin', 'LOEM', 'dalin@gmail.com', 'dloem', '$2a$08$sQQVERlHQG4V4Dn/ZE.HL.mWspgrJPnSwsx/TY7Up6w2KUD1AaVYS', NULL, 2),
-(9, 'Soheng', 'CHHUM', 'soheng.chhum@gmail.com', 'schhum', '$2a$08$UcrXBNozwnhycsmseqqBJ.6yKyGjrCvTgRyu6sRZ6N/FGWCIzdlrq', NULL, 2),
-(10, 'Bunla', 'RATH', 'bunla.rath@gmail.com', 'brath', '$2a$08$Q0UZHEUEVJOKoEM2PltdEemd59HEUn8ca5JSomEcI1iNTo.HvByge', NULL, 2),
-(11, 'Sinat', 'NEAM', 'dalin@gmail.com', 'sneam', '$2a$08$pJN5p0tP3XLNEq0atUA6a.lUEsNGlFhV3lxz53TY7AuIq7C.jQhMy', NULL, 2),
-(15, 'Test_Matt', 'TEST', 'faefea', 'ttest', '$2a$08$33nDde6DgjSEj/ugJvmJseYoWdDXKwdZvXApJxVOTAVkns.//1eN2', 1, 2);
+(1, 'Admin', 'ADMINISTRATOR', 'admin@ims.org', 'admin', '$2a$08$cnX6al6aTkoyh/N/tKZ11e8ec9J/sldA6R4NdP.2qhhDi0OD3ek1G', 1, 1);
 
 --
 -- Constraints for dumped tables
