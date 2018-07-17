@@ -1,26 +1,20 @@
--- phpMyAdmin SQL Dump
--- version 4.7.9
--- https://www.phpmyadmin.net/
+-- ---------------------------------------------------
+-- Inventory Management System Schema definition
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 30, 2018 at 04:51 AM
--- Server version: 5.7.21
--- PHP Version: 7.2.4
+-- @license      http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `2018vc2gc_inventory_management`
---
+CREATE DATABASE IF NOT EXISTS inventory CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE inventory;
 
 -- --------------------------------------------------------
 
@@ -95,7 +89,8 @@ INSERT INTO `brand` (`idbrand`, `brand`) VALUES
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `idcategory` int(11) NOT NULL AUTO_INCREMENT,
-  `category` varchar(45) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `acronym` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`idcategory`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
@@ -121,7 +116,7 @@ INSERT INTO `category` (`idcategory`, `category`) VALUES
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE IF NOT EXISTS `department` (
   `iddepartment` int(11) NOT NULL AUTO_INCREMENT,
-  `department` varchar(45) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`iddepartment`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
@@ -148,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `code` varchar(45) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `item` varchar(45) DEFAULT NULL,
-  `itemdescription` varchar(300) DEFAULT NULL,
+  `itemdescription` TEXT DEFAULT NULL,
   `itemcost` varchar(45) DEFAULT NULL,
   `condition` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
@@ -189,7 +184,7 @@ INSERT INTO `item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemco
 DROP TABLE IF EXISTS `location`;
 CREATE TABLE IF NOT EXISTS `location` (
   `idlocation` int(11) NOT NULL AUTO_INCREMENT,
-  `location` varchar(45) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idlocation`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -213,7 +208,7 @@ INSERT INTO `location` (`idlocation`, `location`) VALUES
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE IF NOT EXISTS `material` (
   `idmaterial` int(11) NOT NULL AUTO_INCREMENT,
-  `material` varchar(45) DEFAULT NULL,
+  `material` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idmaterial`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -238,7 +233,7 @@ INSERT INTO `material` (`idmaterial`, `material`) VALUES
 DROP TABLE IF EXISTS `model`;
 CREATE TABLE IF NOT EXISTS `model` (
   `idmodel` int(11) NOT NULL AUTO_INCREMENT,
-  `model` varchar(45) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
   `brandid` int(11) DEFAULT NULL,
   PRIMARY KEY (`idmodel`),
   KEY `fk_model_brand1_idx` (`brandid`)
@@ -266,7 +261,7 @@ INSERT INTO `model` (`idmodel`, `model`, `brandid`) VALUES
 DROP TABLE IF EXISTS `owner`;
 CREATE TABLE IF NOT EXISTS `owner` (
   `idowner` int(11) NOT NULL AUTO_INCREMENT,
-  `owner` varchar(45) DEFAULT NULL,
+  `owner` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idowner`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -290,7 +285,7 @@ INSERT INTO `owner` (`idowner`, `owner`) VALUES
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
