@@ -125,6 +125,7 @@ class Items extends CI_Controller
         $conditionitem = $this->input->post('conditionitem');
         $dateitem      = $this->input->post('dateitem');
         $costitem      = $this->input->post('costitem');
+        $status        = $this->input->post('statusitem');
 
         // this variable is to get CONV iditem from database to identifier in table Item list
         $getIdMax = $this->items_model->getiditem($id);
@@ -140,7 +141,7 @@ class Items extends CI_Controller
 
         $code = $locnamebyid.'-'.$idmaximum;
 
-        $item_update = $this->items_model->update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id);
+        $item_update = $this->items_model->update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id, $status);
         if ($item_update) {
             $this->session->set_flashdata('msg', 'The item was updated successfully.');
             redirect('items');
@@ -222,30 +223,31 @@ class Items extends CI_Controller
         $form;
         $iditem = $this->input->post('iditem');
         $result = $this->items_model->showDetailItem($iditem);
-        $status = '';
+        $borrowstatus = '';
         if ($result > 0) {
             foreach ($result as $value) {
-                if ($value->status == 0) {
-                    $status = 'Available';
+                if ($value->borrowstatus == 0) {
+                    $borrowstatus = 'Available';
                 } else {
-                    $status = 'Not available';
+                    $borrowstatus = 'Not available';
                 }
 
                 $form = (object)[
-                  'name' => $value->item,
-                  'description' => $value->description,
-                  'code' => $value->code,
-                  'cost' => $value->cost,
-                  'condition' => $value->condition,
-                  'cat' => $value->cat,
-                  'brand' => $value->brand,
-                  'model' => $value->model,
-                  'mat' => $value->mat,
-                  'locat' => $value->locat,
-                  'depat' => $value->depat,
-                  'nameuser' => $value->nameuser,
-                  'owner' => $value->owner,
-                  'status' => $status
+                  'name'         => $value->item,
+                  'description'  => $value->description,
+                  'code'         => $value->code,
+                  'cost'         => $value->cost,
+                  'condition'    => $value->condition,
+                  'cat'          => $value->cat,
+                  'brand'        => $value->brand,
+                  'model'        => $value->model,
+                  'mat'          => $value->mat,
+                  'locat'        => $value->locat,
+                  'depat'        => $value->depat,
+                  'nameuser'     => $value->nameuser,
+                  'owner'        => $value->owner,
+                  'borrowstatus' => $borrowstatus,
+                  'status'       => $value->status
                 ];
             }//end foreach
         }//end if
@@ -339,8 +341,8 @@ class Items extends CI_Controller
 
 
     /**
-     * Function use to return an item and to update status
-     * in database and list item status
+     * Function use to return an item and to update borrowstatus
+     * in database and list item borrowstatus
      * @return void
      */
     public function returnAnItem()
@@ -352,14 +354,14 @@ class Items extends CI_Controller
         //use to get max id of borrower
         $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
         //var_dump($data);die();
-        $status_update = $this->items_model->r_u_borrowstatus($data);
-        //load model for update status in database and table
-        // var_dump($status_update);die();
+        $borrowstatus_update = $this->items_model->r_u_borrowborrowstatus($data);
+        //load model for update borrowstatus in database and table
+        // var_dump($borrowstatus_update);die();
 
-        // validate update status in database table item column status
-        if ($status_update) {
+        // validate update borrowstatus in database table item column borrowstatus
+        if ($borrowstatus_update) {
             redirect('items');
-        // echo "updated status...";
+        // echo "updated borrowstatus...";
         } else {
             echo "Error...";
         }
@@ -367,7 +369,7 @@ class Items extends CI_Controller
 
 
     /**
-     * Condition to make late status if the borrower return later
+     * Condition to make late borrowstatus if the borrower return later
      * than the day they expected to return materail that borrowed
      * @return void
      */
@@ -376,8 +378,8 @@ class Items extends CI_Controller
         $lateIds = $this->items_model->returnLate();
         //print_r($lateIds);
         foreach ($lateIds as $value) {
-            $this->items_model->updateBorrowStatus($value->itemBorrow);
-            //load model update status late
+            $this->items_model->updateBorrowborrowstatus($value->itemBorrow);
+            //load model update borrowstatus late
         }
     }//end returnLate()
 }//end class

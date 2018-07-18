@@ -155,6 +155,16 @@ tr:hover{cursor: pointer;}
         } ?>>Broken</option>
                 </select>
               </div>
+              <div class="form-group">
+                <label for="sel1">Status:</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" aria-label="status" aria-describedby="basic-addon2" id="inputstatus"  value="<?php echo $value->status; ?>" disabled>
+                  <input type="hidden" id="inputstatusid" name="statusitem"  value="<?php echo $value->statusid; ?>">
+                  <div class="input-group-append">
+                    <button id="select_status" class="btn btn-outline-primary" type="button" >Select</button>
+                  </div>
+                </div>
+              </div>
               <?php  $condition = $value->date; ?>
               <!-- item date -->
               <div class="form-group">
@@ -450,6 +460,38 @@ tr:hover{cursor: pointer;}
             </tr>
           </thead>
           <tbody id="displayMod">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Modal footer -->
+    <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+   </div>
+ </div>
+</div>
+</div>
+<!-- select the status modal-->
+<div class="modal  fade hide" id="selectStatus">
+ <div class="modal-dialog modal-lg modal-dialog-centered">
+   <div class="modal-content">
+     <!-- Modal Header -->
+     <div class="modal-header">
+       <h4 class="modal-title">Select status</h4>
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <!-- Modal body -->
+     <div class="modal-body ">
+      <div class="statuslist">
+        <table id="status" cellpadding="0" cellspacing="0" class="table table-bordered" width="100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="displayStatus">
 
           </tbody>
         </table>
@@ -829,6 +871,48 @@ tr:hover{cursor: pointer;}
       $('#inputmodid').val('');
       $('#inputmodid').val(modelid);
       $("#selectModel").modal("hide");
+    });
+
+    // cate function
+    $("#select_status").click(function(){
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url();?>/status/showAllStatus',
+        async: true,
+        dataType: 'json',
+        success: function(data){
+          $('#selectStatus').modal('show');
+          var c = $('#status').DataTable({
+            destroy: true,
+            responsive: true,
+            pageLength: 5,
+            info: false,
+            lengthChange: false
+          });
+          c.clear().draw();
+          var i;
+          var n = 1;
+          for(i=0; i<data.length; i++){
+            c.row.add ( [
+              data[i].idstatus,
+              data[i].status
+              ] ).draw( false );
+            n++;
+          }
+        }
+      });
+    });
+
+    $(document).on("click", "#status tbody tr", function() {
+      $('#status tbody tr').removeClass("highlight");
+      $(this).addClass("highlight");
+      catid= $(this).find("td:eq(0)").html();
+      catname= $(this).find("td:eq(1)").html();
+      $('#inputstatus').val('');
+      $('#inputstatus').val(catname);
+      $('#inputstatusid').val('');
+      $('#inputstatusid').val(catid);
+      $("#selectStatus").modal("hide");
     });
 
 

@@ -38,7 +38,6 @@ $(document).ready(function() {
       async: true,
       dataType: 'json',
       success: function(data) {
-        console.log('data', data);
         t.clear().draw(); //this funciton is for make a result don't have dupplicate result
         var n = 1; //variable for count number
         var i;
@@ -54,7 +53,6 @@ $(document).ready(function() {
           );
           row += '&nbsp;<a href="#" class="item-view" dataid="' + data[i].iditem + '" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>';
           if (data[i].borrowstatus === '0') {
-            console.log("I'm here");
             //Borrow Status available.
             row += `&nbsp;<a href="${baseUrl}items/borrower/${data[i].iditem}" class="item" dataid="${data[i].iditem}"><i class="mdi mdi-cart-outline" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>`;
             borrowstatus = '<span class="badge badge-success">Available</span>';
@@ -86,7 +84,7 @@ $(document).ready(function() {
           }
           t.row.add([
             row,
-            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, borrowstatus, date
+            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].status, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, borrowstatus, date
           ]).draw(false);
           n++;
         }
@@ -152,6 +150,7 @@ $(document).ready(function() {
         $('#detail-label').html(data.code);
         $('#detail-cost').html(data.cost ? data.cost : 0);
         $('#detail-condition').html(data.condition);
+        $('#detail-status').html(data.status);
         $('#detail-type').html(data.cat);
         $('#detail-brand').html(data.brand);
         $('#detail-model').html(data.model);

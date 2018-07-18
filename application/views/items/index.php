@@ -123,6 +123,7 @@
             <th>Category</th>
             <th>Material</th>
             <th>Condition</th>
+            <th>Status</th>
             <th>Department</th>
             <th>Location</th>
             <th>User</th>
@@ -215,6 +216,10 @@
               <td id="detail-condition"></td>
             </tr>
             <tr>
+              <td>Status </td>
+              <td id="detail-status"></td>
+            </tr>
+            <tr>
               <td>Type </td>
               <td id="detail-type"></td>
             </tr>
@@ -249,7 +254,7 @@
             </tr>
             <tr>
               <td>Borrow Status </td>
-              <td id="detail-status"></td>
+              <td id="detail-borrowstatus"></td>
             </tr>
             <!-- for show data detail from controller -->
 
