@@ -24,8 +24,8 @@ class Items_model extends CI_Model
 
     /**
      * Controller when export an item into excel file
-     * @param  integer $id id
-     * @return any         result
+     * @param  int $id id
+     * @return mixed         result
      */
     public function getitems($id=0)
     {
@@ -55,7 +55,7 @@ class Items_model extends CI_Model
     /**
      * This is use to edit for the item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showEditItems($id)
     {
@@ -82,7 +82,7 @@ class Items_model extends CI_Model
     /**
      * Select the item detail for show into modal
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showDetailItem($id)
     {
@@ -108,7 +108,7 @@ class Items_model extends CI_Model
 
     /**
      * This function in model is use for select the data from database in table item to show list item
-     * @return any result
+     * @return mixed result
      */
     public function showAllItems()
     {
@@ -143,7 +143,7 @@ class Items_model extends CI_Model
 
     /**
      * Get itemid maximum id with convert into Letter for create
-     * @return any result
+     * @return mixed result
      */
     public function getmaxiditem()
     {
@@ -160,7 +160,7 @@ class Items_model extends CI_Model
     /**
      * Get item id with convert for update data
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function getiditem($id)
     {
@@ -178,7 +178,7 @@ class Items_model extends CI_Model
     /**
      * Get location by id to show into list item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function getLocById($id)
     {
@@ -194,20 +194,20 @@ class Items_model extends CI_Model
 
     /**
      * Insert the data from form create an item into table item in database
-     * @param  any $nameitem      name item
-     * @param  any $desitem       des item
-     * @param  any $catitem       cat item
-     * @param  any $matitem       mat item
-     * @param  any $depitem       dep item
-     * @param  any $locitem       loc item
-     * @param  any $moditem       mod item
-     * @param  any $useritem      user item
-     * @param  any $ownitem       own item
-     * @param  any $conditionitem condition item
-     * @param  any $dateitem      date item
-     * @param  any $costitem      cost item
-     * @param  any $code          code
-     * @return any                result
+     * @param  mixed $nameitem      name item
+     * @param  mixed $desitem       des item
+     * @param  mixed $catitem       cat item
+     * @param  mixed $matitem       mat item
+     * @param  mixed $depitem       dep item
+     * @param  mixed $locitem       loc item
+     * @param  mixed $moditem       mod item
+     * @param  mixed $useritem      user item
+     * @param  mixed $ownitem       own item
+     * @param  mixed $conditionitem condition item
+     * @param  mixed $dateitem      date item
+     * @param  mixed $costitem      cost item
+     * @param  mixed $code          code
+     * @return mixed                result
      */
     public function add_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code)
     {
@@ -238,21 +238,21 @@ class Items_model extends CI_Model
 
     /**
      * To get data from form update an item to update into database in table item
-     * @param  any $nameitem      name item
-     * @param  any $desitem       des item
-     * @param  any $catitem       cat item
-     * @param  any $matitem       mat item
-     * @param  any $depitem       dep item
-     * @param  any $locitem       loc item
-     * @param  any $moditem       mod item
-     * @param  any $useritem      user item
-     * @param  any $ownitem       own item
-     * @param  any $conditionitem condition item
-     * @param  any $dateitem      date item
-     * @param  any $costitem      cost item
-     * @param  any $code          code
+     * @param  mixed $nameitem      name item
+     * @param  mixed $desitem       des item
+     * @param  mixed $catitem       cat item
+     * @param  mixed $matitem       mat item
+     * @param  mixed $depitem       dep item
+     * @param  mixed $locitem       loc item
+     * @param  mixed $moditem       mod item
+     * @param  mixed $useritem      user item
+     * @param  mixed $ownitem       own item
+     * @param  mixed $conditionitem condition item
+     * @param  mixed $dateitem      date item
+     * @param  mixed $costitem      cost item
+     * @param  mixed $code          code
      * @param  int $id            id
-     * @return any                result
+     * @return mixed                result
      */
     public function update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id)
     {
@@ -283,7 +283,7 @@ class Items_model extends CI_Model
 
     /**
      * Use to get value of userS for borrow item by id
-     * @return any result
+     * @return mixed result
      */
     public function showUser()
     {
@@ -300,7 +300,7 @@ class Items_model extends CI_Model
     /**
      * Use to get list of borrower by id into form borrow an item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showListBorrower($id)
     {
@@ -318,10 +318,10 @@ class Items_model extends CI_Model
 
     /**
      * This function use for insert data into borrower table in database
-     * @param  any  $borrower   borrower
-     * @param  any  $item       item
-     * @param  date $startDate  start date
-     * @param  date $returnDate return date
+     * @param  mixed  $borrower   borrower
+     * @param  mixed  $item       item
+     * @param  DateTime $startDate  start date
+     * @param  DateTime $returnDate return date
      * @return int              id of inserted result
      */
     public function insertBorrow($borrower, $item, $startDate, $returnDate)
@@ -344,7 +344,7 @@ class Items_model extends CI_Model
     /**
      * Use to get list of return item by id into form return an item when click on return item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function returnitem($id)
     {
@@ -374,8 +374,8 @@ class Items_model extends CI_Model
 
     /**
      * Use to return and update borrowstatus in database
-     * @param  any $data data
-     * @return any       result
+     * @param  mixed $data data
+     * @return mixed       result
      */
     public function r_u_borrowstatus($data)
     {
@@ -395,7 +395,7 @@ class Items_model extends CI_Model
     /**
      * Function to select expected return date to make condition in late borrowstatus
      * to show in the item list(auto update borrowstatus)
-     * @return any result
+     * @return mixed result
      */
     public function returnLate()
     {
