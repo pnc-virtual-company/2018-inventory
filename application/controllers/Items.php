@@ -352,7 +352,7 @@ class Items extends CI_Controller
         //use to get max id of borrower
         $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
         //var_dump($data);die();
-        $status_update = $this->items_model->r_u_status($data);
+        $status_update = $this->items_model->r_u_borrowstatus($data);
         //load model for update status in database and table
         // var_dump($status_update);die();
 
@@ -376,7 +376,7 @@ class Items extends CI_Controller
         $lateIds = $this->items_model->returnLate();
         //print_r($lateIds);
         foreach ($lateIds as $value) {
-            $this->items_model->updateStatus($value->itemBorrow);
+            $this->items_model->updateBorrowStatus($value->itemBorrow);
             //load model update status late
         }
     }//end returnLate()

@@ -127,7 +127,7 @@
             <th>Location</th>
             <th>User</th>
             <th>Owner</th>
-            <th>Status</th>
+            <th>Borrow Status</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -248,7 +248,7 @@
               <td id="detail-owner"></td>
             </tr>
             <tr>
-              <td>Status </td>
+              <td>Borrow Status </td>
               <td id="detail-status"></td>
             </tr>
             <!-- for show data detail from controller -->

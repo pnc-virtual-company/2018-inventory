@@ -86,7 +86,7 @@ class Items_model extends CI_Model
      */
     public function showDetailItem($id)
     {
-        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", CONCAT(users.firstname," ",users.lastname) AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.code, status');
+        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", CONCAT(users.firstname," ",users.lastname) AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.code, borrowstatus');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -112,7 +112,7 @@ class Items_model extends CI_Model
      */
     public function showAllItems()
     {
-        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",status,date');
+        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",borrowstatus,date');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -224,7 +224,7 @@ class Items_model extends CI_Model
             'condition'       => $conditionitem,
             'date'            => $dateitem,
             'itemcost'        => $costitem,
-            'status'          => '0',
+            'borrowstatus'          => '0',
             'code'            => $code,
         ];
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
@@ -269,7 +269,7 @@ class Items_model extends CI_Model
             'condition'       => $conditionitem,
             'date'            => $dateitem,
             'itemcost'        => $costitem,
-            'status'          => '0',
+            'borrowstatus'          => '0',
             'code'            => $code,
         ];
         $this->db->where('item.iditem', $id);
@@ -334,7 +334,7 @@ class Items_model extends CI_Model
         ];
         $query = $this->db->insert('borrow', $data);
 
-        $this->db->set('status', '1');
+        $this->db->set('borrowstatus', '1');
         $this->db->where('item.iditem', $item);
         $this->db->update('item');
         return $query;
@@ -373,13 +373,13 @@ class Items_model extends CI_Model
 
 
     /**
-     * Use to return and update status in database
+     * Use to return and update borrowstatus in database
      * @param  any $data data
      * @return any       result
      */
-    public function r_u_status($data)
+    public function r_u_borrowstatus($data)
     {
-        $this->db->set('status', '0');
+        $this->db->set('borrowstatus', '0');
         $this->db->where('item.iditem', $data['itemId']);
         $s_update = $this->db->update('item');
         $this->db->set('actualDate', $data['actualDate']);
@@ -389,39 +389,39 @@ class Items_model extends CI_Model
         $this->db->update('borrow');
 
         return $s_update;
-    }//end r_u_status()
+    }//end r_u_borrowstatus()
 
 
     /**
-     * Function to select expected return date to make condition in late status
-     * to show in the item list(auto update status)
+     * Function to select expected return date to make condition in late borrowstatus
+     * to show in the item list(auto update borrowstatus)
      * @return any result
      */
     public function returnLate()
     {
-        // $query= $this->db->query('select max(borrow.returnDate) AS reDate, iditem from borrow inner join item where item.iditem = borrow.itemBorrow and item.`status`=1');
+        // $query= $this->db->query('select max(borrow.returnDate) AS reDate, iditem from borrow inner join item where item.iditem = borrow.itemBorrow and item.`borrowstatus`=1');
         // return $query->result();
         $this->db->select('itemBorrow');
         $this->db->from('borrow');
         $this->db->join('item', 'borrow.itemBorrow = item.iditem');
         $this->db->where('actualDate', null);
         $this->db->where('returnDate <', date('Y/m/d'));
-        $this->db->where('status', 1);
+        $this->db->where('borrowstatus', 1);
         $query = $this->db->get();
         return $query->result();
     }//end returnLate()
 
 
     /**
-     * This use for auto update status when borrower return an item later than expected return date
+     * This use for auto update borrowstatus when borrower return an item later than expected return date
      * @param  int $id id
-     * @return bool    true if status is updated
+     * @return bool    true if borrowstatus is updated
      */
-    public function updateStatus($id)
+    public function updateBorrowStatus($id)
     {
-        $this->db->set('status', '2');
+        $this->db->set('borrowstatus', '2');
         $this->db->where('item.iditem', $id);
         $s_update = $this->db->update('item');
         return $s_update;
-    }//end updateStatus()
+    }//end updateBorrowStatus()
 }//end class
