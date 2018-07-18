@@ -226,11 +226,26 @@ class Items extends CI_Controller
         $borrowstatus = '';
         if ($result > 0) {
             foreach ($result as $value) {
-                if ($value->borrowstatus == 0) {
-                    $borrowstatus = 'Available';
-                } else {
-                    $borrowstatus = 'Not available';
-                }
+                switch ($value->borrowstatus) {
+                case 0:
+                  $borrowstatus = 'Available';
+                  break;
+                case 1:
+                  $borrowstatus = 'Borrowed';
+                  break;
+                case 2:
+                  if ($this->connection_model->isAdmin()) {
+                      $borrowstatus = 'Late';
+                  } else {
+                      $borrowstatus = 'Borrowed';
+                  }
+                  break;
+                case 3:
+                  $borrowstatus = 'Not available';
+                  break;
+                default:
+                  $borrowstatus = 'Not available';
+              }
 
                 $form = (object)[
                   'name'         => $value->item,
@@ -354,7 +369,7 @@ class Items extends CI_Controller
         //use to get max id of borrower
         $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
         //var_dump($data);die();
-        $borrowstatus_update = $this->items_model->r_u_borrowborrowstatus($data);
+        $borrowstatus_update = $this->items_model->r_u_borrowstatus($data);
         //load model for update borrowstatus in database and table
         // var_dump($borrowstatus_update);die();
 
@@ -378,7 +393,7 @@ class Items extends CI_Controller
         $lateIds = $this->items_model->returnLate();
         //print_r($lateIds);
         foreach ($lateIds as $value) {
-            $this->items_model->updateBorrowborrowstatus($value->itemBorrow);
+            $this->items_model->updateBorrowstatus($value->itemBorrow);
             //load model update borrowstatus late
         }
     }//end returnLate()

@@ -19,7 +19,7 @@
           <h2><?php echo $title;?></h2>
         </div>
         <div class="col-3">
-         <!-- create new department -->
+         <!-- create new status -->
          <button type="button" class="btn btn-primary add-status float-right" id="add-status">
            <i class="mdi mdi-plus-circle"></i>&nbsp;Create status
          </button>

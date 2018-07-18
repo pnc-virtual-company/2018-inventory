@@ -75,6 +75,13 @@ $(document).ready(function() {
             borrowstatus = hasPrivilege ?
               '<span class="badge badge-danger">Late</span>' :
               '<span class="badge badge-warning">Borrowed</span>';
+          } else if (data[i].borrowstatus === '3') {
+            // row += privilegedItem(() =>
+            //   `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
+            //           class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
+            //               data-toggle="tooltip" title="Return"></i></a >`
+            // );
+            borrowstatus = '<span class="badge badge-danger">Not Available</span>';
           }
           date = new Date(data[i].date);
           if (!date.getTime()) {
@@ -273,6 +280,44 @@ $(document).ready(function() {
     $('.conditionList li').removeClass("highlight");
     filterTable();
   })
+
+  // Select status function
+  $("#select_status").click(function() {
+    $('#selectStatus').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#status').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
+    c.clear().draw();
+    $.ajax({
+      type: 'POST',
+      url: `${baseUrl}status/showAllStatus`,
+      async: true,
+      dataType: 'json',
+    }).done(function(data) {
+      var i;
+      var n = 1;
+      for (i = 0; i < data.length; i++) {
+        c.row.add([
+          data[i].status
+        ]).draw(false);
+        n++;
+      }
+    })
+  });
+
+  $(document).on("click", "#status tbody tr", function() {
+    $('#status tbody tr').removeClass("highlight");
+    $(this).addClass("highlight");
+    valueFilter = $(this).find("td:eq(0)").html();
+    addFilterBadge('Status', valueFilter);
+    $("#selectStatus").modal("hide");
+    filterTable();
+  });
 
   //select department function
   $("#select_department").click(function() {

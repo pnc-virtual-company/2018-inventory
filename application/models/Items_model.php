@@ -228,7 +228,7 @@ class Items_model extends CI_Model
             'date'            => $dateitem,
             'itemcost'        => $costitem,
             'borrowstatus'    => '0',
-            'status'          => '0',
+            'statusid'          => '0',
             'code'            => $code,
         ];
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
@@ -277,6 +277,13 @@ class Items_model extends CI_Model
             'code'            => $code,
             'statusid'        => $statusid
         ];
+        if ($this->getStatus($id) != $statusid) {
+            if ($statusid != '0') {
+                $data['borrowstatus'] = '3';
+            } else {
+                $data['borrowstatus'] = '0';
+            }
+        }
         $this->db->where('item.iditem', $id);
         $this->db->set($data);
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
@@ -429,4 +436,16 @@ class Items_model extends CI_Model
         $s_update = $this->db->update('item');
         return $s_update;
     }//end updateBorrowStatus()
+
+    public function getStatus($id)
+    {
+        $this->db->select('statusid');
+        $this->db->where('item.iditem', $id);
+        $sql = $this->db->get('item');
+        if ($sql->num_rows() > 0) {
+            return $sql->result()[0]->statusid;
+        } else {
+            return -1;
+        }
+    }
 }//end class
