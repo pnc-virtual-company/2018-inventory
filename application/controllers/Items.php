@@ -142,6 +142,7 @@ class Items extends CI_Controller
         $code = $locnamebyid.'-'.$idmaximum;
 
         $item_update = $this->items_model->update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id, $status);
+        $this->items_model->updateLabel($id);
         if ($item_update) {
             $this->session->set_flashdata('msg', 'The item was updated successfully.');
             redirect('items');
@@ -202,15 +203,15 @@ class Items extends CI_Controller
                 $locnamebyid = $value->location;
             }
 
-            $code = $locnamebyid.'-'.$idmaximum;
+            $code = $locnamebyid.'-'.$getIdMax;
         }
 
         // This varible is use to get data from form to insert into database and show on table
+
         $item_insert = $this->items_model->add_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code);
-        if ($item_insert) {
-            $this->session->set_flashdata('msg', 'The item was created successfully.');
-            redirect('items');
-        }
+        $this->items_model->updateLabel($item_insert);
+        $this->session->set_flashdata('msg', 'The item was created successfully.(' . $item_insert . ')');
+        redirect('items');
     }//end itemcreate()
 
     /**

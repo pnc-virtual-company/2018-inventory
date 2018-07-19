@@ -93,6 +93,7 @@ $(document).ready(function() {
             row,
             data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].status, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, borrowstatus, date
           ]).draw(false);
+          t.row(':last', {order: 'applied'}).nodes().to$().data("code", data[i].code);
           n++;
         }
       },
@@ -102,6 +103,23 @@ $(document).ready(function() {
     });
   }
 
+  //Print all visible items as a sticker
+  $('#cmdPrintStickers').click(function () {
+    var htmlDocStickers = "<!DOCTYPE html><html lang='en'><head><meta http-equiv='Content-type' content='text/html; charset=utf-8'><title>Inventory - List of items</title><style>@media print and (width: 21cm) and (height: 29.7cm) {@page {margin: 1cm;}}";
+    htmlDocStickers += ".sticker {padding: 2mm;margin: 2mm;outline: 1pt dotted;float: left;font-size: 6mm;min-height: 1cm;min-width: 5cm;}</style></head><body>";
+    t.rows( { filter: 'applied' } ).every( function () {
+      var stickerCode = this.nodes().to$().data("code");
+      //console.log(stickerCode);
+      if(stickerCode) {
+        htmlDocStickers += "<div class='sticker'>" + stickerCode + "</div>";
+      }
+    });
+    htmlDocStickers += "</body></html>";
+    windowStickers = window.open('', '', 'width=700,height=600');
+    windowStickers.document.write(htmlDocStickers);
+    windowStickers.focus();
+    windowStickers.print();
+  });
   //  Combine btn onclick OK with key Enter when delete
   $('#deleteModal').keypress(function(e) {
     if (e.which === 13) { //Enter key pressed

@@ -59,7 +59,7 @@ class Items_model extends CI_Model
      */
     public function showEditItems($id)
     {
-        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", users.firstname AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.statusid as "statusid", status.status as "status"');
+        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", users.firstname AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.statusid as "statusid", status.status as "status", item.code as "code", category.acronym as "acronym"');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -114,7 +114,7 @@ class Items_model extends CI_Model
      */
     public function showAllItems()
     {
-        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",borrowstatus,date, status.status as "status"');
+        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, item.code as "code", category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",borrowstatus,date, status.status as "status"');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -150,10 +150,10 @@ class Items_model extends CI_Model
      */
     public function getmaxiditem()
     {
-        $this->db->select('CONV(MAX(item.iditem),10,36) AS "IdMax"');
+        $this->db->select('MAX(item.iditem) AS "idMax"');
         $query = $this->db->get('item');
         if ($query->num_rows() > 0) {
-            return $query->result();
+            return $query->row()->idMax;
         } else {
             return false;
         }
@@ -231,12 +231,15 @@ class Items_model extends CI_Model
             'statusid'          => '0',
             'code'            => $code,
         ];
+        $this->db->trans_start();
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
         //this use for check foriegn key in table
         $query = $this->db->insert('item', $data);
+        $insert_id = $this->db->insert_id();
         //this use for insert into database
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 1');
-        return $query;
+        $this->db->trans_complete();
+        return $insert_id;
     }//end add_item()
 
 
@@ -446,6 +449,25 @@ class Items_model extends CI_Model
             return $sql->result()[0]->statusid;
         } else {
             return -1;
+        }
+    }
+
+    public function updateLabel($id)
+    {
+        $this->db->select("CONCAT(category.acronym, '-', location.location, '-', LPAD(item.iditem, 5, '0')) as label");
+        $this->db->where('item.iditem', $id);
+        $this->db->join('location', 'location.idlocation = item.locationid', 'left');
+        $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
+        $sql = $this->db->get('item');
+
+        $label = $sql->row()->label;
+        if (isset($label)) {
+            $this->db->set('code', $label);
+            $this->db->where('item.iditem', $id);
+            $s_update = $this->db->update('item');
+            return $s_update;
+        } else {
+            return false;
         }
     }
 }//end class

@@ -97,7 +97,7 @@ class Locations extends CI_Controller
         if ($result > 0) {
             foreach ($result as $locations) {
                 $form .= '<div class="form-inline">';
-                $form .= '<label for="">Location: </label> &nbsp;<input type="text" class="form-control" name="update_location" value="'.$locations->location.'"> <input type="hidden" value="'.$locations->idlocation.'" name="id">';
+                $form .= '<label for="">Location: </label> &nbsp;<input type="text" class="form-control" name="update_location" value="'.htmlspecialchars($locations->location).'"> <input type="hidden" value="'.$locations->idlocation.'" name="id">';
                 $form .= '</div>';
             }
         }

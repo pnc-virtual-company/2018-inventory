@@ -50,6 +50,7 @@ tr:hover{ cursor: pointer;}
                 <input type="text" class="form-control" placeholder="Select category" aria-label="category" aria-describedby="basic-addon2" id="inputcat" disabled>
                 <div class="input-group-append">
                   <input type="hidden" id="inputcatid" name="catitem">
+                  <input type="hidden" id="inputcatacr" name="catacritem">
                   <button id="select_category" class="btn btn-outline-primary" type="button" >Select</button>
                 </div>
               </div>
@@ -170,6 +171,15 @@ tr:hover{ cursor: pointer;}
                 </div>
                 <input type="number" class="form-control" placeholder="Enter the item price..." aria-label="cost" aria-describedby="basic-addon2" id="inputcost" name="costitem" >
               </div>
+            </div>
+
+            <!-- item label -->
+            <div class="form-group">
+              <label for="inputcost">Label:</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="cost" aria-describedby="basic-addon2" id="inputlabel" name="labelitem" disabled>
+              </div>
+              <p id="label-info" class="small text-secondary"></p>
             </div>
           </div>
         </div>
@@ -487,7 +497,7 @@ tr:hover{ cursor: pointer;}
       // var catid='';
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>/category/showAllCategory',
+        url: '<?php echo base_url();?>/category/getAll',
         async: true,
         dataType: 'json',
         success: function(data){
@@ -522,6 +532,12 @@ tr:hover{ cursor: pointer;}
       $('#inputcat').val(catname);
       $('#inputcatid').val('');
       $('#inputcatid').val(catid);
+      fetch(`<?php echo base_url();?>/category/getAcronym/${catid}`, { credentials: 'include' })
+      .then(response => response.json())
+      .then(acronym => {
+        $('#inputcatacr').val(acronym);
+        updateLabel();
+      });
       $("#selectCategory").modal("hide");
     });
 
@@ -651,6 +667,7 @@ tr:hover{ cursor: pointer;}
       $('#inputloc').val(locname);
       $('#inputlocid').val('');
       $('#inputlocid').val(locid);
+      updateLabel();
       $("#selectLocation").modal("hide");
     });
 
@@ -828,6 +845,10 @@ tr:hover{ cursor: pointer;}
       $("#selectModel").modal("hide");
     });
 
-
+    function updateLabel(){
+      let label = `${$('#inputcatacr').val()}-${$('#inputloc').val()}-XXXXX`;
+      $('#inputlabel').val(label);
+      $('#label-info').html('The id for the label will be set after creating the item');
+    }
   });
 </script>

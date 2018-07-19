@@ -1,4 +1,4 @@
-<!-- edit by @author Bunla RATH <bunla.rath@student.passerellesnumeriques.org> -->
+
 <div id="container" class="container">
   <div class="row-fluid">
     <div class="col-12">
@@ -19,19 +19,19 @@
   <table id="category" cellpadding="0" cellspacing="0" class="table table-striped table-bordered" width="100%">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Acronym</th>
         <th>Category</th>
       </tr>
     </thead>
-    <tbody id="displayCat"><!-- display data from controller showAllCategory -->
-
+    <tbody id="displayCat">
+      <!-- display data from controller showAllCategory by Ajax -->
     </tbody>
   </table>
 </div>
 </div>
 
 <!-- Pop up modal create category -->
-<div id="frmConfirmAdd" class="modal hide fade" tabindex="-1" role="dialog">
+<div id="frmConfirmAdd" class="modal fade hide" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -42,10 +42,21 @@
       </div>
       <form id="frm_create">
         <div class="modal-body">
-          <div class="form-inline">
-            <label for="">Category</label> &nbsp;
-            <input type="text" name="createCategory" class="form-control">
-          </div>
+        <div>
+          <label for="categoryName">Category:
+              <input type="text" class="form-control" id="categoryNameCreate" name="categoryNameCreate">
+          </label>
+          <label for="categoryAcronym">Acronym:
+              <div class="input-group mb-2">
+                  <input type="text" class="form-control" id="categoryAcronymCreate" name="categoryAcronymCreate">
+                  <div class="input-group-append">
+                    <div class="btn btn-primary">
+                      <i id="cmdSuggestAcronymCreate" class="mdi mdi-auto-fix"></i>
+                    </div>
+                  </div>
+              </div>
+          </label>
+        </div>
         </div>
       </form>
       <div class="modal-footer">
@@ -57,7 +68,7 @@
 </div>
 
 <!-- Pop up modal delete category -->
-<div id="frmConfirmDelete" class="modal hide fade" tabindex="-1" role="dialog">
+<div id="frmConfirmDelete" class="modal fade hide" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -76,8 +87,9 @@
     </div>
   </div>
 </div>
+
 <!-- Pop up modal edit category -->
-<div id="frmConfirmEdit" class="modal hide fade" tabindex="-1" role="dialog">
+<div id="frmConfirmEdit" class="modal fade hide" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -106,139 +118,157 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/DataTable//DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
 
+var table = null; //Reference to the datatable
+var lastDeletionId = 0; //Pass the category id to be deleted
 
-$(document).ready(function()
-{
-    var c = $('#category').DataTable({order:[]});
-    showAllCat();
 // Display all category from showAllCategory
-function showAllCat()
-{
+function showAllCat() {
   $("#displayCat").html('<tr><td class="text-center text-info" colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i>Loading... </td></tr>');
   $.ajax({
     type: 'ajax',
-          url: '<?php echo base_url() ?>/category/showAllCategory', //url access to showAllCategory in controller
+          url: '<?php echo base_url() ?>category/getAll',
           async: true,
           dataType: 'json',
           success: function(data)
           {
-            c.clear().draw();
+            table.clear().draw();
             var i;
             var n = 1;
             for(i=0; i<data.length; i++)
             {
-              c.row.add ( [
-                n+'&nbsp;<a href="#" class="item-edit" dataid="'+data[i].idcategory+'"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit category" ></i></a>'+
-                '&nbsp;<a href="#" class="item-delete text-danger" dataid="'+data[i].idcategory+'"><i class="mdi mdi-delete" data-toggle="tooltip" title="delete category"></i></a>',
+              table.row.add ( [
+                data[i].acronym +
+                '&nbsp;<a href="#" class="item-edit" dataid="' + data[i].idcategory + '"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit category" ></i></a>'+
+                '&nbsp;<a href="#" class="item-delete text-danger" dataid="' + data[i].idcategory + '"><i class="mdi mdi-delete" data-toggle="tooltip" title="delete category"></i></a>',
                 data[i].category
                 ] ).draw( false );
               n++;
             }
           }
-        });
+  });
 }
-Offline.on('up', function() {
+
+//Suggest an acronym by using the first letters of the category name
+function suggestAcronym() {
+    var toMatch = $('#categoryNameCreate').val();
+    var result = toMatch.charAt(0).toUpperCase() + toMatch.charAt(1).toUpperCase();
+  //test if the text has at least two words
+    if (toMatch.match(/\s/g)) {
+      result = toMatch.replace(/(\w)\w*\W*/g, function (_, i) {
+        return i.toUpperCase();
+      });
+    }
+    $('#categoryAcronymCreate').val(result);
+}
+
+$(document).ready(function()
+{
+  table = $('#category').DataTable({order:[]});
   showAllCat();
-});
 
-      //  Combine btn onclick OK with key Enter when create
-      $('#frmConfirmAdd').keypress(function(e)
+  Offline.on('up', function() {
+    showAllCat();
+  });
+
+  //  Combine btn onclick OK with key Enter when create
+  $('#frmConfirmAdd').keypress(function(e)
+  {
+    if(e.which === 13) //Enter key pressed
+    {
+    e.preventDefault();
+      $('#btn-create').click();//Trigger search button click event
+    }
+  });
+
+  //  Combine btn onclick OK with key Enter when delete
+  $('#frmConfirmDelete').keypress(function(e)
+  {
+    if(e.which === 13) //Enter key pressed
+    {
+    e.preventDefault();
+      $('#delete-comfirm').click(); //Trigger search button click event
+    }
+  });
+
+  //  Combine btn onclick OK with key Enter when update
+  $('#frmConfirmEdit').keypress(function(e)
+  {
+    if(e.which === 13) //Enter key pressed
+    {
+    e.preventDefault();
+      $('#update').click(); //Trigger search button click event
+    }
+  });
+
+  // create_category with ajax
+  $("#add_category").click(function()
+  {
+    $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function()
+    {
+      $('input[name=categoryNameCreate]').focus();
+    });
+  });
+
+  // save new category button event
+  $("#btn-create").click(function()
+  {
+    var category = $('input[name=categoryNameCreate]'); // validate form
+    var success = false;
+    if(category.val()=='')
+    {
+      category.parent().parent().addClass('has-error');
+    }else{
+      category.parent().parent().removeClass('has-error');
+      success = true;
+    }
+    if (success)
+    {
+      $.ajax({
+        url: "<?php echo base_url()?>category/create",
+        type: "POST",
+        data: $('#frm_create').serialize(),
+        dataType: 'json',
+        async: true
+      }).always(function(data) {
+          $('#frm_create')[0].reset();
+          $('#frmConfirmAdd').modal('hide');
+          $('.alert-info').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
+          showAllCat();
+      });
+    }
+  });
+  //Suggest an acronym on click or on change the category name
+  $('#cmdSuggestAcronymCreate').click(function() {
+    suggestAcronym();
+  });
+  $('#categoryNameCreate').on("keyup paste", function(){
+    suggestAcronym();
+  });
+
+  // update category modal pop up by ajax
+  $('#displayCat').on('click', '.item-edit', function()
+  {
+    var id = $(this).attr('dataid');
+    $.ajax({
+      type: 'POST',
+      data: {idcategory: id},
+      url: '<?php echo base_url();?>category/edit',
+      async: true,
+      success: function(data)
       {
-             if(e.which === 13) //Enter key pressed
-             {
-              e.preventDefault();
-                $('#btn-create').click();//Trigger search button click event
-              }
-            });
-
-        //  Combine btn onclick OK with key Enter when delete
-        $('#frmConfirmDelete').keypress(function(e)
-        {
-             if(e.which === 13) //Enter key pressed
-             {
-              e.preventDefault();
-                $('#delete-comfirm').click(); //Trigger search button click event
-              }
-            });
-
-         //  Combine btn onclick OK with key Enter when update
-         $('#frmConfirmEdit').keypress(function(e)
-         {
-             if(e.which === 13) //Enter key pressed
-             {
-              e.preventDefault();
-                $('#update').click(); //Trigger search button click event
-              }
-            });
-
-        // create_category with ajax
-        $("#add_category").click(function()
-        {
-          $('#frmConfirmAdd').modal('show').on('shown.bs.modal', function()
-          {
-            $('input[name=createCategory]').focus();
-          });
+        $('#frm_edit').html(data);
+        $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function() {
+          $('input[name=categoryNameEdit]').focus();
         });
-
-        // save new category button even
-        $("#btn-create").click(function()
-        {
-          var category = $('input[name=createCategory]'); // validate form
-          var result = '';
-          if(category.val()=='')
-          {
-            category.parent().parent().addClass('has-error');
-          }else{
-            category.parent().parent().removeClass('has-error');
-            result +='1';
-          }
-          if (result=='1')
-          {
-            $.ajax({
-              url: "<?php echo base_url()?>category/create", //url access to create controller
-              type: "POST",
-              data: $('#frm_create').serialize(),
-              dataType: 'json',
-              async: true
-            }).always(function(data)
-            {
-              // if(data.status)
-              // {
-                $('#frm_create')[0].reset();
-                $('#frmConfirmAdd').modal('hide');
-                $('.alert-info').html('Category was added successfully').fadeIn().delay(6000).fadeOut('slow');
-                showAllCat();
-              // }
-            });
-          }
-        });
-
-       // update category modal pop up by ajax
-       $('#displayCat').on('click', '.item-edit', function()
-       {
-         var id = $(this).attr('dataid');
-         $.ajax({
-           type: 'POST',
-           data: {idcategory: id},
-           url: '<?php echo base_url();?>/category/showEditCategory', //url access to showEditCategory in controller
-           async: true,
-           dataType: 'json',
-           success: function(data)
-           {
-             $('#frm_edit').html(data);
-             $('#frmConfirmEdit').modal('show').on('shown.bs.modal', function()
-             {
-              $('input[name=update_category]').focus();
-            });
-           }
-         });
-       });
+      }
+    });
+  });
 
   // save update button category
   $("#update").click(function()
   {
    var id = $('#frmConfirmEdit').data('id');
-   var categoryName = $('input[name=update_category]');
+   var categoryName = $('input[name=categoryNameEdit]');
    var result = '';
    if(categoryName.val()=='')
    {
@@ -256,7 +286,7 @@ Offline.on('up', function() {
        dataType: 'json',
        success: function(data)
        {
-         if(data.status)
+         if(data.result)
          {
            $('#frm_edit')[0].reset();
            $('#frmConfirmEdit').modal('hide');
@@ -273,35 +303,33 @@ Offline.on('up', function() {
    }
  });
 
-    // delete category by ajax
-    $('#displayCat').on('click', '.item-delete', function()
-    {
-      var id = $(this).attr('dataid');
-      $('#frmConfirmDelete').data('id', id).modal('show');
-    });
+  // delete category by ajax
+  $('#displayCat').on('click', '.item-delete', function()
+  {
+    lastDeletionId = $(this).attr('dataid');
+    $('#frmConfirmDelete').modal('show');
+  });
 
-      // comfirm delete button
-      $("#delete-comfirm").on('click',function()
+  // comfirm delete button
+  $("#delete-comfirm").on('click',function()
+  {
+    $.ajax({
+      url: "<?php echo base_url(); ?>category/delete",
+      type: "POST",
+      data: {idcategory: lastDeletionId},
+      dataType: "json",
+      success: function(data)
       {
-        var id = $('#frmConfirmDelete').data('id');
-        $.ajax({
-          url: "<?php echo base_url() ?>category/deleteCategory", //url access to deleteCategory in controller
-          type: "POST",
-          data: {idcategory: id},
-          dataType: "json",
-          success: function(data)
-          {
-            $('#frmConfirmDelete').modal('hide');
-            $('.alert-info').html('Category was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
-            showAllCat();
-          },
-          error: function()
-          {
-            $('#frmConfirmDelete').modal('hide');
-            alert("Error delete! this category has relationship with another field...");
-          }
-        });
-      });
+        $('#frmConfirmDelete').modal('hide');
+        $('.alert-info').html('Category was deleted successfully').fadeIn().delay(6000).fadeOut('slow');
+        showAllCat();
+      },
+      error: function()
+      {
+        $('#frmConfirmDelete').modal('hide');
+        alert("Error: We cannot delete this category, because it has a relationship with another field...");
+      }
     });
-
-  </script>
+  });
+});//on document ready
+</script>

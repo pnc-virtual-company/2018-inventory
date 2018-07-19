@@ -1,120 +1,90 @@
 <?php
-// edit by @author Bunla Rath <bunla.rath@student.passerellesnumeriques.org>
 
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 /**
- * This model contains the business logic and manages the persistence of users and roles
- * It is also used by the session controller for the authentication.
+ * This model contains the business logic and manages the persistence of categories
  */
 class Category_model extends CI_Model
 {
-
-
     /**
-     * Default constructor
+     * Get categories from database
+     * @return array list of categories or null
      */
-    public function __construct()
-    {
-        parent::__construct();
-
-    }//end __construct()
-
-
-    /**
-     * Get category from database
-     * @return bool result
-     */
-    public function getAllCate()
+    public function getAll()
     {
         $query = $this->db->get('category');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end getAllCate()
-
-
-    //
-    // /**
-    //  * Delete category from database
-    //  * @param  int $id id
-    //  * @return void
-    //  */
-    // public function deleteCate($id)
-    // {
-    //     $this->db->delete(
-    //         'category',
-    //         ['category.idcategory' => $id]
-    //     );
-    //
-    // }//end deleteCate()
-
+        return $query->result();
+    }
 
     /**
-     * Create category to database
-     * @param  any $data data
-     * @return int       id of inserted data
+     * Create a new category into the database
+     * @param string $categoryName category name
+     * @param string $categoryAcronym category acronym
+     * @return int id of last inserted data
      */
-    public function create_category($data)
-    {
-        $this->db->insert('category', $data);
-        return $insert_id = $this->db->insert_id();
-
-    }//end create_category()
-
-
-    /**
-     * Display show edit category to controller
-     * @param  int $id id
-     * @return bool    result
-     */
-    public function showEditCategory($id)
-    {
-        $this->db->where('idcategory', $id);
-        $query = $this->db->get('category');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }//end showEditCategory()
-
-
-    /**
-     * Update data from pop up modal to database
-     * @param  int $idcategory id category
-     * @param  any $category   category
-     * @return any             result
-     */
-    public function updateCategory($idcategory, $category)
+    public function create($categoryName, $categoryAcronym = "")
     {
         $data = [
-            'idcategory' => $idcategory,
-            'category'   => $category,
+            'category'   => $categoryName,
+            'acronym'   => $categoryAcronym,
         ];
-        $this->db->where('idcategory', $idcategory);
-        return $this->db->replace('category', $data);
-
-    }//end updateCategory()
-
+        $this->db->insert('category', $data);
+        return $this->db->insert_id();
+    }
 
     /**
-     * Delete category from database
-     * @param  int $id id
-     * @return void
+     * Load a given category from database
+     * @param int $categoryId id of category
+     * @return array category record or null
      */
-    public function deleteCategory($id)
+    public function get($categoryId)
     {
-        $this->db->where('idcategory', $id);
+        $this->db->where('idcategory', $categoryId);
+        $query = $this->db->get('category');
+        return $query->row();
+    }
+
+    /**
+     * Update a category into the database
+     * @param int $categoryId id category
+     * @param string $categoryName category name
+     * @param string $categoryAcronym category acronym
+     * @return int number of affected rows
+     */
+    public function update($categoryId, $categoryName, $categoryAcronym = "")
+    {
+        $data = [
+            'idcategory' => $categoryId,
+            'category'   => $categoryName,
+            'acronym'   => $categoryAcronym,
+        ];
+        $this->db->where('idcategory', $categoryId);
+        return $this->db->replace('category', $data);
+    }
+
+    /**
+     * Delete a category from database
+     * @param  int $categoryId id of the category
+     */
+    public function delete($categoryId)
+    {
+        $this->db->where('idcategory', $categoryId);
         $this->db->delete('category');
+    }
 
-    }//end deleteCategory()
-
-
-}//end class
+    /**
+     * Get the acronym of a category
+     * @param  int $categoryId id of the category
+     * @return string     acronym
+     */
+    public function getAcronym($categoryId)
+    {
+        $this->db->select('acronym');
+        $this->db->where('idcategory', $categoryId);
+        $query = $this->db->get('category');
+        return $query->row()->acronym;
+    }
+}

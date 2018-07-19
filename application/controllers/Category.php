@@ -1,21 +1,17 @@
 <?php
-// edit by @author Bunla Rath <bunla.rath@student.passerellesnumeriques.org>
 
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 /**
- * This controller serves the user management pages and tools.
- * The difference with HR Controller is that operations are technical (CRUD, etc.).
+ * This controller serves the categories management pages.
  */
 class Category extends CI_Controller
 {
-
-
     /**
      * Default constructor
-     *
+     * Check that the user is connected and an admin
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function __construct()
@@ -29,13 +25,12 @@ class Category extends CI_Controller
             redirect('errors/privileges');
         }
         log_message('debug', 'URI='.$this->uri->uri_string());
-
-        $this->load->model('category_model', 'category_model', true);
-    }//end __construct()
-
+        $this->load->model('category_model');
+    }
 
     /**
-     * Display the list of all category
+     * Display the page listing all categories.
+     * But categories are loaded by Ajax.
      * @return void
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
@@ -43,104 +38,91 @@ class Category extends CI_Controller
     {
         $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->helper('form');
-        $data['title']            = 'List of categories';
-        $data['activeLink']       = 'others';
-        $data['flashPartialView'] = $this->load->view('templates/flash', $data, true);
+        $data['title'] = 'List of categories';
+        $data['activeLink'] = 'others';
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('category/index', $data);
         $this->load->view('templates/footer', $data);
-    }//end index()
-
+    }
 
     /**
-     * Load all category from model
+     * Return an Ajax feed containing all categories
      * @return void
      */
-    public function showAllCategory()
+    public function getAll()
     {
-        $result = $this->category_model->getAllCate();
-        echo json_encode($result);
-    }//end showAllCategory()
-
+        $categories = $this->category_model->getAll();
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($categories));
+    }
 
     /**
-     * Create category controller
-     * @return void
+     * Create a new category via Ajax
      */
     public function create()
     {
-        $data_in['category'] = $this->input->post('createCategory');
-        $category            = $this->category_model->create_category($data_in);
-        if ($category) {
-            echo json_encode(
-                ['status' => true]
-            );
-        } else {
-            echo json_encode(
-                ['status' => false]
-            );
-        }
-    }//end create()
-
+        $categoryName = $this->input->post('categoryNameCreate');
+        $categoryAcronym = $this->input->post('categoryAcronymCreate');
+        $categoryId = $this->category_model->create($categoryName, $categoryAcronym);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['categoryId' => $categoryId]));
+    }
 
     /**
-     * Show edit category
-     * @return void
+     * Load a partial form that allows to edit a category
      */
-    public function showEditCategory()
+    public function edit()
     {
-        $form       = '';
-        $idcategory = $this->input->post('idcategory');
-        $result     = $this->category_model->showEditCategory($idcategory);
-        //Load from model
-        if ($result > 0) {
-            foreach ($result as $category) {
-                $form .= '<div class="form-inline">';
-                $form .= '<label for="">Category: </label> &nbsp;<input type="text" class="form-control" name="update_category" value="'.$category->category.'"> <input type="hidden" value="'.$category->idcategory.'" name="id">';
-                $form .= '</div>';
-            }
+        $categoryId = $this->input->post('idcategory');
+        $category = $this->category_model->get($categoryId);
+        if (!empty($category)) {
+            $data['categoryId'] = $category->idcategory;
+            $data['categoryName'] = $category->category;
+            $data['categoryAcronym'] = $category->acronym;
+            $this->load->view('category/edit', $data);
+        } else {
+            $this->output
+            ->set_content_type('text/html')
+            ->set_output('<b>The object was not found</b>');
         }
-
-        echo json_encode($form);
-    }//end showEditCategory()
-
+    }
 
     /**
-     * Update category
-     * @return void
+     * Update a category
      */
     public function update()
     {
-        $idcategory     = $this->input->post('id');
-        $category       = $this->input->post('update_category');
-        $categoryUpdate = $this->category_model->updateCategory($idcategory, $category);
-        //Load to model
-        if ($categoryUpdate) {
-            echo json_encode(
-                ['status' => true]
-            );
-        } else {
-            echo json_encode(
-                ['status' => false]
-            );
-        }
-    }//end update()
-
+        $categoryId = $this->input->post('categoryIdEdit');
+        $categoryName = $this->input->post('categoryNameEdit');
+        $categoryAcronym = $this->input->post('categoryAcronymEdit');
+        $result = $this->category_model->update($categoryId, $categoryName, $categoryAcronym);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['result' => $result]));
+    }
 
     /**
-     * Controller Delete category
-     * @return void
+     * Delete a category
      */
-    public function deleteCategory()
+    public function delete()
     {
-        $idcategory      = $this->input->post('idcategory');
-        $remove_category = $this->category_model->deleteCategory($idcategory);
-        // Load to model
-        if ($remove_category) {
-            echo "1";
-        } else {
-            echo "0";
-        }
-    }//end deleteCategory()
-}//end class
+        $categoryId = $this->input->post('idcategory');
+        $result = $this->category_model->delete($categoryId);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['result' => $result]));
+    }
+
+    /**
+     * Get the acronym of a category
+     * @return string     acronym
+     */
+    public function getAcronym()
+    {
+        $id = $this->uri->segment(3);
+        echo json_encode($this->category_model->getAcronym($id));
+    }
+}
