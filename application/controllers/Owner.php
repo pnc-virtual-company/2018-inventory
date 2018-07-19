@@ -89,7 +89,7 @@ class Owner extends CI_Controller
         if ($result > 0) {
             foreach ($result as $owner) {
                 $form .= '<div class="form-inline">';
-                $form .= '<label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="update_owner" value="'.$owner->owner.'"> <input type="hidden" value="'.$owner->idowner.'" name="id">';
+                $form .= '<label for="">Owner: </label> &nbsp;<input type="text" class="form-control" name="update_owner" value="'.htmlspecialchars($owner->owner).'"> <input type="hidden" value="'.$owner->idowner.'" name="id">';
                 $form .= '</div>';
             }
         }

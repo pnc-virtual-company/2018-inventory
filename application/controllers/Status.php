@@ -77,7 +77,7 @@ class Status extends CI_Controller
         if ($result > 0) {
             foreach ($result as $status) {
                 $form .= '<div class="form-inline">';
-                $form .= '<label for="">Status: </label> &nbsp;<input type="text" class="form-control" name="update_status" value="'.$status->status.'"> <input type="hidden" value="'.$status->idstatus.'" name="id">';
+                $form .= '<label for="">Status: </label> &nbsp;<input type="text" class="form-control" name="update_status" value="'.htmlspecialchars($status->status).'"> <input type="hidden" value="'.$status->idstatus.'" name="id">';
                 $form .= '</div>';
             }
         }

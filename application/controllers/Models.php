@@ -125,7 +125,7 @@ class Models extends CI_Controller
         if ($result > 0) {
             foreach ($result as $model) {
                 $form .= '<div class="form-inline">';
-                $form .= '<label for="">Model: </label> &nbsp;<input type="text" class="form-control" name="update_model" value="'.$model->model.'"> <input type="hidden" value="'.$model->idmodel.'" name="id">';
+                $form .= '<label for="">Model: </label> &nbsp;<input type="text" class="form-control" name="update_model" value="'.htmlspecialchars($model->model).'"> <input type="hidden" value="'.$model->idmodel.'" name="id">';
             }
 
             $form .= '<input type="hidden" value="'.$idbrand.'" name="brandid">';

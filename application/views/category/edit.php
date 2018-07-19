@@ -1,10 +1,10 @@
 <div>
     <label for="categoryNameEdit">Category:
-        <input type="text" class="form-control" name="categoryNameEdit" id="categoryNameEdit" value="<?php echo $categoryName; ?>">
+        <input type="text" class="form-control" name="categoryNameEdit" id="categoryNameEdit" value="<?php echo htmlspecialchars($categoryName); ?>">
     </label>
     <label for="categoryAcronymEdit">Acronym:
         <div class="input-group mb-2">
-            <input type="text" class="form-control" name="categoryAcronymEdit" id="categoryAcronymEdit" value="<?php echo $categoryAcronym; ?>">
+            <input type="text" class="form-control" name="categoryAcronymEdit" id="categoryAcronymEdit" value="<?php echo htmlspecialchars($categoryAcronym); ?>">
             <div class="input-group-append">
                 <div class="btn btn-primary">
                     <i id="cmdSuggestAcronymEdit" class="mdi mdi-auto-fix"></i>

@@ -116,7 +116,7 @@ class Brand extends CI_Controller
         if ($result > 0) {
             foreach ($result as $brand) {
                 $form .= '<div class="form-inline">';
-                $form .= '<label for="">Brand: </label> &nbsp;<input type="text" class="form-control" name="update_brand" value="'.$brand->brand.'"> <input type="hidden" value="'.$brand->idbrand.'" name="id">';
+                $form .= '<label for="">Brand: </label> &nbsp;<input type="text" class="form-control" name="update_brand" value="'.htmlspecialchars($brand->brand).'"> <input type="hidden" value="'.$brand->idbrand.'" name="id">';
                 $form .= '</div>';
             }
         }
