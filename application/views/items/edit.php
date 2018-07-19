@@ -27,12 +27,12 @@ tr:hover{cursor: pointer;}
           <h2><?php echo $title.' ( '.$value->item.' )'; ?></h2>
           <div class="form-group">
             <label class="control-label" for="itemname">Name</label>
-            <input type="text" class="form-control" name="nameitem" id="itemname" value="<?php echo $value->item ?>" required autofocus/>
+            <input type="text" class="form-control" name="nameitem" id="itemname" value="<?php echo htmlspecialchars($value->item) ?>" required autofocus/>
           </div>
           <!-- description input -->
           <div class="form-group">
             <label class="control-label" for="itemdes">Item description</label>
-            <textarea type="text" class="form-control" name="desitem" id="itemdes" style="resize: none; "/><?php echo $value->description ?></textarea>
+            <textarea type="text" class="form-control" name="desitem" id="itemdes" style="resize: none; "/><?php echo htmlspecialchars($value->description) ?></textarea>
           </div>
 
           <div class="row">
