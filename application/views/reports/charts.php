@@ -25,6 +25,7 @@
     <label for="filter">Type of report:</label>
     <select class="form-control" id="choose-filter" name="filter">
       <option value="Conditions" selected>Conditions</option>
+      <option value="Status">Status</option>
       <option value="Categories">Categories</option>
       <option value="Materials">Materials</option>
       <option value="Departments">Departments</option>
@@ -90,7 +91,8 @@
       Departments: 'reports/getItemCountByDepartment',
       Brands: 'reports/getItemCountByBrand',
       Location: 'reports/getItemCountByLocation',
-      Owner: 'reports/getItemCountByOwner'
+      Owner: 'reports/getItemCountByOwner',
+      Status: 'reports/getItemCountByStatus'
     }
     let chart = new Chart($("#chart"), { //draw a pie chart
       responsive: true,
@@ -98,16 +100,16 @@
       data: {
         // labels: json.result.map(j => j.key),
         datasets: [{
-          backgroundColor: [
-            "#00C853",
-            "#0091EA",
-            "#FB8C00",
-            "#E65100",
-            "#00C853",
-            "#0091EA",
-            "#FB8C00",
-            "#E65100",
-          ],
+          // backgroundColor: [
+          //   "#00C853",
+          //   "#0091EA",
+          //   "#FB8C00",
+          //   "#E65100",
+          //   "#00C853",
+          //   "#0091EA",
+          //   "#FB8C00",
+          //   "#E65100",
+          // ],
           // data get from controller
           // data: json.result.map(j => j.count)
         }]

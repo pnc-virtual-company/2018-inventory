@@ -123,11 +123,12 @@
             <th>Category</th>
             <th>Material</th>
             <th>Condition</th>
+            <th>Status</th>
             <th>Department</th>
             <th>Location</th>
             <th>User</th>
             <th>Owner</th>
-            <th>Status</th>
+            <th>Borrow Status</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -215,6 +216,10 @@
               <td id="detail-condition"></td>
             </tr>
             <tr>
+              <td>Status </td>
+              <td id="detail-status"></td>
+            </tr>
+            <tr>
               <td>Type </td>
               <td id="detail-type"></td>
             </tr>
@@ -248,8 +253,8 @@
               <td id="detail-owner"></td>
             </tr>
             <tr>
-              <td>Status </td>
-              <td id="detail-status"></td>
+              <td>Borrow Status </td>
+              <td id="detail-borrowstatus"></td>
             </tr>
             <!-- for show data detail from controller -->
 
@@ -279,6 +284,7 @@
           <li class="list-group-item list-group-item-action" id="select_category">Category</li>
           <li class="list-group-item list-group-item-action" id="select_material">Material</li>
           <li class="list-group-item list-group-item-action" id="select_condition">Condition</li>
+          <li class="list-group-item list-group-item-action" id="select_status">Status</li>
           <li class="list-group-item list-group-item-action" id="select_department">Department</li>
           <li class="list-group-item list-group-item-action" id="select_location">Location</li>
           <li class="list-group-item list-group-item-action" id="select_user">User</li>
@@ -385,6 +391,37 @@
   </div>
 </div>
 
+<!-- select the status modal-->
+<div class="modal fade hide" id="selectStatus">
+ <div class="modal-dialog modal-lg modal-dialog-centered">
+   <div class="modal-content">
+     <!-- Modal Header -->
+     <div class="modal-header">
+       <h4 class="modal-title">Select a value</h4>
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <!-- Modal body -->
+     <div class="modal-body ">
+      <div class="statuslist">
+        <table id="status" cellpadding="0" cellspacing="0" class="table table-bordered table-hover" style="cursor:pointer;" width="100%">
+          <thead>
+            <tr>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="displayStatus">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Modal footer -->
+    <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+   </div>
+ </div>
+</div>
+</div>
 
 <!-- select the department modal -->
 <div class="modal  fade hide" id="selectDepartment">

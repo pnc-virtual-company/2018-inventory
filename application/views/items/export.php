@@ -18,25 +18,26 @@ $sheet       = $spreadsheet->getActiveSheet();
 
 $sheet->setTitle(mb_strimwidth('Item list', 0, 28, "..."));
 //Maximum 31 characters allowed in sheet title.
-$sheet->setCellValue('A1', 'ID');
-$sheet->setCellValue('B1', 'Code');
-$sheet->setCellValue('C1', 'Date');
-$sheet->setCellValue('D1', 'Item');
-$sheet->setCellValue('E1', 'User');
-$sheet->setCellValue('F1', 'Item Cost');
-$sheet->setCellValue('G1', 'Condition');
-$sheet->setCellValue('H1', 'Model');
-$sheet->setCellValue('I1', 'Owner');
-$sheet->setCellValue('J1', 'Category');
-$sheet->setCellValue('K1', 'Location');
-$sheet->setCellValue('L1', 'Material');
-$sheet->setCellValue('M1', 'Department');
-$sheet->setCellValue('N1', 'Item Description');
+$sheet->setCellValue('A1', 'Status');
+$sheet->setCellValue('B1', 'ID');
+$sheet->setCellValue('C1', 'Code');
+$sheet->setCellValue('D1', 'Date');
+$sheet->setCellValue('E1', 'Item');
+$sheet->setCellValue('F1', 'User');
+$sheet->setCellValue('G1', 'Item Cost');
+$sheet->setCellValue('H1', 'Condition');
+$sheet->setCellValue('I1', 'Model');
+$sheet->setCellValue('J1', 'Owner');
+$sheet->setCellValue('K1', 'Category');
+$sheet->setCellValue('L1', 'Location');
+$sheet->setCellValue('M1', 'Material');
+$sheet->setCellValue('N1', 'Department');
+$sheet->setCellValue('O1', 'Item Description');
 // $sheet->setCellValue('N1', 'Status');
 
 
-$sheet->getStyle('A1:N1')->getFont()->setBold(true);
-$sheet->getStyle('A1:N1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+$sheet->getStyle('A1:O1')->getFont()->setBold(true);
+$sheet->getStyle('A1:O1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
 $items = $this->items_model->getitems();
 $line = 2;
@@ -47,20 +48,21 @@ foreach ($items as $item) {
         $date = $item['date'];
     }
 
-    $sheet->setCellValue('A'.$line, $item['iditem']);
-    $sheet->setCellValue('B'.$line, $item['code']);
-    $sheet->setCellValue('C'.$line, $date);
-    $sheet->setCellValue('D'.$line, $item['item']);
-    $sheet->setCellValue('E'.$line, $item['nameuser']);
-    $sheet->setCellValue('F'.$line, $item['cost'] ? '$'.$item['cost'] : '');
-    $sheet->setCellValue('G'.$line, $item['condition']);
-    $sheet->setCellValue('H'.$line, $item['model']);
-    $sheet->setCellValue('I'.$line, $item['owner']);
-    $sheet->setCellValue('J'.$line, $item['cat']);
-    $sheet->setCellValue('K'.$line, $item['locat']);
-    $sheet->setCellValue('L'.$line, $item['mat']);
-    $sheet->setCellValue('M'.$line, $item['depart']);
-    $sheet->setCellValue('N'.$line, $item['description']);
+    $sheet->setCellValue('A'.$line, $item['status']);
+    $sheet->setCellValue('B'.$line, $item['iditem']);
+    $sheet->setCellValue('C'.$line, $item['code']);
+    $sheet->setCellValue('D'.$line, $date);
+    $sheet->setCellValue('E'.$line, $item['item']);
+    $sheet->setCellValue('F'.$line, $item['nameuser']);
+    $sheet->setCellValue('G'.$line, $item['cost'] ? '$'.$item['cost'] : '');
+    $sheet->setCellValue('H'.$line, $item['condition']);
+    $sheet->setCellValue('I'.$line, $item['model']);
+    $sheet->setCellValue('J'.$line, $item['owner']);
+    $sheet->setCellValue('K'.$line, $item['cat']);
+    $sheet->setCellValue('L'.$line, $item['locat']);
+    $sheet->setCellValue('M'.$line, $item['mat']);
+    $sheet->setCellValue('N'.$line, $item['depart']);
+    $sheet->setCellValue('O'.$line, $item['description']);
     // $sheet->setCellValue('N' . $line, $item['Status']);
     $line++;
 }//end foreach

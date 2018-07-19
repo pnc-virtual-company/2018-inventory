@@ -24,14 +24,13 @@ class Items_model extends CI_Model
 
     /**
      * Controller when export an item into excel file
-     * @param  integer $id id
-     * @return any         result
+     * @param  int $id id
+     * @return mixed         result
      */
     public function getitems($id=0)
     {
         $this->db->select(
-            'item.iditem,item.code, item.item, item.itemdescription AS "description",condition as "condition",  item.itemcost AS "cost", item.date AS "date", category.category AS ,"cat",location.location as "locat", users.firstname AS "nameuser",department.department as "depart",material.material as "mat",model.model as "model", owner.owner as "owner"
-              '
+            'item.iditem,item.code, item.item, item.itemdescription AS "description",condition as "condition",  item.itemcost AS "cost", item.date AS "date", category.category AS ,"cat",location.location as "locat", users.firstname AS "nameuser",department.department as "depart",material.material as "mat",model.model as "model", owner.owner as "owner", status.status as "status"'
         );
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
@@ -41,6 +40,7 @@ class Items_model extends CI_Model
         $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
         $this->db->join('model', 'model.idmodel = item.modelid', 'left');
         $this->db->join('brand', 'model.brandid = brand.idbrand', 'left');
+        $this->db->join('status', 'status.idstatus = item.statusid', 'left');
 
         if ($id === 0) {
             $query = $this->db->get('item');
@@ -55,11 +55,11 @@ class Items_model extends CI_Model
     /**
      * This is use to edit for the item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showEditItems($id)
     {
-        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", users.firstname AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date"');
+        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", users.firstname AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.statusid as "statusid", status.status as "status"');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -68,6 +68,7 @@ class Items_model extends CI_Model
         $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
         $this->db->join('model', 'model.idmodel = item.modelid', 'left');
         $this->db->join('brand', 'model.brandid = brand.idbrand', 'left');
+        $this->db->join('status', 'status.idstatus = item.statusid', 'left');
         $this->db->where('item.iditem', $id);
         $query = $this->db->get('item');
 
@@ -82,11 +83,11 @@ class Items_model extends CI_Model
     /**
      * Select the item detail for show into modal
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showDetailItem($id)
     {
-        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", CONCAT(users.firstname," ",users.lastname) AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.code, status');
+        $this->db->select('item.iditem, item.item, item.itemdescription AS "description", category.category AS "cat",category.idcategory AS "catid", condition as "condition", material.material as "mat",material.idmaterial as "matid", department.department as "depat" ,department.iddepartment as "depatid" ,location.location as "locat",location.idlocation as "locatid", CONCAT(users.firstname," ",users.lastname) AS "nameuser",users.id AS "userid", owner.owner as "owner", owner.idowner as "ownerid" , model.model as "model", model.idmodel as "modelid" , brand.brand as "brand", brand.idbrand as "brandid" , item.itemcost AS "cost", item.date AS "date", item.code, borrowstatus, status.status as "status"');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
@@ -95,6 +96,7 @@ class Items_model extends CI_Model
         $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
         $this->db->join('model', 'model.idmodel = item.modelid', 'left');
         $this->db->join('brand', 'model.brandid = brand.idbrand', 'left');
+        $this->db->join('status', 'status.idstatus = item.statusid', 'left');
         $this->db->where('item.iditem', $id);
         $query = $this->db->get('item');
 
@@ -108,17 +110,18 @@ class Items_model extends CI_Model
 
     /**
      * This function in model is use for select the data from database in table item to show list item
-     * @return any result
+     * @return mixed result
      */
     public function showAllItems()
     {
-        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",status,date');
+        $this->db->select('CONV(item.iditem, 10, 36) AS "itemcodeid",item.iditem, item.item, category.category AS "cat", condition as "condition", material.material as "mat", department.department as "depat" , location.location as "locat", users.firstname AS "nameuser", owner.owner as "owner",borrowstatus,date, status.status as "status"');
         $this->db->join('category', 'category.idcategory = item.categoryid', 'left');
         $this->db->join('material', 'material.idmaterial = item.materialid', 'left');
         $this->db->join('department', 'department.iddepartment = item.departmentid', 'left');
         $this->db->join('location', 'location.idlocation = item.locationid', 'left');
         $this->db->join('users', 'users.id = item.userid', 'left');
         $this->db->join('owner', 'owner.idowner = item.ownerid', 'left');
+        $this->db->join('status', 'status.idstatus = item.statusid', 'left');
         $query = $this->db->get('item');
 
         if ($query->num_rows() > 0) {
@@ -143,7 +146,7 @@ class Items_model extends CI_Model
 
     /**
      * Get itemid maximum id with convert into Letter for create
-     * @return any result
+     * @return mixed result
      */
     public function getmaxiditem()
     {
@@ -160,7 +163,7 @@ class Items_model extends CI_Model
     /**
      * Get item id with convert for update data
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function getiditem($id)
     {
@@ -178,7 +181,7 @@ class Items_model extends CI_Model
     /**
      * Get location by id to show into list item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function getLocById($id)
     {
@@ -194,20 +197,20 @@ class Items_model extends CI_Model
 
     /**
      * Insert the data from form create an item into table item in database
-     * @param  any $nameitem      name item
-     * @param  any $desitem       des item
-     * @param  any $catitem       cat item
-     * @param  any $matitem       mat item
-     * @param  any $depitem       dep item
-     * @param  any $locitem       loc item
-     * @param  any $moditem       mod item
-     * @param  any $useritem      user item
-     * @param  any $ownitem       own item
-     * @param  any $conditionitem condition item
-     * @param  any $dateitem      date item
-     * @param  any $costitem      cost item
-     * @param  any $code          code
-     * @return any                result
+     * @param  mixed $nameitem      name item
+     * @param  mixed $desitem       des item
+     * @param  mixed $catitem       cat item
+     * @param  mixed $matitem       mat item
+     * @param  mixed $depitem       dep item
+     * @param  mixed $locitem       loc item
+     * @param  mixed $moditem       mod item
+     * @param  mixed $useritem      user item
+     * @param  mixed $ownitem       own item
+     * @param  mixed $conditionitem condition item
+     * @param  mixed $dateitem      date item
+     * @param  mixed $costitem      cost item
+     * @param  mixed $code          code
+     * @return mixed                result
      */
     public function add_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code)
     {
@@ -224,7 +227,8 @@ class Items_model extends CI_Model
             'condition'       => $conditionitem,
             'date'            => $dateitem,
             'itemcost'        => $costitem,
-            'status'          => '0',
+            'borrowstatus'    => '0',
+            'statusid'          => '0',
             'code'            => $code,
         ];
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
@@ -238,23 +242,24 @@ class Items_model extends CI_Model
 
     /**
      * To get data from form update an item to update into database in table item
-     * @param  any $nameitem      name item
-     * @param  any $desitem       des item
-     * @param  any $catitem       cat item
-     * @param  any $matitem       mat item
-     * @param  any $depitem       dep item
-     * @param  any $locitem       loc item
-     * @param  any $moditem       mod item
-     * @param  any $useritem      user item
-     * @param  any $ownitem       own item
-     * @param  any $conditionitem condition item
-     * @param  any $dateitem      date item
-     * @param  any $costitem      cost item
-     * @param  any $code          code
+     * @param  mixed $nameitem      name item
+     * @param  mixed $desitem       des item
+     * @param  mixed $catitem       cat item
+     * @param  mixed $matitem       mat item
+     * @param  mixed $depitem       dep item
+     * @param  mixed $locitem       loc item
+     * @param  mixed $moditem       mod item
+     * @param  mixed $useritem      user item
+     * @param  mixed $ownitem       own item
+     * @param  mixed $conditionitem condition item
+     * @param  mixed $dateitem      date item
+     * @param  mixed $costitem      cost item
+     * @param  mixed $code          code
      * @param  int $id            id
-     * @return any                result
+     * @param  int $statusid            id
+     * @return mixed                result
      */
-    public function update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id)
+    public function update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id, $statusid)
     {
         $data = [
             'item'            => $nameitem,
@@ -269,9 +274,16 @@ class Items_model extends CI_Model
             'condition'       => $conditionitem,
             'date'            => $dateitem,
             'itemcost'        => $costitem,
-            'status'          => '0',
             'code'            => $code,
+            'statusid'        => $statusid
         ];
+        if ($this->getStatus($id) != $statusid) {
+            if ($statusid != '0') {
+                $data['borrowstatus'] = '3';
+            } else {
+                $data['borrowstatus'] = '0';
+            }
+        }
         $this->db->where('item.iditem', $id);
         $this->db->set($data);
         $this->db->query(' SET FOREIGN_KEY_CHECKS = 0');
@@ -283,7 +295,7 @@ class Items_model extends CI_Model
 
     /**
      * Use to get value of userS for borrow item by id
-     * @return any result
+     * @return mixed result
      */
     public function showUser()
     {
@@ -300,7 +312,7 @@ class Items_model extends CI_Model
     /**
      * Use to get list of borrower by id into form borrow an item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function showListBorrower($id)
     {
@@ -318,10 +330,10 @@ class Items_model extends CI_Model
 
     /**
      * This function use for insert data into borrower table in database
-     * @param  any  $borrower   borrower
-     * @param  any  $item       item
-     * @param  date $startDate  start date
-     * @param  date $returnDate return date
+     * @param  mixed  $borrower   borrower
+     * @param  mixed  $item       item
+     * @param  DateTime $startDate  start date
+     * @param  DateTime $returnDate return date
      * @return int              id of inserted result
      */
     public function insertBorrow($borrower, $item, $startDate, $returnDate)
@@ -334,7 +346,7 @@ class Items_model extends CI_Model
         ];
         $query = $this->db->insert('borrow', $data);
 
-        $this->db->set('status', '1');
+        $this->db->set('borrowstatus', '1');
         $this->db->where('item.iditem', $item);
         $this->db->update('item');
         return $query;
@@ -344,7 +356,7 @@ class Items_model extends CI_Model
     /**
      * Use to get list of return item by id into form return an item when click on return item
      * @param  int $id id
-     * @return any     result
+     * @return mixed     result
      */
     public function returnitem($id)
     {
@@ -373,13 +385,13 @@ class Items_model extends CI_Model
 
 
     /**
-     * Use to return and update status in database
-     * @param  any $data data
-     * @return any       result
+     * Use to return and update borrowstatus in database
+     * @param  mixed $data data
+     * @return mixed       result
      */
-    public function r_u_status($data)
+    public function r_u_borrowstatus($data)
     {
-        $this->db->set('status', '0');
+        $this->db->set('borrowstatus', '0');
         $this->db->where('item.iditem', $data['itemId']);
         $s_update = $this->db->update('item');
         $this->db->set('actualDate', $data['actualDate']);
@@ -389,39 +401,51 @@ class Items_model extends CI_Model
         $this->db->update('borrow');
 
         return $s_update;
-    }//end r_u_status()
+    }//end r_u_borrowstatus()
 
 
     /**
-     * Function to select expected return date to make condition in late status
-     * to show in the item list(auto update status)
-     * @return any result
+     * Function to select expected return date to make condition in late borrowstatus
+     * to show in the item list(auto update borrowstatus)
+     * @return mixed result
      */
     public function returnLate()
     {
-        // $query= $this->db->query('select max(borrow.returnDate) AS reDate, iditem from borrow inner join item where item.iditem = borrow.itemBorrow and item.`status`=1');
+        // $query= $this->db->query('select max(borrow.returnDate) AS reDate, iditem from borrow inner join item where item.iditem = borrow.itemBorrow and item.`borrowstatus`=1');
         // return $query->result();
         $this->db->select('itemBorrow');
         $this->db->from('borrow');
         $this->db->join('item', 'borrow.itemBorrow = item.iditem');
         $this->db->where('actualDate', null);
         $this->db->where('returnDate <', date('Y/m/d'));
-        $this->db->where('status', 1);
+        $this->db->where('borrowstatus', 1);
         $query = $this->db->get();
         return $query->result();
     }//end returnLate()
 
 
     /**
-     * This use for auto update status when borrower return an item later than expected return date
+     * This use for auto update borrowstatus when borrower return an item later than expected return date
      * @param  int $id id
-     * @return bool    true if status is updated
+     * @return bool    true if borrowstatus is updated
      */
-    public function updateStatus($id)
+    public function updateBorrowStatus($id)
     {
-        $this->db->set('status', '2');
+        $this->db->set('borrowstatus', '2');
         $this->db->where('item.iditem', $id);
         $s_update = $this->db->update('item');
         return $s_update;
-    }//end updateStatus()
+    }//end updateBorrowStatus()
+
+    public function getStatus($id)
+    {
+        $this->db->select('statusid');
+        $this->db->where('item.iditem', $id);
+        $sql = $this->db->get('item');
+        if ($sql->num_rows() > 0) {
+            return $sql->result()[0]->statusid;
+        } else {
+            return -1;
+        }
+    }
 }//end class

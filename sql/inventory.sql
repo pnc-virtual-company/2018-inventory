@@ -36,36 +36,6 @@ CREATE TABLE IF NOT EXISTS `borrow` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `brand`
---
-
-DROP TABLE IF EXISTS `brand`;
-CREATE TABLE IF NOT EXISTS `brand` (
-  `idbrand` int(11) NOT NULL AUTO_INCREMENT,
-  `brand` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idbrand`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `brand`
---
-
-INSERT INTO `brand` (`idbrand`, `brand`) VALUES
-(1, 'Philips'),
-(2, 'Sony'),
-(3, 'Unknown'),
-(4, 'Sony'),
-(5, 'Microtik'),
-(6, 'SAMSUNG'),
-(7, 'LG'),
-(8, 'Panasonic'),
-(9, 'Lenovo'),
-(10, 'HP'),
-(11, 'Samsung');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `category`
 --
 
@@ -128,7 +98,8 @@ CREATE TABLE IF NOT EXISTS `item` (
   `itemdescription` TEXT DEFAULT NULL,
   `itemcost` varchar(45) DEFAULT NULL,
   `condition` varchar(45) DEFAULT NULL,
-  `status` varchar(45) DEFAULT NULL,
+  `borrowstatus` varchar(45) DEFAULT NULL,
+  `statusid` int(11) DEFAULT NULL,
   `materialid` int(11) DEFAULT NULL,
   `categoryid` int(11) DEFAULT NULL,
   `departmentid` int(11) DEFAULT NULL,
@@ -138,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`iditem`),
   KEY `fk_item_material_idx` (`materialid`),
+  KEY `fk_item_status_idx` (`statusid`),
   KEY `fk_item_category1_idx` (`categoryid`),
   KEY `fk_item_department1_idx` (`departmentid`),
   KEY `fk_item_location1_idx` (`locationid`),
@@ -150,11 +122,34 @@ CREATE TABLE IF NOT EXISTS `item` (
 -- Dumping data for table `item`
 --
 
-INSERT INTO `item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemcost`, `condition`, `status`, `materialid`, `categoryid`, `departmentid`, `locationid`, `modelid`, `ownerid`, `userid`) VALUES
-(1, '', '0000-00-00', 'Simple chair', 'A chair made of wood', '', 'New', '0', 1, 5, 3, 0, 0, 0, 0),
-(2, '', '0000-00-00', 'Computer', 'It is a laptop', '', 'New', '0', 4, 7, 0, 0, 2, 3, 0),
-(24, '-O', '0000-00-00', 'Plastic chair', 'Cheap chair', '', 'Fair', '0', 0, 5, 0, 0, 0, 0, 0),
-(25, 'A22-P', '0000-00-00', 'Chair \'executive\'', 'Enhanced version', '', 'Damaged', '0', 4, 5, 0, 2, 0, 0, 0);
+INSERT INTO `item` (`iditem`, `code`, `date`, `item`, `itemdescription`, `itemcost`, `condition`, `borrowstatus`, `statusid`, `materialid`, `categoryid`, `departmentid`, `locationid`, `modelid`, `ownerid`, `userid`) VALUES
+(1, '', '0000-00-00', 'Simple chair', 'A chair made of wood', '', 'New', '0', 0, 1, 5, 3, 0, 0, 0, 0),
+(2, '', '0000-00-00', 'Computer', 'It is a laptop', '', 'New', '0', 0, 4, 7, 0, 0, 2, 3, 0),
+(24, '-O', '0000-00-00', 'Plastic chair', 'Cheap chair', '', 'Fair', '0', 0, 0, 5, 0, 0, 0, 0, 0),
+(25, 'A22-P', '0000-00-00', 'Chair \'executive\'', 'Enhanced version', '', 'Damaged', '0', 0, 4, 5, 0, 2, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE IF NOT EXISTS `status` (
+  `idstatus` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idstatus`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `location`
+--
+
+INSERT INTO `status` (`idstatus`, `status`) VALUES
+(0, 'In stock'),
+(1, 'Sold out'),
+(2, 'Donated'),
+(3, 'Pending for reparation');
 
 -- --------------------------------------------------------
 
@@ -233,6 +228,36 @@ INSERT INTO `model` (`idmodel`, `model`, `brandid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `brand`
+--
+
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE IF NOT EXISTS `brand` (
+  `idbrand` int(11) NOT NULL AUTO_INCREMENT,
+  `brand` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idbrand`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `brand`
+--
+
+INSERT INTO `brand` (`idbrand`, `brand`) VALUES
+(1, 'Philips'),
+(2, 'Sony'),
+(3, 'Unknown'),
+(4, 'Sony'),
+(5, 'Microtik'),
+(6, 'SAMSUNG'),
+(7, 'LG'),
+(8, 'Panasonic'),
+(9, 'Lenovo'),
+(10, 'HP'),
+(11, 'Samsung');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `owner`
 --
 
@@ -252,26 +277,6 @@ INSERT INTO `owner` (`idowner`, `owner`) VALUES
 (2, 'IT admin'),
 (3, 'ERO');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `name`) VALUES
-(1, 'Admin'),
-(2, 'User');
 
 -- --------------------------------------------------------
 
@@ -303,6 +308,28 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `login`, `password`
 --
 -- Constraints for dumped tables
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'Admin'),
+(2, 'User');
+
 
 --
 -- Constraints for table `model`

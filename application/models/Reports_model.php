@@ -28,6 +28,10 @@ class Reports_model extends CI_Model
     }//end __construct()
 
 
+    /**
+     * get number of items by condition
+     * @return mixed count items
+     */
     public function getCountCondition()
     {
 
@@ -38,6 +42,10 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by category
+     * @return mixed count items
+     */
     public function getItemCountByCategory()
     {
         $this->db->select('category.category as key, COUNT(item.iditem) AS count');
@@ -47,6 +55,10 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by material
+     * @return mixed count items
+     */
     public function getItemCountByMaterial()
     {
         $this->db->select('material.material as key, COUNT(item.iditem) AS count');
@@ -56,6 +68,10 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by department
+     * @return mixed count items
+     */
     public function getItemCountByDepartment()
     {
         $this->db->select('department.department as key, COUNT(item.iditem) AS count');
@@ -65,6 +81,10 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by brand
+     * @return mixed count items
+     */
     public function getItemCountByBrand()
     {
         $this->db->select('brand.brand as key, COUNT(item.iditem) AS count');
@@ -75,6 +95,10 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by location
+     * @return mixed count items
+     */
     public function getItemCountByLocation()
     {
         $this->db->select('location.location as key, COUNT(item.iditem) AS count');
@@ -84,12 +108,29 @@ class Reports_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * get number of items by owner
+     * @return mixed count items
+     */
     public function getItemCountByOwner()
     {
         $this->db->select('owner.owner as key, COUNT(item.iditem) AS count');
         $this->db->join('item', 'owner.idowner=item.ownerid', 'left');
         $this->db->group_by(["owner.idowner"]);
         $query = $this->db->get('owner');
+        return $query->result();
+    }
+
+    /**
+     * get number of items by status
+     * @return mixed count items
+     */
+    public function getItemCountByStatus()
+    {
+        $this->db->select('status.status as key, COUNT(item.iditem) AS count');
+        $this->db->join('item', 'status.idstatus=item.statusid', 'left');
+        $this->db->group_by(["status.idstatus"]);
+        $query = $this->db->get('status');
         return $query->result();
     }
 
