@@ -219,7 +219,7 @@ $(document).ready(function() {
     c.clear().draw();
     $.ajax({
       type: 'POST',
-      url: `${baseUrl}category/showAllCategory`,
+      url: `${baseUrl}category/getAll`,
       async: true,
       dataType: 'json',
     }).done(function(data) {
