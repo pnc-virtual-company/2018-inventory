@@ -92,6 +92,7 @@
     <br>
     <div class="col-12">
       <div class="form-group" id="formfilter">
+
         <div class="input-group">
           <div class="input-group-append">
             <button id="filterbutton" class="btn btn-default" type="button" disabled>Filter</button>
@@ -140,19 +141,28 @@
   </div>
 </div>
 
-<div class="row-fluid">
-  <div class="col-12">
-    <?php
-    $role = $this->session->Role;
-    if ($role == 1 || $role == 8) {
-        ?>
-      <a href="<?php echo base_url(); ?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
-        <?php
-    }
+<?php
+$role = $this->session->Role;
+if ($role == 1 || $role == 8) {
     ?>
-    &nbsp;
+<div id="container">
+  <div class="row-fluid">
+    <div class="col-12">
+      <div class="row">
+        <div class="col1">
+          &nbsp;
+            <a href="<?php echo base_url(); ?>items/export" class="btn btn-primary"><i class="mdi mdi-file-excel"></i>&nbsp;Export this list</a>
+        </div>
+        <div class="col1">
+            <p>&nbsp;<button id="cmdPrintStickers" class="btn btn-primary"><i class="mdi mdi-printer"></i>&nbsp;Print stickers</button></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<?php
+}
+?>
 
 <!--modal for delete an item it will alert when click on delete icon -->
 <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog">

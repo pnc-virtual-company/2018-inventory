@@ -87,7 +87,7 @@ class Category extends CI_Controller
             $this->output
             ->set_content_type('text/html')
             ->set_output('<b>The object was not found</b>');
-        }        
+        }
     }
 
     /**
@@ -114,5 +114,15 @@ class Category extends CI_Controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode(['result' => $result]));
+    }
+
+    /**
+     * Get the acronym of a category
+     * @return string     acronym
+     */
+    public function getAcronym()
+    {
+        $id = $this->uri->segment(3);
+        echo json_encode($this->category_model->getAcronym($id));
     }
 }

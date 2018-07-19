@@ -37,7 +37,7 @@ class Category_model extends CI_Model
 
     /**
      * Load a given category from database
-     * @param int $id id of category
+     * @param int $categoryId id of category
      * @return array category record or null
      */
     public function get($categoryId)
@@ -73,5 +73,18 @@ class Category_model extends CI_Model
     {
         $this->db->where('idcategory', $categoryId);
         $this->db->delete('category');
+    }
+
+    /**
+     * Get the acronym of a category
+     * @param  int $categoryId id of the category
+     * @return string     acronym
+     */
+    public function getAcronym($categoryId)
+    {
+        $this->db->select('acronym');
+        $this->db->where('idcategory', $categoryId);
+        $query = $this->db->get('category');
+        return $query->row()->acronym;
     }
 }
