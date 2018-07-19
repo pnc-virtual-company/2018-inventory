@@ -41,8 +41,8 @@ $(document).ready(function() {
         t.clear().draw(); //this funciton is for make a result don't have dupplicate result
         var n = 1; //variable for count number
         var i;
-        var status = "";
-        //validate for status available
+        var borrowstatus = "";
+        //validate for borrowstatus available
         for (i = 0; i < data.length; i++) {
           let row = '';
           row += `${data[i].itemcodeid}&nbsp;`;
@@ -52,29 +52,36 @@ $(document).ready(function() {
                   <a href="#" class="item-delete text-danger" dataid="${data[i].iditem}"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a>`
           );
           row += '&nbsp;<a href="#" class="item-view" dataid="' + data[i].iditem + '" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>';
-          if (data[i].status === '0') {
-            //Status available.
+          if (data[i].borrowstatus === '0') {
+            //Borrow Status available.
             row += `&nbsp;<a href="${baseUrl}items/borrower/${data[i].iditem}" class="item" dataid="${data[i].iditem}"><i class="mdi mdi-cart-outline" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>`;
-            status = '<span class="badge badge-success">Available</span>';
-          } else if (data[i].status === '1') {
-            //Status Borrowed
+            borrowstatus = '<span class="badge badge-success">Available</span>';
+          } else if (data[i].borrowstatus === '1') {
+            //Borrow Status Borrowed
             row += privilegedItem(() =>
               `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
                       class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
                           data-toggle="tooltip" title="Return"></i></a >`
             );
-            status = '<span class="badge badge-warning">Borrowed</span>';
-          } else if (data[i].status === '2') {
-            //Status late
+            borrowstatus = '<span class="badge badge-warning">Borrowed</span>';
+          } else if (data[i].borrowstatus === '2') {
+            //Borrow Status late
             row += privilegedItem(() =>
               `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
                       class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
                           data-toggle="tooltip" title="Return"></i></a >`
             );
             //If privileged user ? Late : Borrowed.
-            status = hasPrivilege ?
+            borrowstatus = hasPrivilege ?
               '<span class="badge badge-danger">Late</span>' :
               '<span class="badge badge-warning">Borrowed</span>';
+          } else if (data[i].borrowstatus === '3') {
+            // row += privilegedItem(() =>
+            //   `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
+            //           class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
+            //               data-toggle="tooltip" title="Return"></i></a >`
+            // );
+            borrowstatus = '<span class="badge badge-danger">Not Available</span>';
           }
           date = new Date(data[i].date);
           if (!date.getTime()) {
@@ -84,7 +91,7 @@ $(document).ready(function() {
           }
           t.row.add([
             row,
-            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, status, date
+            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].status, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, borrowstatus, date
           ]).draw(false);
           n++;
         }
@@ -150,6 +157,7 @@ $(document).ready(function() {
         $('#detail-label').html(data.code);
         $('#detail-cost').html(data.cost ? data.cost : 0);
         $('#detail-condition').html(data.condition);
+        $('#detail-status').html(data.status);
         $('#detail-type').html(data.cat);
         $('#detail-brand').html(data.brand);
         $('#detail-model').html(data.model);
@@ -158,7 +166,7 @@ $(document).ready(function() {
         $('#detail-department').html(data.depat);
         $('#detail-username').html(data.nameuser);
         $('#detail-owner').html(data.owner);
-        $('#detail-status').html(data.status);
+        $('#detail-borrowstatus').html(data.borrowstatus);
         $('#viewDetailModal').modal('show');
       }
     });
@@ -272,6 +280,44 @@ $(document).ready(function() {
     $('.conditionList li').removeClass("highlight");
     filterTable();
   })
+
+  // Select status function
+  $("#select_status").click(function() {
+    $('#selectStatus').modal('show');
+    $('#filteradd').modal('hide');
+    var c = $('#status').DataTable({
+      destroy: true,
+      responsive: true,
+      pageLength: 5,
+      info: false,
+      lengthChange: false
+    });
+    c.clear().draw();
+    $.ajax({
+      type: 'POST',
+      url: `${baseUrl}status/showAllStatus`,
+      async: true,
+      dataType: 'json',
+    }).done(function(data) {
+      var i;
+      var n = 1;
+      for (i = 0; i < data.length; i++) {
+        c.row.add([
+          data[i].status
+        ]).draw(false);
+        n++;
+      }
+    })
+  });
+
+  $(document).on("click", "#status tbody tr", function() {
+    $('#status tbody tr').removeClass("highlight");
+    $(this).addClass("highlight");
+    valueFilter = $(this).find("td:eq(0)").html();
+    addFilterBadge('Status', valueFilter);
+    $("#selectStatus").modal("hide");
+    filterTable();
+  });
 
   //select department function
   $("#select_department").click(function() {

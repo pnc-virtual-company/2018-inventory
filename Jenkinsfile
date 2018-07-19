@@ -29,55 +29,26 @@ pipeline {
         }
       }
     }
-    stage('Tests') {
-      parallel {
-        stage('Unit tests') {
-          steps {
-            script {
-              if (isUnix()) {
-                sh "vendor/bin/phpunit"
-              } else {
-                bat 'vendor/bin/phpunit'
-              }
-            }
-          }
-          post {
-            always {
-              publishHTML(
-                [allowMissing: true,
-                  alwaysLinkToLastBuild: true,
-                  keepAll: true,
-                  reportDir: 'reports/html',
-                  reportFiles: 'index.html',
-                  reportName: 'HTML Report', reportTitles: 'Report'
-                ]
-              )
-              junit 'reports/junit.xml'
-            }
+    stage('Checkstyle') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'vendor/bin/phpcs -q --report=checkstyle --report-file=reports/checkstyle.xml'
+          } else {
+            bat 'vendor/bin/phpcs -q --report=checkstyle --report-file=reports/checkstyle.xml'
           }
         }
-        stage('Checkstyle') {
-          steps {
-            script {
-              if (isUnix()) {
-                sh 'vendor/bin/phpcs -q --report=checkstyle --report-file=reports/checkstyle.xml'
-              } else {
-                bat 'vendor/bin/phpcs -q --report=checkstyle --report-file=reports/checkstyle.xml'
-              }
+      }
+      post {
+        always {
+          script {
+            if (isUnix()) {
+              sh 'cat reports/checkstyle.xml'
+            } else {
+              bat 'type reports\\checkstyle.xml'
             }
           }
-          post {
-            always {
-              script {
-                if (isUnix()) {
-                  sh 'cat reports/checkstyle.xml'
-                } else {
-                  bat 'type reports\\checkstyle.xml'
-                }
-              }
-              checkstyle canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'reports/checkstyle.xml', unHealthy: ''
-            }
-          }
+          checkstyle canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'reports/checkstyle.xml', unHealthy: ''
         }
       }
     }

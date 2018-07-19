@@ -70,6 +70,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }//end showDepCount()
 
+    /**
+     * Get the number of items by condition
+     * @return mixed count items
+     */
     public function getCountCondition()
     {
         $obj = new \stdClass();
@@ -78,6 +82,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by category
+     * @return mixed count items
+     */
     public function getItemCountByCategory()
     {
         $obj = new \stdClass();
@@ -86,6 +94,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by material
+     * @return mixed count items
+     */
     public function getItemCountByMaterial()
     {
         $obj = new \stdClass();
@@ -94,6 +106,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by department
+     * @return mixed count items
+     */
     public function getItemCountByDepartment()
     {
         $obj = new \stdClass();
@@ -102,6 +118,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by brand
+     * @return mixed count items
+     */
     public function getItemCountByBrand()
     {
         $obj = new \stdClass();
@@ -110,6 +130,10 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by location
+     * @return mixed count items
+     */
     public function getItemCountByLocation()
     {
         $obj = new \stdClass();
@@ -118,11 +142,27 @@ class Reports extends CI_Controller
         echo json_encode($obj);
     }
 
+    /**
+     * Get the number of items by owner
+     * @return mixed count items
+     */
     public function getItemCountByOwner()
     {
         $obj = new \stdClass();
         $obj->result = $this->reports_model->getItemCountByOwner();
         $obj->title = "owner";
+        echo json_encode($obj);
+    }
+
+    /**
+     * Get the number of items by status
+     * @return mixed count items
+     */
+    public function getItemCountByStatus()
+    {
+        $obj = new \stdClass();
+        $obj->result = $this->reports_model->getItemCountByStatus();
+        $obj->title = "status";
         echo json_encode($obj);
     }
 }//end class

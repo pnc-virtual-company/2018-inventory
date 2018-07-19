@@ -60,14 +60,16 @@ Would become:
 
 ## New possible feature ##
 
-- Advanced filter
-- Better report (Category, Condition, ...)
-- If an item has an owner it cannot be borrowed
-- New condition : sold out & donated
-- Add condition setting
-- CHange the generation of the label of an item
-  - ex : CH-A13-00043
-- Export excel with all the label sort by location
-- Change the borrow workfow
-  - Request to Admin
-  - The admin accept
+- [x] Advanced filter : Finishing implementing filter on items
+- [x] Better reports (Category, Condition, ...) : add a report for each filter (in the report tab)
+- [ ] Add 2 conditions : “sold out” & “donated”
+- [ ] Add condition setting : can add new condition in the application
+- [ ] Export excel with all the label sort by location
+  -	Will be used to label items
+- [ ] Change the generation of the label of an item
+  -	ex : CH-A13-00043
+  -	category with two letter-location-id with 5 digits
+- [ ] If an item has an owner, it cannot be borrowed
+- [ ] Change the borrow workflow
+  - A borrow need a request to an admin
+  -	The admin accept and the item can be borrowed
