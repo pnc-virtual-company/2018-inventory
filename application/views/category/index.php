@@ -57,6 +57,7 @@
               </div>
           </label>
         </div>
+        </div>
       </form>
       <div class="modal-footer">
         <a href="#" class="btn btn-primary" id="btn-create">OK</a>
@@ -136,7 +137,7 @@ function showAllCat() {
             for(i=0; i<data.length; i++)
             {
               table.row.add ( [
-                data[i].acronym + 
+                data[i].acronym +
                 '&nbsp;<a href="#" class="item-edit" dataid="' + data[i].idcategory + '"><i class="mdi mdi-pencil" data-toggle="tooltip" title="Edit category" ></i></a>'+
                 '&nbsp;<a href="#" class="item-delete text-danger" dataid="' + data[i].idcategory + '"><i class="mdi mdi-delete" data-toggle="tooltip" title="delete category"></i></a>',
                 data[i].category
