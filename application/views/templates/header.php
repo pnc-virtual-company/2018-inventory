@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-$title    = (isset($title)) ? $title : "Skeleton";
+$title    = (isset($title)) ? $title : "Inventory";
 $langCode = (isset($langCode)) ? $langCode : "en";
 
 ?><!DOCTYPE html>
