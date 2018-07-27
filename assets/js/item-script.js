@@ -106,7 +106,7 @@ $(document).ready(function() {
   //Print all visible items as a sticker
   $('#cmdPrintStickers').click(function () {
     var htmlDocStickers = "<!DOCTYPE html><html lang='en'><head><meta http-equiv='Content-type' content='text/html; charset=utf-8'><title>Inventory - List of items</title><style>@media print and (width: 21cm) and (height: 29.7cm) {@page {margin: 1cm;}}";
-    htmlDocStickers += ".sticker {padding: 2mm;margin: 2mm;outline: 1pt dotted;float: left;font-size: 6mm;min-height: 1cm;min-width: 5cm;}</style></head><body>";
+    htmlDocStickers += ".sticker {padding: 2mm;margin: 2mm;outline: 1pt dotted;float: left;font-size: 6mm;min-height: 1cm;min-width: 5cm;text-align: center;line-height: 35px;}</style></head><body>";
     t.rows( { filter: 'applied' } ).every( function () {
       var stickerCode = this.nodes().to$().data("code");
       //console.log(stickerCode);
