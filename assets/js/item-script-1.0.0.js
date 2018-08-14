@@ -1,5 +1,7 @@
+//Retrieve parameters passed by the inclusion of the script
 var hasPrivilege = document.currentScript.getAttribute('hasPrivilege') === 'true';
 var baseUrl = document.currentScript.getAttribute('baseUrl');
+
 $(document).ready(function() {
   // to make column reorder in table list item
   let dateFilter = [];
@@ -11,6 +13,10 @@ $(document).ready(function() {
     responsive: true,
     processing: true,
     ajax: `${baseUrl}items/showAllitems`,
+    createdRow: function( row, data, dataIndex ) {
+      // Set the data-id attribute in order to be able to print the sticker
+      $( row ).data('code', data.code);
+    },
     columns: [
         {
             data: 'itemcodeid',
@@ -114,6 +120,7 @@ $(document).ready(function() {
     windowStickers.focus();
     windowStickers.print();
   });
+
   //  Combine btn onclick OK with key Enter when delete
   $('#deleteModal').keypress(function(e) {
     if (e.which === 13) { //Enter key pressed
