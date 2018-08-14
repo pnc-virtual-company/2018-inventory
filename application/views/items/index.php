@@ -67,6 +67,8 @@
 .filter-column-name, .filter-column-value { cursor: pointer; }
 
 #addFilter-icon, #clearFilter { cursor: pointer; }
+
+div.dataTables_processing { z-index: 1; }
 </style>
 <br>
 <div id="container">
