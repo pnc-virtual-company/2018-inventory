@@ -1,7 +1,6 @@
 var hasPrivilege = document.currentScript.getAttribute('hasPrivilege') === 'true';
 var baseUrl = document.currentScript.getAttribute('baseUrl');
 $(document).ready(function() {
-
   // to make column reorder in table list item
   let dateFilter = [];
   let dateOperatorFilter = [];
@@ -10,11 +9,82 @@ $(document).ready(function() {
     order: [],
     colReorder: true,
     responsive: true,
-    'ajax': {
-      'type': 'GET',
-      'url': `${baseUrl}items/showAllitems`, //access to controller for get data from database
-      'dataType': 'json'
-    },
+    processing: true,
+    ajax: `${baseUrl}items/showAllitems`,
+    columns: [
+        {
+            data: 'itemcodeid',
+            name: 'id',
+            render: function (data, type, full, meta) {
+              if (hasPrivilege) { //Admin user
+                let htmlCode = `&nbsp;<a href="${baseUrl}items/edit/${full.iditem}" class="item-edit" dataid="${full.iditem}" data-toggle="tooltip" title="Edit item" ><i class="mdi mdi-pencil"></i></a >
+                  <a href="#" class="item-delete text-danger" dataid="${full.iditem}"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a>
+                  &nbsp;<a href="#" class="item-view" dataid="${full.iditem}" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>`;
+
+                  if (full.borrowstatus === '1') {
+                    //Borrow Status Borrowed
+                    htmlCode += `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
+                              class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
+                                  data-toggle="tooltip" title="Return"></i></a >`;
+                  } else if (full.borrowstatus === '2') {
+                    //Borrow Status late
+                    htmlCode += `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
+                              class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
+                                  data-toggle="tooltip" title="Return"></i></a >`;
+                  }
+                  return data + htmlCode;
+              } else {  //Normal user
+                if (full.borrowstatus === '0') {
+                  //Link to borrow an item
+                  return `&nbsp;<a href="${baseUrl}items/borrower/${data[i].iditem}" class="item" dataid="${data[i].iditem}"><i class="mdi mdi-cart-outline" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>`;
+                } else {
+                  return data;
+                }
+              }
+            }
+        },
+        { data: 'item', name: 'name' },
+        { data: 'cat', name: 'category' },
+        { data: 'mat', name: 'material' },
+        { data: 'condition', name: 'condition' },
+        { data: 'status', name: 'status' },
+        { data: 'depat', name: 'department' },
+        { data: 'locat', name: 'location' },
+        { data: 'nameuser', name: 'user' },
+        { data: 'owner', name: 'owner' },
+        {
+          data: 'borrowstatus',
+          name: 'borrowstatus',
+          render: function (data, type, full, meta) {
+            let borrowstatus = '<span class="badge badge-success">Available</span>';
+            if (data === '1') {
+              borrowstatus = '<span class="badge badge-warning">Borrowed</span>';
+            } else if (data === '2') {
+              //Borrow Status late, only visible for admin (other users see "Borrowed")
+              if (hasPrivilege) {
+                borrowstatus = '<span class="badge badge-danger">Late</span>';
+              } else {
+                borrowstatus = '<span class="badge badge-warning">Borrowed</span>';
+              }
+            } else if (data === '3') {
+              borrowstatus = '<span class="badge badge-danger">Not Available</span>';
+            }
+            return borrowstatus;
+          }
+        },
+        {
+          data: 'date',
+          name: 'date',
+          render: function (data, type, full, meta) {
+              //Format date to month/day/year by following locale
+              if (data == "0000-00-00") {
+                return '';
+              } else {
+                return moment(data).format('L');
+              }
+            }
+        }
+    ],
     "colReorder": {
       fixedColumnsLeft: 1,
     },
@@ -26,82 +96,6 @@ $(document).ready(function() {
     }]
   });
   resetFilter();
-  showAllitems(); //call function to use
-
-  // showAllitems function get data from database in items show in table
-  function showAllitems() {
-    // show spin waiting for the result by ajax
-    $("#showdata").html('<tr> <td class="text-center text-info"colspan="10"><i class="mdi mdi-cached mdi-spin mdi-24px"></i> Loading...</td></tr>');
-    $.ajax({
-      type: 'ajax',
-      url: `${baseUrl}items/showAllitems`,
-      async: true,
-      dataType: 'json',
-      success: function(data) {
-        t.clear().draw(); //this funciton is for make a result don't have dupplicate result
-        var n = 1; //variable for count number
-        var i;
-        var borrowstatus = "";
-        //validate for borrowstatus available
-        for (i = 0; i < data.length; i++) {
-          let row = '';
-          row += `${data[i].itemcodeid}&nbsp;`;
-          //Show edit button for privileged users.
-          row += privilegedItem(() =>
-            `<a href="${baseUrl}items/edit/${data[i].iditem}" class="item-edit" dataid="${data[i].iditem}" data-toggle="tooltip" title="Edit item" ><i class="mdi mdi-pencil"></i></a >
-                  <a href="#" class="item-delete text-danger" dataid="${data[i].iditem}"><i class="mdi mdi-delete" data-toggle="tooltip" title="Delete item"></i></a>`
-          );
-          row += '&nbsp;<a href="#" class="item-view" dataid="' + data[i].iditem + '" data-toggle="tooltip" title="Show item detail"><i class="mdi mdi-eye text-primary"></i></a>';
-          if (data[i].borrowstatus === '0') {
-            //Borrow Status available.
-            row += `&nbsp;<a href="${baseUrl}items/borrower/${data[i].iditem}" class="item" dataid="${data[i].iditem}"><i class="mdi mdi-cart-outline" id="borrow" data-toggle="tooltip" title="Borrow"></i></a>`;
-            borrowstatus = '<span class="badge badge-success">Available</span>';
-          } else if (data[i].borrowstatus === '1') {
-            //Borrow Status Borrowed
-            row += privilegedItem(() =>
-              `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
-                      class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
-                          data-toggle="tooltip" title="Return"></i></a >`
-            );
-            borrowstatus = '<span class="badge badge-warning">Borrowed</span>';
-          } else if (data[i].borrowstatus === '2') {
-            //Borrow Status late
-            row += privilegedItem(() =>
-              `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
-                      class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
-                          data-toggle="tooltip" title="Return"></i></a >`
-            );
-            //If privileged user ? Late : Borrowed.
-            borrowstatus = hasPrivilege ?
-              '<span class="badge badge-danger">Late</span>' :
-              '<span class="badge badge-warning">Borrowed</span>';
-          } else if (data[i].borrowstatus === '3') {
-            // row += privilegedItem(() =>
-            //   `&nbsp;<a href="${baseUrl}items/returnItem/${data[i].iditem}"
-            //           class="item" dataid="${data[i].iditem}"><i class="mdi mdi-redo-variant" id="return"
-            //               data-toggle="tooltip" title="Return"></i></a >`
-            // );
-            borrowstatus = '<span class="badge badge-danger">Not Available</span>';
-          }
-          date = new Date(data[i].date);
-          if (!date.getTime()) {
-            date = '';
-          } else {
-            date = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-          }
-          t.row.add([
-            row,
-            data[i].item, data[i].cat, data[i].mat, data[i].condition, data[i].status, data[i].depat, data[i].locat, data[i].nameuser, data[i].owner, borrowstatus, date
-          ]).draw(false);
-          t.row(':last', {order: 'applied'}).nodes().to$().data("code", data[i].code);
-          n++;
-        }
-      },
-      error: function() {
-        alert('Could not get Data from Database');
-      }
-    });
-  }
 
   //Print all visible items as a sticker
   $('#cmdPrintStickers').click(function () {
@@ -189,8 +183,6 @@ $(document).ready(function() {
       }
     });
   });
-
-
 
   $("#clearFilter").click(function() {
     $('#inputFilter').html('');
@@ -376,7 +368,6 @@ $(document).ready(function() {
     filterTable();
   });
 
-
   // location function
   $("#select_location").click(function() {
     $('#selectLocation').modal('show');
@@ -415,7 +406,6 @@ $(document).ready(function() {
     $("#selectLocation").modal("hide");
     filterTable();
   });
-
 
   // user function
   $("#select_user").click(function() {
@@ -494,7 +484,6 @@ $(document).ready(function() {
     $("#selectOwner").modal("hide");
     filterTable();
   });
-
 
   // select condition function
   $("#select_date").click(function() {
@@ -594,10 +583,6 @@ $(document).ready(function() {
   }
 
 });
-
-function privilegedItem(itemCallback) {
-  return hasPrivilege ? itemCallback() : '';
-}
 
 //Sort the filter items by the text of their label
 function sortUsingText(parent, childSelector) {

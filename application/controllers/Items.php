@@ -1,27 +1,15 @@
 <?php
-/**
- * This controller serves the user management pages and tools.
- *
- * @copyright  Copyright (c) 2014-2017 Benjamin BALET
- * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
- * @link       https://github.com/bbalet/skeleton
- * @since      0.1.0
- */
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 /**
- * This controller serves the user management pages and tools.
- * The difference with HR Controller is that operations are technical (CRUD, etc.).
+ * This controller serves the items management pages and tools.
  */
 class Items extends CI_Controller
 {
-
-
     /**
-     * construct
+     * Default constructor
      */
     public function __construct()
     {
@@ -31,16 +19,12 @@ class Items extends CI_Controller
             redirect('connection/login');
         }
         log_message('debug', 'URI='.$this->uri->uri_string());
-        // $this->session->set_userdata('last_page', $this->uri->uri_string());
         $this->load->model('items_model');
-        // $this->returnLate();
-    }//end __construct()
-
+    }
 
     /**
-     * Display the list of all users
+     * Display the list of all items
      * @return void
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index()
     {
@@ -54,19 +38,19 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/index', $data);
         $this->load->view('templates/footer', $data);
-    }//end index()
-
+    }
 
     /**
-     * This function is use for show all the item that get from table item in database
+     * Return a JSON string containing all the items
+     * in a format suitable for JQuery DataTable widget
      * @return void
      */
     public function showAllitems()
     {
-        $result = $this->items_model->showAllItems();
-        echo json_encode($result);
-    }//end showAllitems()
-
+        $items = array("data" => $this->items_model->showAllItems());
+        $this->output->set_content_type('application/json')
+            ->set_output(json_encode($items));
+    }
 
     /**
      * This function is use for delete an items from table and database
@@ -81,8 +65,7 @@ class Items extends CI_Controller
         } else {
             echo "0";
         }
-    }//end deleteItems()
-
+    }
 
     /**
      * This function is use to show form for update an item when click on update icon
@@ -97,7 +80,6 @@ class Items extends CI_Controller
         $id = $this->uri->segment(3);
         $data['itemEdit'] = $this->items_model->showEditItems($id);
         //this variable is to get data from model
-        // var_dump($data['itemEdit']);die();
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/edit', $data);
@@ -140,14 +122,13 @@ class Items extends CI_Controller
         }
 
         $code = $locnamebyid.'-'.$idmaximum;
-
         $item_update = $this->items_model->update_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code, $id, $status);
         $this->items_model->updateLabel($id);
         if ($item_update) {
             $this->session->set_flashdata('msg', 'The item was updated successfully.');
             redirect('items');
         }
-    }//end itemUpdate()
+    }
 
 
     /**
@@ -167,7 +148,7 @@ class Items extends CI_Controller
         $this->load->view('menu/index', $data);
         $this->load->view('items/create', $data);
         $this->load->view('templates/footer');
-    }//end create()
+    }
 
 
     /**
@@ -202,17 +183,15 @@ class Items extends CI_Controller
             foreach ($getLoc as $value) {
                 $locnamebyid = $value->location;
             }
-
             $code = $locnamebyid.'-'.$getIdMax;
         }
 
         // This varible is use to get data from form to insert into database and show on table
-
         $item_insert = $this->items_model->add_item($nameitem, $desitem, $catitem, $matitem, $depitem, $locitem, $moditem, $useritem, $ownitem, $conditionitem, $dateitem, $costitem, $code);
         $this->items_model->updateLabel($item_insert);
         $this->session->set_flashdata('msg', 'The item was created successfully.(' . $item_insert . ')');
         redirect('items');
-    }//end itemcreate()
+    }
 
     /**
      * This function is use to show the detail
@@ -269,7 +248,7 @@ class Items extends CI_Controller
         }//end if
 
         echo json_encode($form);
-    }//end showDetailItem()
+    }
 
 
     /**
@@ -279,7 +258,7 @@ class Items extends CI_Controller
     public function export()
     {
         $this->load->view('items/export');
-    }//end export()
+    }
 
 
     /**
@@ -290,7 +269,7 @@ class Items extends CI_Controller
     {
         $borrower = $this->items_model->showUser();
         echo json_encode($borrower);
-    }//end borrowerName()
+    }
 
 
     /**
@@ -305,13 +284,11 @@ class Items extends CI_Controller
         $data['title']      = 'Borrow an item';
         $id = $this->uri->segment(3);
         $data['borrow'] = $this->items_model->showListBorrower($id);
-        // var_dump($data['borrow']);die();
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/borrow', $data);
         $this->load->view('templates/footer');
-    }//end borrower()
-
+    }
 
     /**
      * Use for insert data that user borrow an item into borrower table in database
@@ -325,13 +302,12 @@ class Items extends CI_Controller
         $returnDate = $this->input->post('returnDate');
 
         $insertBorrowItem = $this->items_model->insertBorrow($borrower, $item, $startDate, $returnDate);
-        // var_dump($insertBorrowItem);die();
         if ($insertBorrowItem) {
             redirect('items');
         } else {
             echo "error";
         }
-    }//end insertBorrower()
+    }
 
 
     /**
@@ -347,13 +323,12 @@ class Items extends CI_Controller
         $id = $this->uri->segment(3);
         $data['borrow'] = $this->items_model->showListBorrower($id);
         $data['r_item'] = $this->items_model->returnitem($id);
-        // var_dump($data['r_item']);die();
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('items/returnItem', $data);
         //is use to load view to return an item form
         $this->load->view('templates/footer');
-    }//end returnItem()
+    }
 
 
     /**
@@ -369,19 +344,15 @@ class Items extends CI_Controller
         $maxIdBorrow        = $this->items_model->getMaxIdBorrow($this->input->post('itemId'));
         //use to get max id of borrower
         $data['maxIdBorrow'] = $maxIdBorrow[0]->maxIdBorrow;
-        //var_dump($data);die();
         $borrowstatus_update = $this->items_model->r_u_borrowstatus($data);
-        //load model for update borrowstatus in database and table
-        // var_dump($borrowstatus_update);die();
 
         // validate update borrowstatus in database table item column borrowstatus
         if ($borrowstatus_update) {
             redirect('items');
-        // echo "updated borrowstatus...";
         } else {
             echo "Error...";
         }
-    }//end returnAnItem()
+    }
 
 
     /**
@@ -392,10 +363,8 @@ class Items extends CI_Controller
     public function returnLate()
     {
         $lateIds = $this->items_model->returnLate();
-        //print_r($lateIds);
         foreach ($lateIds as $value) {
             $this->items_model->updateBorrowstatus($value->itemBorrow);
-            //load model update borrowstatus late
         }
-    }//end returnLate()
-}//end class
+    }
+}
