@@ -53,7 +53,7 @@ SetEnv HTTP_MOD_GZIP Off
     <IfModule mod_deflate.c>
         <IfModule mod_filter.c>
             SetOutputFilter DEFLATE
-            AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/x-javascript
+            AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/x-javascript application/json
         </IfModule>
     </IfModule>
 </IfModule>

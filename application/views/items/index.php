@@ -67,6 +67,8 @@
 .filter-column-name, .filter-column-value { cursor: pointer; }
 
 #addFilter-icon, #clearFilter { cursor: pointer; }
+
+div.dataTables_processing { z-index: 1; }
 </style>
 <br>
 <div id="container">
@@ -184,7 +186,6 @@ if ($role == 1 || $role == 8) {
     </div>
   </div>
 </div>
-
 
 <!-- modal for view detail of each item when click on eye icon -->
 <div id="viewDetailModal" class="modal hide fade " tabindex="-1" role="dialog">
@@ -622,6 +623,7 @@ if ($role == 1 || $role == 8) {
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-datepicker-1.7.1/js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/item-script.js"
+<script src="<?php echo base_url();?>assets/js/moment-with-locales-2.19.3.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/item-script-1.0.0.js"
   hasPrivilege="<?php echo $role == 1 || $role == 8 ? 'true' : 'false'; ?>"
   baseUrl="<?php echo base_url(); ?>"></script>
